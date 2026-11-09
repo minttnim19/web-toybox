@@ -152,7 +152,6 @@ export class DestroyerGame {
     });
     this.launcher = new Launcher(root, options.position, () => this.openMenu());
     this.input = new InputController(host, {
-      onPrimary: () => this.useSlot(0),
       onSlot: (i) => this.useSlot(i),
       onQuit: () => this.exitToPage(),
     });

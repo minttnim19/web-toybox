@@ -2,9 +2,7 @@
 import { eventInHost } from '../../../shared/shadow-host';
 
 export interface InputHandlers {
-  /** Mouse click on the page (not the HUD): use the item in slot 1. */
-  onPrimary(): void;
-  /** Keys 1–3: use that item slot (0-based index). */
+  /** Keys 1–3: use that item slot (0-based index). Clicking the page never uses items. */
   onSlot(index: number): void;
   onQuit(): void;
 }
@@ -67,7 +65,6 @@ export class InputController {
     on('pointerdown', (e) => {
       this.track(e);
       if (e.pointerType === 'touch') this.touching = true;
-      if (outside(e) && e.pointerType === 'mouse' && e.button === 0) this.handlers.onPrimary();
     });
     const endTouch = (e: PointerEvent) => {
       if (e.pointerType === 'touch') this.touching = false;
