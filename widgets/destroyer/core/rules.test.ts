@@ -1,19 +1,30 @@
 import { describe, expect, it } from 'vitest';
 import { LocalAuthority, type AuthorityEvent } from './authority';
-import { applyDamage, createGameState, destroyedRatio, hpForTarget, isHittable } from './rules';
-import type { TargetSpec } from './state';
+import {
+  COMBO_WINDOW,
+  applyDamage,
+  comboMultiplier,
+  createGameState,
+  createPlayer,
+  destroyedRatio,
+  endReason,
+  expireCombo,
+  finishGame,
+  hpForTarget,
+  isHittable,
+  scoreDestroy,
+  scoreHit,
+  timeBonus,
+  timeLeft,
+} from './rules';
+import { LOCAL_PLAYER, type TargetSpec } from './state';
 
 const spec = (
   id: number,
   parentId: number | null,
   area = 10_000,
   isContainer = false,
-): TargetSpec => ({
-  id,
-  parentId,
-  area,
-  isContainer,
-});
+): TargetSpec => ({ id, parentId, area, isContainer });
 
 // 0 = container, 1 and 2 inside it, 3 standalone
 const page = (): TargetSpec[] => [
@@ -22,6 +33,15 @@ const page = (): TargetSpec[] => [
   spec(2, 0),
   spec(3, null),
 ];
+
+/** Authority that never drops items, plus a log of its events. */
+function setup(targets: TargetSpec[], duration = 60) {
+  const auth = new LocalAuthority(() => 0.999);
+  auth.start(targets, { duration });
+  const events: AuthorityEvent[] = [];
+  auth.subscribe((e) => events.push(e));
+  return { auth, events, player: () => auth.state.players[LOCAL_PLAYER]! };
+}
 
 describe('hpForTarget', () => {
   it('scales with sqrt(area) / 22', () => {
@@ -42,10 +62,11 @@ describe('hpForTarget', () => {
 });
 
 describe('createGameState', () => {
-  it('counts direct children', () => {
+  it('counts direct children and creates the local player', () => {
     const s = createGameState(page());
     expect(s.targets[0]!.aliveChildren).toBe(2);
     expect(s.targets[3]!.aliveChildren).toBe(0);
+    expect(s.players[LOCAL_PLAYER]).toMatchObject({ score: 0, combo: 0, inventory: [] });
   });
 
   it('rejects IDs that are not in DOM order', () => {
@@ -54,7 +75,7 @@ describe('createGameState', () => {
   });
 });
 
-describe('applyDamage', () => {
+describe('damage', () => {
   it('reduces HP and destroys at 0', () => {
     const s = createGameState([spec(0, null, 110 * 110)]); // 5 HP
     expect(applyDamage(s, 0, 2)).toEqual({ applied: 2, hp: 3, destroyed: false });
@@ -80,42 +101,121 @@ describe('applyDamage', () => {
     expect(isHittable(s, 0)).toBe(true);
     expect(applyDamage(s, 0, 1)).not.toBeNull();
   });
+
+  it('accepts nothing once the round is over', () => {
+    const s = createGameState(page());
+    finishGame(s, 'timeup');
+    expect(applyDamage(s, 3, 1)).toBeNull();
+  });
 });
 
-describe('destroyedRatio', () => {
-  it('is the share of destroyed targets', () => {
+describe('scoring', () => {
+  it('gives 1 point per hit and max HP × 10 per destroy', () => {
+    const p = createPlayer('p');
+    expect(scoreHit(p)).toBe(1);
+    expect(scoreDestroy(p, 7, 0)).toEqual({ points: 70, combo: 1, multiplier: 1 });
+    expect(p.score).toBe(71);
+  });
+
+  it('raises the multiplier every 3 combo, up to x5', () => {
+    expect([0, 1, 2, 3, 5, 6, 9, 12, 30].map(comboMultiplier)).toEqual([1, 1, 1, 2, 2, 3, 4, 5, 5]);
+  });
+
+  it('chains destroys within the combo window and resets after it', () => {
+    const p = createPlayer('p');
+    scoreDestroy(p, 1, 0);
+    scoreDestroy(p, 1, COMBO_WINDOW - 0.01);
+    expect(scoreDestroy(p, 1, COMBO_WINDOW * 2 - 0.02)).toMatchObject({ combo: 3, multiplier: 2 });
+    expect(p.maxCombo).toBe(3);
+    expect(scoreDestroy(p, 1, 100)).toMatchObject({ combo: 1, multiplier: 1 });
+    expect(p.maxCombo).toBe(3);
+  });
+
+  it('drops the displayed combo once the window passes', () => {
+    const p = createPlayer('p');
+    scoreDestroy(p, 1, 0);
+    expireCombo(p, COMBO_WINDOW / 2);
+    expect(p.combo).toBe(1);
+    expireCombo(p, COMBO_WINDOW + 0.01);
+    expect(p.combo).toBe(0);
+  });
+});
+
+describe('end conditions', () => {
+  it('ends with a clear when everything is destroyed', () => {
+    const s = createGameState([spec(0, null, 1)], { duration: 60 });
+    expect(endReason(s)).toBeNull();
+    applyDamage(s, 0, 1);
+    expect(endReason(s)).toBe('clear');
+  });
+
+  it('ends with time up when the timer runs out', () => {
+    const s = createGameState(page(), { duration: 60 });
+    s.elapsed = 59.9;
+    expect(endReason(s)).toBeNull();
+    s.elapsed = 60;
+    expect(timeLeft(s)).toBe(0);
+    expect(endReason(s)).toBe('timeup');
+  });
+
+  it('gives 50 points per remaining second on a clear only', () => {
+    const s = createGameState(page(), { duration: 120 });
+    s.elapsed = 100.4; // 19.6 s left → 19 whole seconds
+    expect(timeBonus(s, 'clear')).toBe(950);
+    expect(timeBonus(s, 'timeup')).toBe(0);
+    const result = finishGame(s, 'clear');
+    expect(result).toEqual({ reason: 'clear', timeBonus: 950, timeUsed: 100.4 });
+    expect(s.players[LOCAL_PLAYER]!.score).toBe(950);
+  });
+
+  it('reports the share of targets destroyed', () => {
     const s = createGameState(page());
     expect(destroyedRatio(s)).toBe(0);
     applyDamage(s, 3, 100);
     expect(destroyedRatio(s)).toBe(0.25);
-  });
-
-  it('treats an empty page as fully destroyed', () => {
     expect(destroyedRatio(createGameState([]))).toBe(1);
   });
 });
 
 describe('LocalAuthority', () => {
-  it('emits hit then destroy events for accepted hits', () => {
-    const auth = new LocalAuthority();
-    auth.start([spec(0, null, 1)]);
-    const events: AuthorityEvent[] = [];
-    auth.subscribe((e) => events.push(e));
-    auth.requestHit({ targetId: 0, damage: 1, playerId: 'p1', at: { fx: 0.5, fy: 0.5 } });
+  it('emits hit then destroy with score and combo', () => {
+    const { auth, events, player } = setup([spec(0, null, 1), spec(1, null, 1)]);
+    auth.requestHit({ targetId: 0, damage: 1, playerId: LOCAL_PLAYER, at: { fx: 0.5, fy: 0.5 } });
     expect(events.map((e) => e.type)).toEqual(['hit', 'destroy']);
-    expect(events[0]).toMatchObject({ targetId: 0, playerId: 'p1', hp: 0, maxHp: 1 });
+    expect(events[1]).toMatchObject({ points: 10, combo: 1, multiplier: 1 });
+    expect(player().score).toBe(11);
+  });
+
+  it('ends the round with a time bonus when the last target falls', () => {
+    const { auth, events, player } = setup([spec(0, null, 1)], 60);
+    auth.tick(10);
+    auth.requestHit({ targetId: 0, damage: 1, playerId: LOCAL_PLAYER });
+    const end = events.find((e) => e.type === 'end');
+    expect(end).toMatchObject({ result: { reason: 'clear', timeBonus: 50 * 50, timeUsed: 10 } });
+    expect(player().score).toBe(11 + 2500);
+    auth.requestHit({ targetId: 0, damage: 1, playerId: LOCAL_PLAYER });
+    expect(events.filter((e) => e.type === 'end')).toHaveLength(1);
+  });
+
+  it('ends the round when time runs out', () => {
+    const { auth, events } = setup(page(), 60);
+    auth.tick(30);
+    expect(events).toHaveLength(0);
+    auth.tick(30);
+    expect(events).toEqual([
+      { type: 'end', result: { reason: 'timeup', timeBonus: 0, timeUsed: 60 } },
+    ]);
+    auth.tick(1);
+    expect(events).toHaveLength(1);
   });
 
   it('emits nothing for rejected hits and stops after unsubscribe', () => {
-    const auth = new LocalAuthority();
-    auth.start(page());
-    const events: AuthorityEvent[] = [];
-    const off = auth.subscribe((e) => events.push(e));
-    auth.requestHit({ targetId: 0, damage: 1, playerId: 'p1' }); // container still covered
+    const { auth, events } = setup(page());
+    auth.requestHit({ targetId: 0, damage: 1, playerId: LOCAL_PLAYER }); // still covered
+    auth.requestHit({ targetId: 3, damage: 1, playerId: 'stranger' }); // unknown player
     expect(events).toHaveLength(0);
-    off();
-    auth.requestHit({ targetId: 3, damage: 1, playerId: 'p1' });
+    auth.dispose();
+    auth.requestHit({ targetId: 3, damage: 1, playerId: LOCAL_PLAYER });
     expect(events).toHaveLength(0);
-    expect(auth.state.targets[3]!.hp).toBeLessThan(auth.state.targets[3]!.maxHp);
   });
 });

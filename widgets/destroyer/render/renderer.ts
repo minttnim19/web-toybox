@@ -1,16 +1,22 @@
 // Draws the game onto a transparent, click-through, full-screen canvas at 1/3 resolution,
 // scaled up with image-rendering: pixelated.
 import { drawSprite, rotateSprite, spriteSize, type PixelSprite } from '../../../shared/sprite';
+import type { ItemKind } from '../core/items';
 import type { Bullet, Ship } from '../core/ship';
 import type { TargetId } from '../core/state';
 import type { Rect } from '../core/targeting';
 import type { Particles } from './particles';
-import { PALETTE, shipFrame } from './sprites';
+import { PALETTE, itemSprite, shipFrame } from './sprites';
 
 export const SCALE = 3;
 const MAX_CRACKS_PER_TARGET = 14;
 const RANGE_DOTS = 24;
 const SHIP_DIRECTIONS = 16;
+const TEXT_LIFE = 0.9; // s a floating score stays
+const TEXT_RISE = 34; // px it rises
+const SHOCKWAVE_TIME = 0.35;
+const LASER_TIME = 0.35;
+export const PIXEL_FONT_CSS = '"Press Start 2P", ui-monospace, monospace';
 
 interface Crack {
   fx: number;
@@ -38,8 +44,38 @@ function makeCrack(fx: number, fy: number): Crack {
   return { fx, fy, pixels };
 }
 
+/** An item box to draw at a viewport position (CSS px). */
+export interface ItemView {
+  id: number;
+  kind: ItemKind;
+  x: number;
+  y: number;
+  /** Blink because it is about to disappear. */
+  blinking: boolean;
+}
+
+interface FloatingText {
+  x: number;
+  y: number;
+  text: string;
+  color: string;
+  size: number;
+  age: number;
+}
+
+interface Burst {
+  kind: 'shockwave' | 'laser';
+  x: number;
+  y: number;
+  radius: number;
+  age: number;
+}
+
 export interface Frame {
   time: number;
+  /** Seconds since the previous frame. */
+  dt: number;
+  items: readonly ItemView[];
   ship: Ship | null;
   bullets: readonly Bullet[];
   particles: Particles;
@@ -55,6 +91,8 @@ export class Renderer {
   private width = 0;
   private height = 0;
   private readonly cracks = new Map<TargetId, Crack[]>();
+  private texts: FloatingText[] = [];
+  private bursts: Burst[] = [];
 
   constructor(parent: ShadowRoot) {
     this.canvas = document.createElement('canvas');
@@ -96,8 +134,32 @@ export class Renderer {
     this.cracks.delete(id);
   }
 
+  /** Rising pixel text, e.g. "+120" where something broke. Size is in canvas pixels. */
+  addText(x: number, y: number, text: string, color: string = PALETTE.yellow, size = 8): void {
+    this.texts.push({ x, y, text, color, size, age: 0 });
+    if (this.texts.length > 40) this.texts.shift();
+  }
+
+  addShockwave(x: number, y: number, radius: number): void {
+    this.bursts.push({ kind: 'shockwave', x, y, radius, age: 0 });
+  }
+
+  addLaser(x: number, y: number, thickness: number): void {
+    this.bursts.push({ kind: 'laser', x, y, radius: thickness, age: 0 });
+  }
+
+  /** Keep page-attached effects in place while the page scrolls. */
+  shift(dx: number, dy: number): void {
+    for (const t of this.texts) {
+      t.x += dx;
+      t.y += dy;
+    }
+  }
+
   reset(): void {
     this.cracks.clear();
+    this.texts = [];
+    this.bursts = [];
     this.ctx.clearRect(0, 0, this.width, this.height);
   }
 
@@ -106,11 +168,95 @@ export class Renderer {
     ctx.clearRect(0, 0, this.width, this.height);
     this.drawCracks(frame);
     frame.particles.draw(ctx, SCALE, this.width, this.height);
+    this.drawItems(frame.items, frame.time);
+    this.drawBursts(frame.dt);
     this.drawBullets(frame.bullets);
     if (frame.ship) {
       this.drawRange(frame.ship, frame.range, frame.time);
       this.drawShip(frame.ship, frame.time);
     }
+    this.drawTexts(frame.dt);
+  }
+
+  private drawItems(items: readonly ItemView[], time: number): void {
+    for (const item of items) {
+      if (item.blinking && Math.floor(time * 8) % 2 === 0) continue;
+      const sprite = itemSprite(item.kind);
+      const { w, h } = spriteSize(sprite);
+      const bob = Math.round(Math.sin(time * 4 + item.id) * 1.5);
+      drawSprite(this.ctx, sprite, item.x / SCALE - w / 2, item.y / SCALE - h / 2 + bob);
+    }
+  }
+
+  private drawTexts(dt: number): void {
+    const ctx = this.ctx;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    this.texts = this.texts.filter((t) => (t.age += dt) < TEXT_LIFE);
+    for (const t of this.texts) {
+      const progress = t.age / TEXT_LIFE;
+      const x = Math.round(t.x / SCALE);
+      const y = Math.round((t.y - progress * TEXT_RISE) / SCALE);
+      ctx.font = `${t.size}px ${PIXEL_FONT_CSS}`;
+      ctx.globalAlpha = progress < 0.7 ? 1 : 1 - (progress - 0.7) / 0.3;
+      ctx.fillStyle = PALETTE.navy; // hard outline so it reads on any page
+      for (const [ox, oy] of [
+        [-1, 0],
+        [1, 0],
+        [0, -1],
+        [0, 1],
+        [1, 1],
+      ] as const)
+        ctx.fillText(t.text, x + ox, y + oy);
+      ctx.fillStyle = t.color;
+      ctx.fillText(t.text, x, y);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  private drawBursts(dt: number): void {
+    const ctx = this.ctx;
+    this.bursts = this.bursts.filter(
+      (b) => (b.age += dt) < (b.kind === 'shockwave' ? SHOCKWAVE_TIME : LASER_TIME),
+    );
+    for (const b of this.bursts) {
+      const cx = Math.round(b.x / SCALE);
+      const cy = Math.round(b.y / SCALE);
+      if (b.kind === 'shockwave') {
+        const p = b.age / SHOCKWAVE_TIME;
+        const r = (b.radius / SCALE) * (0.15 + 0.85 * Math.sqrt(p));
+        ctx.globalAlpha = 1 - p;
+        if (p < 0.25) {
+          ctx.fillStyle = PALETTE.white;
+          ctx.fillRect(cx - r * 0.5, cy - r * 0.5, r, r);
+        }
+        const dots = Math.max(16, Math.round(r * 6));
+        for (let i = 0; i < dots; i++) {
+          const a = (i / dots) * Math.PI * 2;
+          ctx.fillStyle = i % 3 === 0 ? PALETTE.white : PALETTE.yellow;
+          ctx.fillRect(Math.round(cx + Math.cos(a) * r), Math.round(cy + Math.sin(a) * r), 2, 2);
+          ctx.fillStyle = PALETTE.orange;
+          ctx.fillRect(
+            Math.round(cx + Math.cos(a) * (r - 3)),
+            Math.round(cy + Math.sin(a) * (r - 3)),
+            1,
+            1,
+          );
+        }
+      } else {
+        const p = b.age / LASER_TIME;
+        const half = Math.max(1, Math.round((b.radius / SCALE / 2) * (1 - p * 0.6)));
+        const jitter = Math.round(Math.random() * 2 - 1);
+        ctx.globalAlpha = 1 - p * p;
+        ctx.fillStyle = PALETTE.cyan;
+        ctx.fillRect(0, cy - half + jitter, this.width, half * 2);
+        ctx.fillRect(cx - half + jitter, 0, half * 2, this.height);
+        ctx.fillStyle = PALETTE.white;
+        ctx.fillRect(0, cy - 1, this.width, 2);
+        ctx.fillRect(cx - 1, 0, 2, this.height);
+      }
+    }
+    ctx.globalAlpha = 1;
   }
 
   private drawCracks(frame: Frame): void {
