@@ -22,3 +22,7 @@ npm-debug.log*
 # test tooling output
 .vitest/
 coverage/
+
+# playwright
+test-results/
+playwright-report/

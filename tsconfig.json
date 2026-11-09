@@ -16,5 +16,5 @@
     "noEmit": true,
     "types": ["vite/client"]
   },
-  "include": ["widgets", "shared", "examples", "scripts", "*.ts"]
+  "include": ["widgets", "shared", "examples", "scripts", "e2e", "*.ts"]
 }

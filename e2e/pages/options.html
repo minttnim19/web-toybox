@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Options</title>
+  </head>
+  <body>
+    <header><h1>Outside scope</h1></header>
+    <main>
+      <h2>Inside scope</h2>
+      <p>Only this part can be destroyed.</p>
+      <p data-wd-ignore>Ignored</p>
+    </main>
+    <script src="destroyer.js" data-position="top-left" data-scope="main" defer></script>
+  </body>
+</html>

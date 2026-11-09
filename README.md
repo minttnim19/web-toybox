@@ -20,6 +20,7 @@ npm run dev     # เปิดหน้าตัวอย่างพร้อ�
 npm run build   # build วิดเจ็ตทั้งหมดไปที่ dist/<ชื่อ>.js
 npm run lint    # ตรวจ type, ESLint และ Prettier
 npm run test    # รัน unit test ด้วย Vitest
+npm run test:e2e  # ทดสอบในเบราว์เซอร์จริงด้วย Playwright กับไฟล์ที่ build แล้ว
 npm run format  # จัดรูปแบบโค้ดด้วย Prettier
 ```
 
@@ -71,6 +72,7 @@ dist/               ไฟล์ที่ build แล้ว (ไม่ถูก
 
 ข้อควรจำ: ห้ามมี dependency ตอนรัน (ทุกอย่างต้อง bundle รวมในไฟล์เดียว), UI ทั้งหมดอยู่ใน Shadow DOM
 และเทสของ `core/` วางไว้ข้างไฟล์ในชื่อ `*.test.ts`
+เทสในเบราว์เซอร์อยู่ที่ `e2e/` (ครั้งแรกให้รัน `npx playwright install chromium`)
 
 ## License
 

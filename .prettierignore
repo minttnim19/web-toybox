@@ -4,3 +4,5 @@ package-lock.json
 LICENSE
 .vitest/
 coverage/
+test-results/
+playwright-report/
