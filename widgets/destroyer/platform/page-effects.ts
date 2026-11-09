@@ -20,11 +20,19 @@ html.${PLAYING_CLASS} {
 
 const ELEMENT_SHAKE_TIME = 0.09;
 
+/** What an element looked like before the game touched it. */
+interface Snapshot {
+  /** The `style` attribute (null = none), restored verbatim at the end. */
+  style: string | null;
+  /** Inline `translate` value and priority, restored after each shake. */
+  translate: string;
+  translatePriority: string;
+  /** Original computed filter (with trailing space), so the damage tint layers on top of it. */
+  baseFilter: string;
+}
+
 export class PageEffects {
-  /** Original `style` attribute (null = none) of every element we may modify. */
-  private readonly snapshots = new Map<StylableElement, string | null>();
-  /** Original computed filter, so damage tint can be layered on top of it. */
-  private readonly baseFilters = new Map<StylableElement, string>();
+  private readonly snapshots = new Map<StylableElement, Snapshot>();
   private readonly shaking = new Map<StylableElement, number>();
   private screenShakeTime = 0;
   private screenShakeDuration = 0;
@@ -40,9 +48,13 @@ export class PageEffects {
   snapshot(elements: Iterable<StylableElement>): void {
     for (const el of [document.body, ...elements]) {
       if (this.snapshots.has(el)) continue;
-      this.snapshots.set(el, el.getAttribute('style'));
       const filter = getComputedStyle(el).filter;
-      this.baseFilters.set(el, filter && filter !== 'none' ? filter + ' ' : '');
+      this.snapshots.set(el, {
+        style: el.getAttribute('style'),
+        translate: el.style.getPropertyValue('translate'),
+        translatePriority: el.style.getPropertyPriority('translate'),
+        baseFilter: filter && filter !== 'none' ? filter + ' ' : '',
+      });
     }
   }
 
@@ -76,7 +88,7 @@ export class PageEffects {
     const saturate = (0.15 + 0.85 * r).toFixed(2);
     el.style.setProperty(
       'filter',
-      `${this.baseFilters.get(el) ?? ''}brightness(${brightness}) saturate(${saturate})`,
+      `${this.snapshots.get(el)?.baseFilter ?? ''}brightness(${brightness}) saturate(${saturate})`,
       'important',
     );
   }
@@ -87,7 +99,7 @@ export class PageEffects {
 
   hide(el: StylableElement): void {
     this.shaking.delete(el);
-    this.restoreProperty(el, 'translate');
+    this.restoreTranslate(el);
     el.style.setProperty('visibility', 'hidden', 'important');
   }
 
@@ -103,7 +115,7 @@ export class PageEffects {
       const left = time - dt;
       if (left <= 0) {
         this.shaking.delete(el);
-        this.restoreProperty(el, 'translate');
+        this.restoreTranslate(el);
       } else {
         this.shaking.set(el, left);
         const dx = Math.round((Math.random() - 0.5) * 4);
@@ -118,7 +130,7 @@ export class PageEffects {
       if (this.screenShakeTime === 0) {
         this.shakeOffset.x = this.shakeOffset.y = 0;
         this.screenShakePower = 0;
-        this.restoreProperty(document.body, 'translate');
+        this.restoreTranslate(document.body);
       } else {
         this.shakeOffset.x = Math.round((Math.random() - 0.5) * 2 * power);
         this.shakeOffset.y = Math.round((Math.random() - 0.5) * 2 * power);
@@ -133,15 +145,14 @@ export class PageEffects {
 
   /** Put every touched element back exactly as it was. */
   restoreAll(): void {
-    for (const [el, original] of this.snapshots) {
+    for (const [el, { style }] of this.snapshots) {
       // Chrome syncs CSSOM inline-style edits to the attribute lazily; read the attribute
       // first to flush that, or a pending sync can re-add style="" after removeAttribute.
       el.getAttribute('style');
-      if (original === null) el.removeAttribute('style');
-      else el.setAttribute('style', original);
+      if (style === null) el.removeAttribute('style');
+      else el.setAttribute('style', style);
     }
     this.snapshots.clear();
-    this.baseFilters.clear();
     this.shaking.clear();
     this.screenShakeTime = 0;
     this.screenShakePower = 0;
@@ -149,13 +160,10 @@ export class PageEffects {
     this.setPlaying(false);
   }
 
-  /** Reset one property to its value in the element's original inline style. */
-  private restoreProperty(el: StylableElement, property: string): void {
-    const original = this.snapshots.get(el);
-    const probe = document.createElement('div');
-    if (original) probe.setAttribute('style', original);
-    const value = probe.style.getPropertyValue(property);
-    if (value) el.style.setProperty(property, value, probe.style.getPropertyPriority(property));
-    else el.style.removeProperty(property);
+  /** Put the element's inline `translate` back to what it was before the game. */
+  private restoreTranslate(el: StylableElement): void {
+    const snap = this.snapshots.get(el);
+    if (snap?.translate) el.style.setProperty('translate', snap.translate, snap.translatePriority);
+    else el.style.removeProperty('translate');
   }
 }
