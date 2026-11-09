@@ -9,11 +9,14 @@ import { isHittable } from './core/rules';
 import {
   FIRE_RANGE,
   createShip,
+  desiredHeading,
+  isAimedAt,
   readyToFire,
   resetFireTimer,
   spawnBullet,
   steerShip,
   stepBullet,
+  turnShip,
   type Bullet,
   type Ship,
 } from './core/ship';
@@ -152,8 +155,9 @@ export class DestroyerGame {
     ship.targetY = this.input.y;
     steerShip(ship, dt);
     this.edgeScroll(dt);
-    this.autoFire(dt);
-    this.updateBullets(dt);
+    const candidates = this.visibleCandidates();
+    this.aimAndFire(dt, candidates);
+    this.updateBullets(dt, candidates);
     this.particles.update(dt);
     this.effects.tick(dt);
 
@@ -190,43 +194,47 @@ export class DestroyerGame {
     }
   }
 
-  private autoFire(dt: number): void {
-    const ship = this.ship!;
-    if (!readyToFire(ship, dt)) return;
+  /** Hittable targets currently on screen. */
+  private visibleCandidates(): Candidate[] {
     const state = this.authority.state;
-    const candidates: Candidate[] = [];
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const out: Candidate[] = [];
     for (const t of state.targets) {
       if (!isHittable(state, t.id)) continue;
       const rect = this.rectOf(t.id);
-      if (!rect) continue;
-      // Cheap bounding-box reject before the exact distance check.
-      if (
-        rect.x > ship.x + FIRE_RANGE ||
-        rect.x + rect.w < ship.x - FIRE_RANGE ||
-        rect.y > ship.y + FIRE_RANGE ||
-        rect.y + rect.h < ship.y - FIRE_RANGE
-      )
-        continue;
-      candidates.push({ id: t.id, rect });
+      if (!rect || rect.x > w || rect.y > h || rect.x + rect.w < 0 || rect.y + rect.h < 0) continue;
+      out.push({ id: t.id, rect });
     }
+    return out;
+  }
+
+  /** Turn toward the nearest target (or the travel direction) and fire once lined up. */
+  private aimAndFire(dt: number, candidates: readonly Candidate[]): void {
+    const ship = this.ship!;
     const target = pickNearest(ship.x, ship.y, candidates, FIRE_RANGE);
-    if (!target) return;
-    this.bullets.push(spawnBullet(ship, target.id, target.rect));
+    turnShip(ship, desiredHeading(ship, target?.rect ?? null), dt);
+    if (!readyToFire(ship, dt) || !target || !isAimedAt(ship, target.rect)) return;
+    this.bullets.push(spawnBullet(ship));
     resetFireTimer(ship);
   }
 
-  private updateBullets(dt: number): void {
+  private updateBullets(dt: number, candidates: Candidate[]): void {
     const state = this.authority.state;
     this.bullets = this.bullets.filter((b) => {
-      const rect = isHittable(state, b.targetId) ? this.rectOf(b.targetId) : null;
-      const step = stepBullet(b, dt, rect);
+      const step = stepBullet(b, dt, candidates);
       if (step.kind === 'hit') {
         this.authority.requestHit({
-          targetId: b.targetId,
+          targetId: step.targetId,
           damage: BULLET_DAMAGE,
           playerId: LOCAL_PLAYER,
           at: { fx: step.fx, fy: step.fy },
         });
+        // A destroyed target (or a container it uncovered) changes what later bullets can hit.
+        if (!isHittable(state, step.targetId)) {
+          const index = candidates.findIndex((c) => c.id === step.targetId);
+          if (index >= 0) candidates.splice(index, 1);
+        }
         return false;
       }
       return step.kind === 'flying';

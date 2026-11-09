@@ -1,15 +1,16 @@
 // Draws the game onto a transparent, click-through, full-screen canvas at 1/3 resolution,
 // scaled up with image-rendering: pixelated.
-import { drawSprite, spriteSize } from '../../../shared/sprite';
+import { drawSprite, rotateSprite, spriteSize, type PixelSprite } from '../../../shared/sprite';
 import type { Bullet, Ship } from '../core/ship';
 import type { TargetId } from '../core/state';
 import type { Rect } from '../core/targeting';
 import type { Particles } from './particles';
-import { PALETTE, SHIP } from './sprites';
+import { PALETTE, shipFrame } from './sprites';
 
 export const SCALE = 3;
 const MAX_CRACKS_PER_TARGET = 14;
 const RANGE_DOTS = 24;
+const SHIP_DIRECTIONS = 16;
 
 interface Crack {
   fx: number;
@@ -167,23 +168,22 @@ export class Renderer {
     ctx.globalAlpha = 1;
   }
 
+  /** 16 headings x 3 thruster flicker frames, rendered on first use. */
+  private readonly shipSprites = new Map<number, PixelSprite>();
+
   private drawShip(ship: Ship, time: number): void {
-    const ctx = this.ctx;
-    const { w, h } = spriteSize(SHIP);
-    const left = Math.round(ship.x / SCALE - w / 2);
-    const top = Math.round(ship.y / SCALE - h / 2);
-
-    // Flickering thruster under the engine block.
+    // The sprite points up; quantize the heading to 16 directions so rotation stays crisp.
+    const turn = (ship.angle + Math.PI / 2) / (Math.PI * 2);
+    const dir =
+      ((Math.round(turn * SHIP_DIRECTIONS) % SHIP_DIRECTIONS) + SHIP_DIRECTIONS) % SHIP_DIRECTIONS;
     const flicker = Math.floor(time * 30) % 3;
-    const flame = 2 + flicker;
-    const midX = left + Math.floor(w / 2);
-    ctx.fillStyle = PALETTE.navy;
-    ctx.fillRect(midX - 2, top + h, 5, flame + 1);
-    ctx.fillStyle = PALETTE.pink;
-    ctx.fillRect(midX - 1, top + h, 3, flame);
-    ctx.fillStyle = PALETTE.yellow;
-    ctx.fillRect(midX, top + h, 1, flame - 1 + (flicker === 1 ? 1 : 0));
-
-    drawSprite(ctx, SHIP, left, top);
+    const key = dir * 3 + flicker;
+    let sprite = this.shipSprites.get(key);
+    if (!sprite) {
+      sprite = rotateSprite(shipFrame(flicker), (dir / SHIP_DIRECTIONS) * Math.PI * 2);
+      this.shipSprites.set(key, sprite);
+    }
+    const { w, h } = spriteSize(sprite);
+    drawSprite(this.ctx, sprite, ship.x / SCALE - w / 2, ship.y / SCALE - h / 2);
   }
 }

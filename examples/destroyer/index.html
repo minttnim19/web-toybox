@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>ปั่นสุข ไบค์ช็อป · ร้านซ่อมจักรยาน เชียงใหม่</title>
+    <title>destroyer · คู่มือติดตั้ง</title>
     <meta
       name="description"
-      content="ร้านซ่อมและดูแลจักรยานย่านนิมมาน เชียงใหม่ ซ่อมด่วน ฟิตติ้ง และเช่าจักรยาน"
+      content="วิธีติดตั้ง destroyer เกมยิงยานอวกาศแบบพิกเซลที่ฝังลงเว็บไหนก็ได้ด้วยแท็ก script บรรทัดเดียว"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;700&family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./style.css" />
@@ -20,233 +20,292 @@
     <!-- Demo banner: excluded from the game with data-wd-ignore -->
     <aside class="demo-banner" data-wd-ignore>
       <p>
-        <strong>หน้าเว็บสาธิต</strong> — ร้านนี้ไม่มีอยู่จริง กดปุ่ม <b>💥 DESTROY</b>
-        ที่มุมขวาล่างเพื่อเริ่มทำลายหน้านี้ได้เลย
+        หน้านี้ฝัง destroyer ไว้จริงด้วย
+        <code>&lt;script src="destroyer.js" defer&gt;&lt;/script&gt;</code>
+        — กด <b>💥 DESTROY</b> มุมขวาล่างเพื่อลองทำลายคู่มือนี้ได้เลย
       </p>
-      <details>
-        <summary>วิธีฝังลงเว็บของคุณ</summary>
-        <pre><code>&lt;script src="destroyer.js" defer&gt;&lt;/script&gt;</code></pre>
-        <p class="demo-hint">
-          ตัวเลือก: <code>data-position="bottom-left"</code> เปลี่ยนมุมของปุ่ม,
-          <code>data-scope="main"</code> จำกัดพื้นที่ที่ทำลายได้
-        </p>
-      </details>
     </aside>
 
     <header class="site-header">
       <nav class="nav container" aria-label="เมนูหลัก">
-        <a class="logo" href="#top" aria-label="ปั่นสุข ไบค์ช็อป หน้าแรก">
-          <svg viewBox="0 0 48 32" width="40" height="27" aria-hidden="true">
-            <circle cx="10" cy="22" r="8" fill="none" stroke="currentColor" stroke-width="3" />
-            <circle cx="38" cy="22" r="8" fill="none" stroke="currentColor" stroke-width="3" />
-            <path
-              d="M10 22 L19 8 H31 L38 22 M19 8 L24 22 L31 8 M16 5 H22"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-              stroke-linejoin="round"
-              stroke-linecap="round"
-            />
+        <a class="logo" href="#top" aria-label="destroyer หน้าแรก">
+          <svg
+            viewBox="0 0 13 11"
+            width="26"
+            height="22"
+            aria-hidden="true"
+            shape-rendering="crispEdges"
+          >
+            <path fill="#1a1c2c" d="M6 0h1v1h1v2h1v2h1v1h1v1h1v1h1v3H0V8h1V7h1V6h1V5h1V3h1V1h1z" />
+            <path fill="#2de2e6" d="M6 1h1v2h1v3h1v4H4V6h1V3h1z" />
+            <path fill="#ff3864" d="M6 4h1v2H6zM1 8h2v1H1zM10 8h2v1h-2zM2 7h1v1H2zM10 7h1v1h-1z" />
           </svg>
-          <span>ปั่นสุข</span>
+          <span>destroyer</span>
         </a>
         <ul class="nav-links">
-          <li><a href="#services">บริการ</a></li>
-          <li><a href="#prices">ราคา</a></li>
-          <li><a href="#how">ขั้นตอน</a></li>
-          <li><a href="#contact">ติดต่อ</a></li>
+          <li><a href="#install">ติดตั้ง</a></li>
+          <li><a href="#options">ตั้งค่า</a></li>
+          <li><a href="#play">วิธีเล่น</a></li>
+          <li><a href="#faq">คำถาม</a></li>
         </ul>
-        <a class="btn btn-small" href="#contact">จองคิวซ่อม</a>
+        <a class="btn btn-small" href="destroyer.js" download>ดาวน์โหลด</a>
       </nav>
     </header>
 
     <main id="top">
       <section class="hero container">
         <div class="hero-text">
-          <p class="eyebrow">ร้านซ่อมจักรยานย่านนิมมาน ตั้งแต่ปี 2558</p>
-          <h1>จักรยานของคุณ<br />สมควรได้ปั่น<span class="nowrap">อย่างมีความสุข</span></h1>
+          <p class="eyebrow">WEB-TOYBOX · WIDGET 01</p>
+          <h1>
+            ใส่เกมยิงยานอวกาศ<br />ลงเว็บไหนก็ได้ <span class="nowrap">ด้วยโค้ดบรรทัดเดียว</span>
+          </h1>
           <p class="lead">
-            ซ่อมด่วนภายในวัน ปรับตั้งเกียร์และเบรกโดยช่างที่ปั่นเองทุกสัปดาห์ รับทั้งเสือหมอบ
-            เสือภูเขา จักรยานแม่บ้าน และจักรยานพับ
+            destroyer เปลี่ยนหน้าเว็บของคุณให้เป็นด่านเกม ผู้เล่นขับยานพิกเซลยิงหัวข้อ ปุ่ม
+            และรูปให้แตกกระจาย ทั้งหมดเป็นแค่ภาพ กดออกเมื่อไรหน้าเว็บก็กลับมาเหมือนเดิมทุกอย่าง
           </p>
           <div class="hero-actions">
-            <a class="btn" href="#contact">จองคิวซ่อม</a>
-            <a class="btn btn-ghost" href="#prices">ดูราคาบริการ</a>
+            <a class="btn" href="#install">เริ่มติดตั้ง</a>
+            <a class="btn btn-ghost" href="destroyer.js" download>ดาวน์โหลด destroyer.js</a>
           </div>
           <ul class="hero-stats">
-            <li><strong>4,200+</strong><span>คันที่ซ่อมแล้ว</span></li>
-            <li><strong>4.9</strong><span>คะแนนรีวิว</span></li>
-            <li><strong>1 วัน</strong><span>งานซ่อมส่วนใหญ่</span></li>
+            <li><strong>1</strong><span>บรรทัดในการติดตั้ง</span></li>
+            <li><strong>~25 kB</strong><span>ไฟล์เดียวจบ</span></li>
+            <li><strong>0</strong><span>ไลบรารีที่ต้องลงเพิ่ม</span></li>
           </ul>
         </div>
-        <div class="hero-art" aria-hidden="true">
-          <div class="sun"></div>
-          <div class="hill hill-back"></div>
-          <div class="hill hill-front"></div>
-          <svg class="hero-bike" viewBox="0 0 120 70">
-            <circle cx="28" cy="48" r="18" />
-            <circle cx="92" cy="48" r="18" />
-            <path d="M28 48 L48 18 H76 L92 48 M48 18 L58 48 L76 18 M42 12 H54 M76 18 L72 8 H82" />
-          </svg>
-        </div>
-      </section>
+        <figure class="hero-art">
+          <div class="window">
+            <div class="window-bar">
+              <span class="dot dot-red"></span><span class="dot dot-yellow"></span
+              ><span class="dot dot-green"></span>
+              <span class="window-title">index.html</span>
+            </div>
+            <pre class="code"><code><span class="c">&lt;!-- ...เนื้อหาเว็บของคุณ... --&gt;</span>
 
-      <section id="services" class="section container">
-        <div class="section-head">
-          <h2>บริการของเรา</h2>
-          <p>ตั้งแต่ปะยางไปจนถึงยกเครื่องทั้งคัน ทำจบในร้านเดียว</p>
-        </div>
-        <div class="cards">
-          <article class="card">
-            <div class="card-img img-repair"></div>
-            <div class="card-body">
-              <h3>ซ่อมด่วนภายในวัน</h3>
-              <p>ยางรั่ว โซ่หลุด เบรกไม่อยู่ นำมาเช้า รับกลับเย็น ไม่ต้องรอคิวข้ามวัน</p>
-              <a class="card-link" href="#contact">จองคิว →</a>
-            </div>
-          </article>
-          <article class="card">
-            <div class="card-img img-tune"></div>
-            <div class="card-body">
-              <h3>เช็กระยะและปรับตั้ง</h3>
-              <p>ล้างโซ่ อัดจาระบี ตั้งเกียร์ ตั้งเบรก ตรวจซี่ล้อ 30 จุด พร้อมรายงานสภาพรถ</p>
-              <a class="card-link" href="#prices">ดูแพ็กเกจ →</a>
-            </div>
-          </article>
-          <article class="card">
-            <div class="card-img img-fit"></div>
-            <div class="card-body">
-              <h3>บริการฟิตติ้ง</h3>
-              <p>วัดสรีระ ปรับเบาะ แฮนด์ และขาจาน ให้ปั่นได้ไกลขึ้นโดยไม่ปวดหลังและเข่า</p>
-              <a class="card-link" href="#contact">นัดฟิตติ้ง →</a>
-            </div>
-          </article>
-          <article class="card">
-            <div class="card-img img-rent"></div>
-            <div class="card-body">
-              <h3>เช่าจักรยานเที่ยวเมือง</h3>
-              <p>จักรยานทัวริ่งพร้อมหมวกและไฟ เช่ารายวันหรือรายสัปดาห์ แถมแผนที่เส้นทางคูเมือง</p>
-              <a class="card-link" href="#prices">ดูราคาเช่า →</a>
-            </div>
-          </article>
-        </div>
-      </section>
+<span class="t">&lt;footer&gt;</span>© ร้านของฉัน<span class="t">&lt;/footer&gt;</span>
 
-      <section id="prices" class="section section-tinted">
-        <div class="container">
-          <div class="section-head">
-            <h2>ราคาบริการ</h2>
-            <p>ราคารวมค่าแรงแล้ว อะไหล่คิดตามจริง แจ้งก่อนเปลี่ยนทุกครั้ง</p>
+<mark><span class="t">&lt;script</span> <span class="a">src</span>=<span class="s">"destroyer.js"</span> <span class="a">defer</span><span class="t">&gt;&lt;/script&gt;</span></mark>
+<span class="t">&lt;/body&gt;</span></code></pre>
           </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">บริการ</th>
-                  <th scope="col">ระยะเวลา</th>
-                  <th scope="col">ราคา</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>ปะยาง / เปลี่ยนยางใน</td>
-                  <td>15 นาที</td>
-                  <td>80 บาท</td>
-                </tr>
-                <tr>
-                  <td>ตั้งเกียร์และเบรก</td>
-                  <td>45 นาที</td>
-                  <td>250 บาท</td>
-                </tr>
-                <tr>
-                  <td>เช็กระยะ 30 จุด</td>
-                  <td>2 ชั่วโมง</td>
-                  <td>690 บาท</td>
-                </tr>
-                <tr>
-                  <td>ยกเครื่องทั้งคัน</td>
-                  <td>1–2 วัน</td>
-                  <td>2,400 บาท</td>
-                </tr>
-                <tr>
-                  <td>ฟิตติ้ง</td>
-                  <td>90 นาที</td>
-                  <td>1,500 บาท</td>
-                </tr>
-                <tr>
-                  <td>เช่าจักรยานทัวริ่ง</td>
-                  <td>ต่อวัน</td>
-                  <td>350 บาท</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section class="section container testimonial-wrap">
-        <figure class="testimonial">
-          <blockquote>
-            <p>
-              “เกียร์รถผมกระโดดมาครึ่งปี ไปมาสามร้านไม่หาย ที่นี่ใช้เวลาไม่ถึงชั่วโมง
-              แถมอธิบายให้ฟังว่าเสียเพราะอะไร ตอนนี้ปั่นขึ้นดอยสุเทพได้แบบไม่สะดุดเลย”
-            </p>
-          </blockquote>
-          <figcaption>
-            <span class="avatar" aria-hidden="true">ธ</span>
-            <span><strong>ธนากร ศรีวงศ์</strong><br />สมาชิกชมรมปั่นเช้าวันอาทิตย์</span>
-          </figcaption>
+          <figcaption>วางไว้ก่อนปิด <code>&lt;/body&gt;</code> แค่นั้นเอง</figcaption>
         </figure>
       </section>
 
-      <section id="how" class="section container">
+      <section class="section container">
         <div class="section-head">
-          <h2>จองคิวง่าย ๆ ใน 4 ขั้นตอน</h2>
+          <h2>ทำไมใส่แล้วไม่ต้องกังวล</h2>
+          <p>ออกแบบมาให้วางลงเว็บที่ใช้งานจริงได้โดยไม่กระทบของเดิม</p>
         </div>
-        <ol class="steps">
-          <li>
-            <h3>บอกอาการ</h3>
-            <p>ส่งรูปหรือคลิปสั้น ๆ ทาง LINE หรือโทรมาเล่าให้ช่างฟัง</p>
-          </li>
-          <li>
-            <h3>รับใบเสนอราคา</h3>
-            <p>ช่างประเมินราคาเบื้องต้นให้ภายใน 30 นาที ไม่มีค่าใช้จ่ายแอบแฝง</p>
-          </li>
-          <li>
-            <h3>นำรถเข้าร้าน</h3>
-            <p>เข้ามาตามเวลานัด หรือเรียกบริการรับ–ส่งถึงบ้านในตัวเมือง</p>
-          </li>
-          <li>
-            <h3>รับรถพร้อมปั่น</h3>
-            <p>ทดลองปั่นหน้าร้านก่อนจ่ายเงิน รับประกันงานซ่อม 30 วัน</p>
-          </li>
-        </ol>
+        <div class="cards">
+          <article class="card">
+            <div class="card-img img-safe"></div>
+            <div class="card-body">
+              <h3>ไม่พังของจริง</h3>
+              <p>
+                สิ่งที่ถูกยิงแค่ถูกซ่อนด้วย <code>visibility: hidden</code> ไม่ได้ถูกลบ
+                เลย์เอาต์ไม่ขยับ และคืนค่าเดิมทุกอย่างเมื่อออกจากเกม
+              </p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-img img-shadow"></div>
+            <div class="card-body">
+              <h3>ไม่ชนกับ CSS เดิม</h3>
+              <p>ปุ่ม เมนู และหน้าจอเกมอยู่ใน Shadow DOM ของตัวเอง สไตล์ของเว็บคุณจึงไม่ตีกัน</p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-img img-file"></div>
+            <div class="card-body">
+              <h3>ไฟล์เดียวจบ</h3>
+              <p>ไม่ต้องลง framework ไม่ต้องตั้งค่า build แค่มีไฟล์ .js หนึ่งไฟล์บนเว็บของคุณ</p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-img img-mobile"></div>
+            <div class="card-body">
+              <h3>เล่นบนมือถือได้</h3>
+              <p>ลากนิ้วเพื่อบังคับยาน รองรับจอที่มีรอยบากและขอบโค้ง</p>
+            </div>
+          </article>
+        </div>
       </section>
 
-      <section id="contact" class="section container">
-        <div class="newsletter">
-          <div>
-            <h2>รับทริคดูแลจักรยานทุกเดือน</h2>
-            <p>เส้นทางปั่นใหม่ในเชียงใหม่ โปรโมชันสำหรับสมาชิก และวิธีดูแลรถด้วยตัวเอง</p>
+      <section id="install" class="section section-tinted">
+        <div class="container">
+          <div class="section-head">
+            <h2>ติดตั้งใน 4 ขั้นตอน</h2>
+            <p>ใช้ได้กับเว็บทุกแบบที่ใส่แท็ก <code>&lt;script&gt;</code> ได้</p>
           </div>
-          <form
-            class="newsletter-form"
-            action="#"
-            onsubmit="
-              event.preventDefault();
-              this.querySelector('button').textContent = 'สมัครแล้ว ขอบคุณ!';
-            "
-          >
-            <label for="email">อีเมลของคุณ</label>
-            <div class="form-row">
-              <input id="email" type="email" name="email" placeholder="you@example.com" required />
-              <button class="btn" type="submit">สมัครรับข่าว</button>
-            </div>
-            <label class="checkbox">
-              <input type="checkbox" checked />
-              <span>สนใจกิจกรรมปั่นกลุ่มด้วย</span>
-            </label>
-          </form>
+          <ol class="steps">
+            <li>
+              <h3>ดาวน์โหลดไฟล์</h3>
+              <p>
+                กดปุ่ม <a href="destroyer.js" download>ดาวน์โหลด</a> หรือ build เองจาก repo
+                แล้วจะได้ไฟล์ <code>dist/destroyer.js</code>
+              </p>
+              <pre class="code code-sm"><code>npm install
+npm run build</code></pre>
+            </li>
+            <li>
+              <h3>อัปโหลดขึ้นเว็บ</h3>
+              <p>
+                วางไฟล์ไว้ที่เดียวกับหน้าเว็บ หรือที่ไหนก็ได้ที่เปิดผ่าน URL ได้ เช่น
+                <code>/js/destroyer.js</code>
+              </p>
+            </li>
+            <li>
+              <h3>วางแท็ก script</h3>
+              <p>ใส่บรรทัดนี้ไว้ก่อนปิด <code>&lt;/body&gt;</code> ปรับ path ให้ตรงกับที่อัปโหลด</p>
+              <pre
+                class="code code-sm"
+              ><code><span class="t">&lt;script</span> <span class="a">src</span>=<span class="s">"/js/destroyer.js"</span> <span class="a">defer</span><span class="t">&gt;&lt;/script&gt;</span></code></pre>
+            </li>
+            <li>
+              <h3>เปิดหน้าเว็บ</h3>
+              <p>ปุ่ม <b>💥 DESTROY</b> จะโผล่ที่มุมขวาล่าง กดแล้วเริ่มเล่นได้ทันที</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="options" class="section container">
+        <div class="section-head">
+          <h2>ตั้งค่า</h2>
+          <p>ใส่ data-attribute ไว้บนแท็ก <code>&lt;script&gt;</code> ไม่ใส่ก็ใช้ค่าเริ่มต้น</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">attribute</th>
+                <th scope="col">ค่าเริ่มต้น</th>
+                <th scope="col">ใช้ทำอะไร</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>data-position</code></td>
+                <td><code>bottom-right</code></td>
+                <td>
+                  มุมของปุ่ม: <code>bottom-right</code>, <code>bottom-left</code>,
+                  <code>top-right</code>, <code>top-left</code> (ถ้าใส่ค่าอื่นจะใช้
+                  <code>bottom-right</code> แทน)
+                </td>
+              </tr>
+              <tr>
+                <td><code>data-scope</code></td>
+                <td><code>body</code></td>
+                <td>
+                  CSS selector จำกัดพื้นที่ที่ทำลายได้ เช่น <code>main</code> หรือ
+                  <code>#content</code>
+                </td>
+              </tr>
+              <tr>
+                <td><code>data-wd-ignore</code></td>
+                <td>—</td>
+                <td>
+                  ใส่ที่ element ใดก็ได้ในหน้า (ไม่ใช่ที่ script) เพื่อกันไม่ให้ส่วนนั้นถูกทำลาย
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <form class="generator" id="generator" action="#">
+          <div class="generator-fields">
+            <h3>สร้างโค้ดของคุณ</h3>
+            <label for="gen-src">ที่อยู่ไฟล์</label>
+            <input id="gen-src" name="src" type="text" value="destroyer.js" spellcheck="false" />
+            <label for="gen-position">มุมของปุ่ม</label>
+            <select id="gen-position" name="position">
+              <option value="bottom-right">ขวาล่าง (ค่าเริ่มต้น)</option>
+              <option value="bottom-left">ซ้ายล่าง</option>
+              <option value="top-right">ขวาบน</option>
+              <option value="top-left">ซ้ายบน</option>
+            </select>
+            <label for="gen-scope">พื้นที่ที่ทำลายได้</label>
+            <input id="gen-scope" name="scope" type="text" placeholder="body" spellcheck="false" />
+          </div>
+          <div class="generator-output">
+            <pre class="code" id="gen-output"><code></code></pre>
+            <button class="btn" type="submit">คัดลอกโค้ด</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="play" class="section container">
+        <div class="section-head">
+          <h2>วิธีเล่น</h2>
+        </div>
+        <ul class="controls">
+          <li>
+            <span class="key">เมาส์ / นิ้ว</span>
+            <p>ขยับเพื่อบังคับยาน ยานจะลอยตามไปอย่างนุ่มนวล</p>
+          </li>
+          <li>
+            <span class="key">ยิงอัตโนมัติ</span>
+            <p>เมื่อมีเป้าในวงจุดรอบยาน ยานจะหันหัวไปหาเป้าแล้วยิงเอง</p>
+          </li>
+          <li>
+            <span class="key">ขอบจอ</span>
+            <p>พายานไปใกล้ขอบบนหรือล่างเพื่อเลื่อนหน้า ยิ่งใกล้ขอบยิ่งเร็ว</p>
+          </li>
+          <li>
+            <span class="key">Esc</span>
+            <p>ออกจากเกม หน้าเว็บจะกลับมาเหมือนเดิมทันที</p>
+          </li>
+        </ul>
+        <blockquote class="tip">
+          <p>
+            กล่องใหญ่อย่างการ์ดหรือแถบเมนูจะยิงไม่เข้า จนกว่าทุกอย่างข้างในจะแตกหมด
+            ลองเก็บตัวหนังสือและปุ่มก่อน แล้วค่อยกะเทาะหน้าเว็บออกทีละชั้น
+          </p>
+        </blockquote>
+      </section>
+
+      <section id="faq" class="section section-tinted">
+        <div class="container narrow">
+          <div class="section-head">
+            <h2>คำถามที่พบบ่อย</h2>
+          </div>
+          <div class="faq">
+            <details>
+              <summary>ทำลายแล้วเว็บพังจริงไหม</summary>
+              <p>
+                ไม่พัง ทุกอย่างเป็นแค่ภาพบนหน้าจอของผู้เล่นคนนั้น ไม่มีการลบ element
+                และไม่ได้แก้ไขอะไรบนเซิร์ฟเวอร์ กดออกแล้วหน้าเว็บกลับมาเหมือนเดิม
+              </p>
+            </details>
+            <details>
+              <summary>ทำให้เว็บช้าลงไหม</summary>
+              <p>
+                ไฟล์โหลดแบบ <code>defer</code> จึงไม่บล็อกการแสดงผล
+                และไม่ทำงานอะไรเลยจนกว่าจะมีคนกดปุ่มเล่น
+              </p>
+            </details>
+            <details>
+              <summary>อยากกันบางส่วนไม่ให้โดนยิง</summary>
+              <p>
+                ใส่ <code>data-wd-ignore</code> ที่ element นั้น
+                ทั้งตัวมันและทุกอย่างข้างในจะไม่ถูกนับเป็นเป้า หรือใช้
+                <code>data-scope</code> จำกัดพื้นที่ทั้งหมด
+              </p>
+            </details>
+            <details>
+              <summary>ใช้กับ WordPress, React หรือ Vue ได้ไหม</summary>
+              <p>
+                ได้ ขอแค่ใส่แท็ก <code>&lt;script&gt;</code> ลงในหน้าได้ ไม่ต้องพึ่งเฟรมเวิร์กใด
+              </p>
+            </details>
+            <details>
+              <summary>มีการโหลดอะไรจากภายนอกไหม</summary>
+              <p>
+                มีแค่ฟอนต์ Press Start 2P และ Kanit จาก Google Fonts ตอนเปิดเกม
+                ถ้าโหลดไม่ได้จะใช้ฟอนต์ในเครื่องแทน
+              </p>
+            </details>
+          </div>
         </div>
       </section>
     </main>
@@ -254,23 +313,77 @@
     <footer class="site-footer">
       <div class="container footer-grid">
         <div>
-          <p class="logo">ปั่นสุข</p>
-          <p>12/3 ซอยนิมมานเหมินท์ 9 ต.สุเทพ อ.เมือง จ.เชียงใหม่ 50200</p>
+          <p class="logo">destroyer</p>
+          <p>วิดเจ็ตตัวแรกของ web-toybox คอลเลกชันของเล่นที่ฝังลงเว็บไหนก็ได้</p>
         </div>
         <div>
-          <h4>เวลาเปิด</h4>
-          <p>อังคาร–อาทิตย์ 08:30–18:30<br />หยุดทุกวันจันทร์</p>
-        </div>
-        <div>
-          <h4>ติดต่อ</h4>
+          <h4>คู่มือ</h4>
           <p>
-            <a href="tel:053000000">053-000-000</a><br />
-            LINE: <a href="#contact">@punsukbike</a>
+            <a href="#install">ติดตั้ง</a><br />
+            <a href="#options">ตั้งค่า</a><br />
+            <a href="#faq">คำถามที่พบบ่อย</a>
+          </p>
+        </div>
+        <div>
+          <h4>ไฟล์</h4>
+          <p>
+            <a href="destroyer.js" download>destroyer.js</a><br />
+            สัญญาอนุญาต MIT
           </p>
         </div>
       </div>
-      <p class="container copyright">© 2569 ปั่นสุข ไบค์ช็อป · ร้านสมมติสำหรับสาธิตเท่านั้น</p>
     </footer>
+
+    <script>
+      // Embed-code generator for the options section.
+      (function () {
+        var form = document.getElementById('generator');
+        var out = document.querySelector('#gen-output code');
+        var esc = function (s) {
+          return s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
+        };
+        var code = function () {
+          var src = form.src.value.trim() || 'destroyer.js';
+          var parts = ['<script src="' + src + '"'];
+          if (form.position.value !== 'bottom-right')
+            parts.push('data-position="' + form.position.value + '"');
+          if (form.scope.value.trim()) parts.push('data-scope="' + form.scope.value.trim() + '"');
+          return parts.join(' ') + ' defer></' + 'script>';
+        };
+        var render = function () {
+          out.innerHTML = esc(code())
+            .replace(/(&lt;\/?script)/g, '<span class="t">$1</span>')
+            .replace(/(&gt;)/g, '<span class="t">$1</span>')
+            .replace(
+              / ([a-z-]+)=(&quot;[^&]*&quot;)/g,
+              ' <span class="a">$1</span>=<span class="s">$2</span>',
+            )
+            .replace(/ (defer)/, ' <span class="a">$1</span>');
+        };
+        form.addEventListener('input', render);
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var button = form.querySelector('button');
+          var done = function (text) {
+            button.textContent = text;
+            setTimeout(function () {
+              button.textContent = 'คัดลอกโค้ด';
+            }, 1500);
+          };
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(code()).then(
+              function () {
+                done('คัดลอกแล้ว ✓');
+              },
+              function () {
+                done('คัดลอกไม่สำเร็จ');
+              },
+            );
+          } else done('คัดลอกไม่สำเร็จ');
+        });
+        render();
+      })();
+    </script>
 
     <!-- Embedded exactly as a real site would -->
     <script src="destroyer.js" defer></script>

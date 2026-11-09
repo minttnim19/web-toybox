@@ -36,3 +36,29 @@ export const SHIP: PixelSprite = {
     P: PALETTE.pink,
   },
 };
+
+/**
+ * Ship plus thruster flame (3 flicker lengths), padded so the ship body sits exactly in
+ * the middle: rotating the frame then turns the ship around its own center.
+ */
+const shipFrames: PixelSprite[] = [];
+export function shipFrame(flicker: number): PixelSprite {
+  const cached = shipFrames[flicker];
+  if (cached) return cached;
+  const width = 21;
+  const pad = (row: string) => row.padStart(4 + row.length).padEnd(width);
+  const flame = 2 + flicker;
+  const rows = [...Array<string>(5).fill(' '.repeat(width)), ...SHIP.rows.map(pad)];
+  for (let i = 0; i <= flame; i++) {
+    const core = i < flame - 1 + (flicker === 1 ? 1 : 0) ? 'Y' : 'F';
+    const mid = i < flame ? `F${core}F` : 'OOO';
+    rows.push(pad(`    O${mid}O    `));
+  }
+  while (rows.length < width) rows.push(' '.repeat(width));
+  const frame: PixelSprite = {
+    rows,
+    palette: { ...SHIP.palette, F: PALETTE.pink, Y: PALETTE.yellow },
+  };
+  shipFrames[flicker] = frame;
+  return frame;
+}
