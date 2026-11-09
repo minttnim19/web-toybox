@@ -4,7 +4,9 @@ import { expect, type CDPSession, type Page } from '@playwright/test';
 /** The parts of the game instance the tests look at (exposed as window.__webToyboxDestroyer). */
 export interface TestGame {
   phase: 'idle' | 'menu' | 'countdown' | 'playing' | 'ended';
-  elements: Element[];
+  itemField: { positionOf(id: number): { x: number; y: number } | null };
+  /** Scanned target elements, indexed by target ID. */
+  targets: { elements: Element[] };
   authority: {
     tick(dt: number): void;
     requestHit(request: { targetId: number; damage: number; playerId: string }): void;
@@ -12,7 +14,19 @@ export interface TestGame {
       duration: number;
       destroyedCount: number;
       targets: { id: number; destroyed: boolean }[];
-      players: Record<string, { score: number; inventory: string[] }>;
+      elapsed: number;
+      items: {
+        id: number;
+        kind: string;
+        targetId: number;
+        fx: number;
+        fy: number;
+        expiresAt: number;
+      }[];
+      players: Record<
+        string,
+        { score: number; inventory: string[]; buffs: { kind: string; remaining: number }[] }
+      >;
       result: { reason: string; timeBonus: number } | null;
     };
   };
@@ -85,4 +99,30 @@ export async function sweep(page: Page, points: [number, number][], rounds = 2):
       await page.mouse.move(x, y, { steps: 6 });
       await page.waitForTimeout(120);
     }
+}
+
+/** Put an item on the page, anchored to the first target that is still standing. */
+export const dropItem = (page: Page, id: number, kind: string) =>
+  page.evaluate(
+    ([itemId, itemKind]) => {
+      const s = window.__webToyboxDestroyer.authority.state;
+      const targetId = s.targets.findIndex((t) => !t.destroyed);
+      s.items.push({
+        id: itemId,
+        kind: itemKind,
+        targetId,
+        fx: 0.5,
+        fy: 0.5,
+        expiresAt: s.elapsed + 14,
+      });
+    },
+    [id, kind] as const,
+  );
+
+/** Where an item is drawn on screen (after the next frame has measured it). */
+export async function itemPosition(page: Page, id: number): Promise<{ x: number; y: number }> {
+  await expect
+    .poll(() => page.evaluate((i) => window.__webToyboxDestroyer.itemField.positionOf(i), id))
+    .not.toBeNull();
+  return (await page.evaluate((i) => window.__webToyboxDestroyer.itemField.positionOf(i), id))!;
 }

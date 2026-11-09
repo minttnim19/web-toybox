@@ -1,7 +1,9 @@
 import { expect, test } from '@playwright/test';
 import {
   destroyEverything,
+  dropItem,
   giveItems,
+  itemPosition,
   inventory,
   pageHtml,
   phase,
@@ -87,7 +89,7 @@ test('clearing the page gives CLEAR! with a time bonus, and play again starts fr
   const before = await pageHtml(page);
   await startRound(page);
   expect(
-    await page.evaluate(() => window.__webToyboxDestroyer.elements.map((e) => e.localName)),
+    await page.evaluate(() => window.__webToyboxDestroyer.targets.elements.map((e) => e.localName)),
   ).toEqual(['h1', 'p', 'a', 'li', 'li', 'button', 'div', 'input', 'button']);
 
   await destroyEverything(page);
@@ -119,7 +121,9 @@ test('reads data-position and data-scope, and skips [data-wd-ignore]', async ({ 
   expect(box!.y).toBeLessThan(40);
   await startRound(page);
   expect(
-    await page.evaluate(() => window.__webToyboxDestroyer.elements.map((e) => e.textContent)),
+    await page.evaluate(() =>
+      window.__webToyboxDestroyer.targets.elements.map((e) => e.textContent),
+    ),
   ).toEqual(['Inside scope', 'Only this part can be destroyed.']);
 });
 
@@ -144,4 +148,38 @@ test('a page with nothing to destroy ends at once without a free bonus', async (
   await expect(page.locator('.result h2')).toHaveText('CLEAR!', { timeout: 6000 });
   const result = await page.evaluate(() => window.__webToyboxDestroyer.authority.state.result);
   expect(result?.timeBonus).toBe(0);
+});
+
+test('items on the page: fly over to pick up, FULL keeps them, magnet pulls them in', async ({
+  page,
+}) => {
+  const errors = trackErrors(page);
+  await page.goto('/plain.html');
+  await startRound(page);
+  const items = () => page.evaluate(() => window.__webToyboxDestroyer.authority.state.items.length);
+
+  // With a full inventory the ship can't take it, and it stays on the page.
+  await giveItems(page, ['bomb', 'bomb', 'bomb']);
+  await dropItem(page, 900, 'laser');
+  const pos = await itemPosition(page, 900);
+  await page.mouse.move(pos.x, pos.y, { steps: 5 });
+  await page.waitForTimeout(400);
+  expect(await items()).toBe(1);
+
+  // With room, flying over it picks it up.
+  await giveItems(page, []);
+  await page.mouse.move(pos.x + 60, pos.y + 60, { steps: 3 });
+  await page.waitForTimeout(300);
+  await page.mouse.move(pos.x, pos.y, { steps: 5 });
+  await expect.poll(() => inventory(page)).toEqual(['laser']);
+  expect(await items()).toBe(0);
+
+  // The magnet pulls an item ~200 px away into the ship without moving there.
+  await page.mouse.move(pos.x + 200, pos.y, { steps: 5 }); // away from where it will drop
+  await page.waitForTimeout(500);
+  await giveItems(page, ['magnet']);
+  await page.keyboard.press('1');
+  await dropItem(page, 901, 'rapid');
+  await expect.poll(() => inventory(page), { timeout: 4000 }).toEqual(['rapid']);
+  expect(errors).toEqual([]);
 });
