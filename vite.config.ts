@@ -51,7 +51,7 @@ function widgetDevServer(): Plugin {
 export default defineConfig({
   root: resolve(ROOT, 'examples'),
   plugins: [widgetDevServer()],
-  server: { open: '/destroyer/' },
+  server: { open: '/' },
   test: {
     root: ROOT,
     include: ['widgets/**/*.test.ts', 'shared/**/*.test.ts'],

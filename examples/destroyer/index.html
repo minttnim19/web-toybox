@@ -14,6 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="../shared.css" />
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
@@ -657,7 +658,7 @@
     </footer>
 
     <script>
-      // Embed-code generator for the options section, and copy buttons.
+      // Embed-code generator for the options section.
       (function () {
         var form = document.getElementById('generator');
         var out = document.querySelector('#gen-output code');
@@ -705,31 +706,10 @@
           } else done('คัดลอกไม่สำเร็จ');
         });
         render();
-
-        // "Copy" buttons next to code blocks: data-copy="<id of the <pre>>".
-        document.querySelectorAll('[data-copy]').forEach(function (button) {
-          button.addEventListener('click', function () {
-            var text = document.getElementById(button.dataset.copy).textContent;
-            var label = button.textContent;
-            var show = function (t) {
-              button.textContent = t;
-              setTimeout(function () {
-                button.textContent = label;
-              }, 1500);
-            };
-            if (!navigator.clipboard) return show('คัดลอกไม่สำเร็จ');
-            navigator.clipboard.writeText(text).then(
-              function () {
-                show('คัดลอกแล้ว');
-              },
-              function () {
-                show('คัดลอกไม่สำเร็จ');
-              },
-            );
-          });
-        });
       })();
     </script>
+
+    <script src="../copy.js" defer></script>
 
     <!-- Embedded exactly as a real site would -->
     <script src="destroyer.js" defer></script>

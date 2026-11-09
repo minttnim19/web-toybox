@@ -16,7 +16,7 @@
 
 ```bash
 npm install
-npm run dev     # เปิดหน้าตัวอย่างพร้อม hot reload (http://localhost:5173/destroyer/)
+npm run dev     # เปิดหน้ารวมวิดเจ็ตและหน้าคู่มือพร้อม hot reload (http://localhost:5173/)
 npm run build   # build วิดเจ็ตทั้งหมดไปที่ dist/<ชื่อ>.js
 npm run lint    # ตรวจ type, ESLint และ Prettier
 npm run test    # รัน unit test ด้วย Vitest
@@ -58,7 +58,8 @@ npm run format  # จัดรูปแบบโค้ดด้วย Prettier
 ```
 widgets/<ชื่อ>/     ซอร์สของแต่ละวิดเจ็ต (entry point คือ index.ts)
 shared/             โค้ดที่ใช้ร่วมกัน: ตัววาด pixel sprite, เสียง 8-bit, ตัวช่วย HUD ใน Shadow DOM, ตัวสแกน DOM
-examples/<ชื่อ>/    หน้าตัวอย่างของแต่ละวิดเจ็ต
+examples/           หน้ารวมวิดเจ็ต (index.html) และสไตล์ที่ใช้ร่วมกัน (shared.css)
+examples/<ชื่อ>/    หน้าคู่มือของแต่ละวิดเจ็ต
 scripts/            สคริปต์ build
 docs/plans/         แผนงานที่ยังไม่ได้ทำ (เช่น ให้ฝังด้วยลิงก์แทนการดาวน์โหลด)
 dist/               ไฟล์ที่ build แล้ว (ไม่ถูก commit)
@@ -88,9 +89,11 @@ dist/               ไฟล์ที่ build แล้ว (ไม่ถูก
 
 1. สร้างโฟลเดอร์ `widgets/<ชื่อ>/` พร้อมไฟล์ `index.ts` (ชื่อใช้ตัวพิมพ์เล็ก ตัวเลข และ `-` เท่านั้น)
 2. อ่านตัวเลือกจาก `document.currentScript.dataset` ตอนที่สคริปต์เริ่มทำงาน
-3. สร้างหน้าตัวอย่างที่ `examples/<ชื่อ>/index.html` แล้วฝังด้วย `<script src="<ชื่อ>.js" defer></script>`
-4. เพิ่มลิงก์ใน `examples/index.html` และในตารางวิดเจ็ตด้านบน
-5. รัน `npm run build` จะได้ `dist/<ชื่อ>.js` โดยอัตโนมัติ ไม่ต้องแก้ config
+3. สร้างหน้าคู่มือที่ `examples/<ชื่อ>/index.html` ใช้ `../shared.css` และ `../copy.js` ร่วมกับหน้าอื่น
+   แล้วฝังด้วย `<script src="<ชื่อ>.js" defer></script>`
+4. เพิ่มการ์ดของวิดเจ็ตในหน้ารวม `examples/index.html` (คัดลอกการ์ด destroyer เป็นแบบ) แก้จำนวนวิดเจ็ต
+   และลิงก์ใน footer และเพิ่มแถวในตารางวิดเจ็ตด้านบน
+5. รัน `npm run build` จะได้ `dist/<ชื่อ>.js` และ `npm run build:site` จะนำขึ้นเว็บให้เอง ไม่ต้องแก้ config
 
 ข้อควรจำ: ห้ามมี dependency ตอนรัน (ทุกอย่างต้อง bundle รวมในไฟล์เดียว), UI ทั้งหมดอยู่ใน Shadow DOM
 และเทสของ `core/` วางไว้ข้างไฟล์ในชื่อ `*.test.ts`

@@ -64,13 +64,18 @@ if (process.env.SKIP_TAG_BUILDS) {
 // GitHub Pages: serve files as they are.
 writeFileSync(join(SITE, '.nojekyll'), '');
 
-// The guide links to the current version; warn if that link can't work yet.
+// Example pages link to the current version; make sure none of them is out of date.
 const version = JSON.parse(readFileSync(resolve(ROOT, 'package.json'), 'utf8')).version;
-const guide = readFileSync(resolve(ROOT, 'examples/destroyer/index.html'), 'utf8');
-if (!guide.includes(`/v${version}/destroyer.js`))
-  throw new Error(
-    `examples/destroyer/index.html does not link to /v${version}/destroyer.js (package.json version)`,
-  );
+const pages = readdirSync(resolve(ROOT, 'examples'), { recursive: true }).filter((f) =>
+  String(f).endsWith('.html'),
+);
+for (const page of pages) {
+  const html = readFileSync(resolve(ROOT, 'examples', String(page)), 'utf8');
+  for (const [, linked] of html.matchAll(/web-toybox\/v(\d+\.\d+\.\d+)\//g)) {
+    if (linked !== version)
+      throw new Error(`examples/${page} links to v${linked}, but package.json is ${version}`);
+  }
+}
 if (!tags.includes(`v${version}`))
   console.warn(
     `\nNote: tag v${version} does not exist yet, so /v${version}/ will 404 until it is tagged and pushed.`,

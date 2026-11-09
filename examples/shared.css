@@ -1,0 +1,362 @@
+/*
+  Shared look for the web-toybox example pages (catalog and widget guides).
+  Direction: playful, exact, arcade. Warm paper neutrals (the page that gets destroyed),
+  the widget's navy for code, one accent. The hard pixel shadow from the game's HUD is the
+  signature and only appears on things you can press.
+*/
+
+:root {
+  color-scheme: light dark;
+
+  /* warm ramp */
+  --bg: #f7f4ee;
+  --card: #fdfbf7;
+  --raised: #efe9df;
+  --ink: #1f1b16;
+  --text-2: #5e554a;
+  --muted: #7b7266;
+  --line: rgb(31 27 22 / 0.1);
+  --line-strong: rgb(31 27 22 / 0.18);
+
+  /* the widget's pink, darkened for contrast on paper */
+  --accent: #c8194a;
+  --accent-hover: #a8133d;
+  --on-accent: #ffffff;
+
+  /* signature: the HUD's hard pixel shadow */
+  --edge: #1f1b16;
+  --press: 3px 3px 0 var(--edge);
+
+  /* code lives in the widget's navy */
+  --code-bg: #1a1c2c;
+  --code-ink: #e6e8f2;
+
+  --sans: 'IBM Plex Sans Thai', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  --pixel: 'Press Start 2P', ui-monospace, monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161513;
+    --card: #1c1a18;
+    --raised: #262421;
+    --ink: #efe9de;
+    --text-2: #aaa398;
+    --muted: #8a847a;
+    --line: rgb(239 233 222 / 0.08);
+    --line-strong: rgb(239 233 222 / 0.16);
+    --accent: #ff3864;
+    --accent-hover: #ff5a7e;
+    --on-accent: #161513;
+    --edge: #3d3830;
+    --code-bg: #0f1018;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+p {
+  margin: 0;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.875em;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: var(--raised);
+  overflow-wrap: anywhere;
+}
+
+.container {
+  width: min(1120px, 100% - 48px);
+  margin-inline: auto;
+}
+
+.narrow {
+  width: min(720px, 100% - 48px);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.px {
+  display: block;
+  image-rendering: pixelated;
+}
+
+/* The DESTROY launcher, as it appears on the page */
+.chip {
+  display: inline-block;
+  padding: 4px 8px;
+  border: 2px solid #1a1c2c;
+  background: #ff3864;
+  color: #fff;
+  font-family: var(--pixel);
+  font-size: 10px;
+  line-height: 1;
+  vertical-align: 2px;
+  text-shadow: 1px 1px 0 #1a1c2c; /* as on the real launcher */
+  box-shadow: 2px 2px 0 #1a1c2c;
+}
+
+/* Buttons: the only chrome that carries the pixel shadow */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 20px;
+  border: 2px solid var(--edge);
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: var(--press);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 150ms var(--ease),
+    transform 150ms var(--ease);
+}
+.btn:hover {
+  background: var(--accent-hover);
+}
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--edge);
+}
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+.btn-secondary {
+  background: var(--card);
+  color: var(--ink);
+}
+.btn-secondary:hover {
+  background: var(--raised);
+}
+.btn-small {
+  height: 36px;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+/* Header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: 64px;
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--pixel);
+  font-size: 12px;
+  text-decoration: none;
+}
+.logo .px {
+  width: 26px;
+}
+.nav-links {
+  display: flex;
+  gap: 24px;
+  margin: 0 0 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--text-2);
+  font-size: 15px;
+  text-decoration: none;
+  transition: color 150ms var(--ease);
+}
+.nav-links a:hover {
+  color: var(--ink);
+}
+
+/* Page intro text */
+.eyebrow {
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 15px;
+}
+.lead {
+  max-width: 36em;
+  margin-top: 20px;
+  color: var(--text-2);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+/* Sections */
+.section {
+  padding-block: 96px;
+}
+.section-tinted {
+  background: var(--raised);
+}
+.section-head {
+  max-width: 44em;
+  margin-bottom: 40px;
+}
+.section-head h2 {
+  font-size: clamp(28px, 3vw, 32px);
+}
+.section-head p {
+  margin-top: 12px;
+  color: var(--text-2);
+}
+
+/* Code blocks */
+pre.code {
+  margin: 16px 0 0;
+  padding: 16px 20px;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: var(--code-bg);
+  color: var(--code-ink);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.steps pre.code {
+  padding: 12px 16px;
+  font-size: 13px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+pre.code code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+  overflow-wrap: normal;
+}
+pre.code .t {
+  color: #2de2e6;
+}
+pre.code .a {
+  color: #ff7a9a;
+}
+pre.code .s {
+  color: #ffd319;
+}
+
+/* Footer */
+.site-footer {
+  padding: 48px 0 calc(48px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  color: var(--text-2);
+  font-size: 15px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+}
+.site-footer .logo {
+  margin-bottom: 12px;
+}
+.site-footer h4 {
+  margin-bottom: 8px;
+  color: var(--ink);
+  font-size: 15px;
+}
+.site-footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.site-footer li + li {
+  margin-top: 4px;
+}
+
+/* Mobile */
+@media (max-width: 760px) {
+  .container,
+  .narrow {
+    width: calc(100% - 32px);
+  }
+  .nav {
+    flex-wrap: wrap;
+    gap: 12px;
+    height: auto;
+    padding-block: 12px;
+  }
+  .nav-links {
+    order: 3;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+  }
+  .nav .btn-small {
+    margin-left: auto;
+  }
+  .lead {
+    font-size: 17px;
+  }
+  .section {
+    padding-block: 64px;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .btn,
+  .nav-links a {
+    transition: none;
+  }
+}
