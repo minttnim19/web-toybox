@@ -26,3 +26,6 @@ coverage/
 # playwright
 test-results/
 playwright-report/
+
+# GitHub Pages output
+site/

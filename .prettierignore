@@ -6,3 +6,4 @@ LICENSE
 coverage/
 test-results/
 playwright-report/
+site/

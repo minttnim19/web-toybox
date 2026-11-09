@@ -1,13 +1,13 @@
 # แผน: ให้ฝังวิดเจ็ตด้วยลิงก์แทนการดาวน์โหลดไฟล์
 
-สถานะ: **พักไว้** — จะกลับมาทำหลังจาก phase 1 ของ destroyer เสร็จครบ
+สถานะ: **ทำแล้ว (2026-11-10)** — เหลือขั้นที่ต้องทำบน GitHub เอง (ดูท้ายไฟล์)
 
 ## เป้าหมาย
 
 ผู้ใช้ไม่ต้องดาวน์โหลด `destroyer.js` ไปอัปโหลดเอง แค่ก๊อปแท็กนี้ไปวาง:
 
 ```html
-<script src="https://<ชื่อ>.github.io/web-toybox/destroyer.js" defer></script>
+<script src="https://minttnim19.github.io/web-toybox/v0.1.0/destroyer.js" defer></script>
 ```
 
 ตัววิดเจ็ตทำงานข้ามโดเมนได้อยู่แล้ว (อ่าน `data-*` จาก `document.currentScript`) จึงไม่ต้องแก้โค้ดวิดเจ็ต
@@ -29,19 +29,21 @@
 - ลิงก์ล็อกเวอร์ชัน `/v0.1.0/destroyer.js` — ไม่เปลี่ยนจนกว่าเจ้าของเว็บจะเปลี่ยนลิงก์เอง
 - เสนอให้มีทั้งสองแบบ: คู่มือแนะนำลิงก์ล็อกเวอร์ชันสำหรับเว็บจริง
 
-## งานที่ต้องทำ
+## สิ่งที่ตัดสินใจแล้ว
 
-- [ ] สร้าง repo บน GitHub และ push (เจ้าของโปรเจกต์ทำ หรือใช้ `gh repo create`)
-- [ ] เพิ่ม `.github/workflows/pages.yml`: `npm ci` → `npm run lint` → `npm test` → `npm run build` → deploy
-- [ ] build หน้าคู่มือ (`examples/`) ไปพร้อมกัน ให้ `https://<ชื่อ>.github.io/web-toybox/destroyer/` เปิดได้
-- [ ] ทำลิงก์ล็อกเวอร์ชัน: ตอน push tag `v*` ให้คัดลอก `dist/*.js` ไปไว้ที่ `/v<เวอร์ชัน>/`
-- [ ] เปิด Pages ใน Settings → Pages → Source: GitHub Actions
-- [ ] หน้าคู่มือ: เปลี่ยนปุ่ม "ดาวน์โหลด" และขั้นตอนติดตั้ง ให้เหลือ "ก๊อปแท็กนี้ไปวาง" พร้อมลิงก์จริง
-- [ ] ฟอร์มสร้างโค้ด: ใช้ลิงก์จริงเป็นค่าเริ่มต้นของช่อง "ที่อยู่ไฟล์"
-- [ ] README: เพิ่มวิธีฝังด้วยลิงก์ และอธิบายลิงก์ล่าสุดกับลิงก์ล็อกเวอร์ชัน
+- repo: `minttnim19/web-toybox` (public) บน GitHub Pages, โดเมน `minttnim19.github.io`
+- มีทั้งลิงก์ล่าสุด `/destroyer.js` และลิงก์ล็อกเวอร์ชัน `/vX.Y.Z/destroyer.js` (คู่มือแนะนำแบบล็อกเวอร์ชัน)
+- ไม่ใช้โดเมนของตัวเอง
 
-## คำถามที่ต้องตัดสินใจตอนกลับมาทำ
+## งานที่ทำแล้ว
 
-1. ชื่อบัญชีหรือองค์กร GitHub และชื่อ repo (ใช้สร้าง URL)
-2. จะมีลิงก์ล็อกเวอร์ชันด้วยไหม หรือใช้ลิงก์ล่าสุดอย่างเดียว
-3. จะใช้โดเมนของตัวเองไหม (เช่น `toybox.example.com`)
+- [x] `.github/workflows/pages.yml`: `npm ci` → lint → unit test → e2e → `npm run build:site` → deploy (ทุก push ขึ้น `main`)
+- [x] `scripts/build-site.mjs`: วิดเจ็ตล่าสุดที่ root, build ทุก tag `v*` แยกโฟลเดอร์, คัดลอกหน้าคู่มือ
+- [x] หน้าคู่มือ: ขั้นตอนติดตั้งเหลือ "คัดลอกแท็กนี้" พร้อมลิงก์จริงและปุ่มคัดลอก, ฟอร์มสร้างโค้ดใช้ลิงก์จริงเป็นค่าเริ่มต้น, FAQ เรื่องลิงก์ล่าสุดกับลิงก์ล็อกเวอร์ชัน
+- [x] README: วิธีฝังด้วยลิงก์และวิธีออกเวอร์ชันใหม่
+
+## ที่ต้องทำบน GitHub (ครั้งแรกครั้งเดียว)
+
+- [ ] ตั้ง repo เป็น public (Settings → General → Danger Zone → Change visibility)
+- [ ] เปิด Pages: Settings → Pages → Source: **GitHub Actions**
+- [ ] สร้าง tag `v0.1.0` แล้ว push: `git tag v0.1.0 && git push origin main --tags`

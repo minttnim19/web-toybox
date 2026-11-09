@@ -52,7 +52,7 @@
           <li><a href="#play">วิธีเล่น</a></li>
           <li><a href="#faq">คำถาม</a></li>
         </ul>
-        <a class="btn btn-small" href="destroyer.js" download>ดาวน์โหลด</a>
+        <a class="btn btn-small" href="#install">คัดลอกโค้ด</a>
       </nav>
     </header>
 
@@ -283,37 +283,45 @@
       <section id="install" class="section section-tinted">
         <div class="container">
           <div class="section-head">
-            <h2>ติดตั้งใน 4 ขั้นตอน</h2>
-            <p>ใช้ได้กับเว็บทุกแบบที่ใส่แท็ก <code>&lt;script&gt;</code> ได้</p>
+            <h2>ติดตั้งด้วยบรรทัดเดียว</h2>
+            <p>
+              วางแท็กนี้ไว้ก่อนปิด <code>&lt;/body&gt;</code> ของหน้าไหนก็ได้
+              ไม่ต้องดาวน์โหลดหรืออัปโหลดไฟล์เอง
+            </p>
+          </div>
+          <div class="install-snippet">
+            <pre
+              class="code"
+              id="install-code"
+            ><code><span class="t">&lt;script</span> <span class="a">src</span>=<span class="s">"https://minttnim19.github.io/web-toybox/v0.1.0/destroyer.js"</span> <span class="a">defer</span><span class="t">&gt;&lt;/script&gt;</span></code></pre>
+            <button class="btn" type="button" data-copy="install-code">คัดลอก</button>
           </div>
           <ol class="steps">
             <li>
-              <h3>ดาวน์โหลดไฟล์</h3>
+              <h3>คัดลอกแท็กด้านบน</h3>
               <p>
-                กดปุ่ม <a href="destroyer.js" download>ดาวน์โหลด</a> หรือ build เองจาก repo
-                แล้วจะได้ไฟล์ <code>dist/destroyer.js</code>
-              </p>
-              <pre class="code"><code>npm install
-npm run build</code></pre>
-            </li>
-            <li>
-              <h3>อัปโหลดขึ้นเว็บ</h3>
-              <p>
-                วางไฟล์ไว้ที่เดียวกับหน้าเว็บ หรือที่ไหนก็ได้ที่เปิดผ่าน URL ได้ เช่น
-                <code>/js/destroyer.js</code>
+                ลิงก์นี้ล็อกไว้ที่เวอร์ชัน 0.1.0 เว็บของคุณจะได้ไฟล์เดิมเสมอ
+                แม้จะมีเวอร์ชันใหม่ออกมา
               </p>
             </li>
             <li>
-              <h3>วางแท็ก script</h3>
-              <p>ใส่บรรทัดนี้ไว้ก่อนปิด <code>&lt;/body&gt;</code> ปรับ path ให้ตรงกับที่อัปโหลด</p>
-              <pre
-                class="code"
-              ><code><span class="t">&lt;script</span> <span class="a">src</span>=<span class="s">"/js/destroyer.js"</span> <span class="a">defer</span><span class="t">&gt;&lt;/script&gt;</span></code></pre>
+              <h3>วางก่อนปิด &lt;/body&gt;</h3>
+              <p>
+                ใช้ได้กับเว็บทุกแบบที่ใส่แท็ก script ได้ ทั้ง HTML ธรรมดา, WordPress
+                และเว็บที่ทำด้วยเฟรมเวิร์ก
+              </p>
             </li>
             <li>
               <h3>เปิดหน้าเว็บ</h3>
               <p>
                 ปุ่ม <span class="chip">DESTROY</span> จะโผล่ที่มุมขวาล่าง กดแล้วเริ่มเล่นได้ทันที
+              </p>
+            </li>
+            <li>
+              <h3>อยากเก็บไฟล์ไว้เอง</h3>
+              <p>
+                <a href="destroyer.js" download>ดาวน์โหลด destroyer.js</a> ขึ้นเว็บของคุณ
+                แล้วเปลี่ยน <code>src</code> เป็นที่อยู่ของไฟล์นั้น
               </p>
             </li>
           </ol>
@@ -366,8 +374,14 @@ npm run build</code></pre>
         <form class="generator" id="generator" action="#">
           <div class="generator-fields">
             <h3>สร้างโค้ดของคุณ</h3>
-            <label for="gen-src">ที่อยู่ไฟล์</label>
-            <input id="gen-src" name="src" type="text" value="destroyer.js" spellcheck="false" />
+            <label for="gen-src">ลิงก์ของไฟล์</label>
+            <input
+              id="gen-src"
+              name="src"
+              type="text"
+              value="https://minttnim19.github.io/web-toybox/v0.1.0/destroyer.js"
+              spellcheck="false"
+            />
             <label for="gen-position">มุมของปุ่ม</label>
             <select id="gen-position" name="position">
               <option value="bottom-right">ขวาล่าง (ค่าเริ่มต้น)</option>
@@ -553,6 +567,15 @@ npm run build</code></pre>
               </p>
             </details>
             <details>
+              <summary>ควรใช้ลิงก์ล็อกเวอร์ชัน หรือลิงก์ล่าสุด</summary>
+              <p>
+                ลิงก์ที่มีเลขเวอร์ชัน เช่น <code>/v0.1.0/destroyer.js</code> ไม่เปลี่ยนแปลงตลอดไป
+                เหมาะกับเว็บที่ใช้งานจริง ถ้าอยากได้ของใหม่ทุกครั้งที่ออกเวอร์ชัน ใช้
+                <code>https://minttnim19.github.io/web-toybox/destroyer.js</code> แทน
+                แต่ถ้าเวอร์ชันใหม่มีปัญหา เว็บของคุณก็จะได้รับผลด้วย
+              </p>
+            </details>
+            <details>
               <summary>ทำให้เว็บช้าลงไหม</summary>
               <p>
                 ไฟล์โหลดแบบ <code>defer</code> จึงไม่บล็อกการแสดงผล
@@ -626,7 +649,7 @@ npm run build</code></pre>
     </footer>
 
     <script>
-      // Embed-code generator for the options section.
+      // Embed-code generator for the options section, and copy buttons.
       (function () {
         var form = document.getElementById('generator');
         var out = document.querySelector('#gen-output code');
@@ -634,7 +657,8 @@ npm run build</code></pre>
           return s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
         };
         var code = function () {
-          var src = form.src.value.trim() || 'destroyer.js';
+          var src =
+            form.src.value.trim() || 'https://minttnim19.github.io/web-toybox/v0.1.0/destroyer.js';
           var parts = ['<script src="' + src + '"'];
           if (form.position.value !== 'bottom-right')
             parts.push('data-position="' + form.position.value + '"');
@@ -673,6 +697,29 @@ npm run build</code></pre>
           } else done('คัดลอกไม่สำเร็จ');
         });
         render();
+
+        // "Copy" buttons next to code blocks: data-copy="<id of the <pre>>".
+        document.querySelectorAll('[data-copy]').forEach(function (button) {
+          button.addEventListener('click', function () {
+            var text = document.getElementById(button.dataset.copy).textContent;
+            var label = button.textContent;
+            var show = function (t) {
+              button.textContent = t;
+              setTimeout(function () {
+                button.textContent = label;
+              }, 1500);
+            };
+            if (!navigator.clipboard) return show('คัดลอกไม่สำเร็จ');
+            navigator.clipboard.writeText(text).then(
+              function () {
+                show('คัดลอกแล้ว');
+              },
+              function () {
+                show('คัดลอกไม่สำเร็จ');
+              },
+            );
+          });
+        });
       })();
     </script>
 

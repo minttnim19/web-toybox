@@ -29,11 +29,20 @@ npm run format  # จัดรูปแบบโค้ดด้วย Prettier
 
 ## วิธีฝังวิดเจ็ตลงเว็บ
 
-นำไฟล์จาก `dist/` ไปวางบนเว็บของคุณ แล้วเพิ่มบรรทัดนี้ในหน้า HTML
+วางบรรทัดนี้ไว้ก่อนปิด `</body>` ไม่ต้องดาวน์โหลดไฟล์เอง
 
 ```html
-<script src="destroyer.js" defer></script>
+<script src="https://minttnim19.github.io/web-toybox/v0.1.0/destroyer.js" defer></script>
 ```
+
+| ลิงก์                                                         | ใช้เมื่อ                                                           |
+| ------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `https://minttnim19.github.io/web-toybox/v0.1.0/destroyer.js` | เว็บที่ใช้งานจริง: ล็อกเวอร์ชันไว้ ไฟล์ไม่เปลี่ยนแม้มีเวอร์ชันใหม่ |
+| `https://minttnim19.github.io/web-toybox/destroyer.js`        | อยากได้ของใหม่ล่าสุดเสมอ (อัปเดตทุกครั้งที่ push ขึ้น `main`)      |
+
+อยากเก็บไฟล์ไว้บนเว็บตัวเองก็ได้: รัน `npm run build` แล้วนำ `dist/destroyer.js` ไปวาง จากนั้นใช้ `src="destroyer.js"`
+
+คู่มือพร้อมตัวอย่างให้ลองเล่น: <https://minttnim19.github.io/web-toybox/destroyer/>
 
 ตั้งค่าได้ผ่าน data-attribute บนแท็ก `<script>`
 
@@ -61,6 +70,19 @@ dist/               ไฟล์ที่ build แล้ว (ไม่ถูก
 - `platform/` — โค้ดที่คุยกับเบราว์เซอร์ เช่น สแกนหน้าเว็บ รับ input เก็บ localStorage
 - `render/` — วาดภาพลง canvas
 - `ui/` — HUD และเมนูใน Shadow DOM
+
+## เผยแพร่ (GitHub Pages)
+
+ทุกครั้งที่ push ขึ้น `main` GitHub Actions ([.github/workflows/pages.yml](.github/workflows/pages.yml))
+จะรัน lint, unit test, e2e แล้ว build เว็บด้วย `npm run build:site` และขึ้น GitHub Pages
+
+ออกเวอร์ชันใหม่:
+
+1. แก้เลข `version` ใน `package.json` และลิงก์ `/vX.Y.Z/` ในหน้าคู่มือกับ README (`build:site` จะเตือนถ้าไม่ตรงกัน)
+2. commit แล้วสร้าง tag: `git tag vX.Y.Z`
+3. push ทั้ง branch และ tag: `git push origin main --tags`
+
+ลิงก์ล็อกเวอร์ชัน `/vX.Y.Z/` ถูก build จาก tag นั้นเสมอ จึงไม่เปลี่ยนแม้โค้ดบน `main` จะเปลี่ยน
 
 ## เพิ่มวิดเจ็ตใหม่
 

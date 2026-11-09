@@ -504,6 +504,21 @@ code {
   font-size: 15px;
 }
 
+/* The one line to copy */
+.install-snippet {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 48px;
+}
+.install-snippet pre.code {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
 /* Install steps: a numbered row, not more cards */
 .steps {
   display: grid;
@@ -852,6 +867,13 @@ kbd {
   .generator,
   .play-grid {
     grid-template-columns: 1fr;
+  }
+  .install-snippet {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .install-snippet .btn {
+    align-self: flex-start;
   }
   .play-grid {
     gap: 40px;
