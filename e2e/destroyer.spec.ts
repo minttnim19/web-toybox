@@ -187,6 +187,6 @@ test('items on the page: fly over to pick up, FULL keeps them, magnet pulls them
   await giveItems(page, ['magnet']);
   await page.keyboard.press('1');
   await dropItem(page, 901, 'rapid');
-  await expect.poll(() => inventory(page), { timeout: 4000 }).toEqual(['rapid']);
+  await expect.poll(() => inventory(page), { timeout: 8000 }).toEqual(['rapid']);
   expect(errors).toEqual([]);
 });

@@ -13,12 +13,12 @@ test('the catalog lists destroyer, copies its embed code and links to its guide'
   await expect(page.locator('.widget')).toHaveCount(1);
   await expect(page.locator('web-toybox-destroyer')).toHaveCount(0);
 
-  await page.locator('.widget [data-copy]').click();
+  await page.locator('.widget [data-copy-text]').click();
   const copied = await page.evaluate(() => navigator.clipboard.readText());
   expect(copied).toBe(
     '<script src="https://minttnim19.github.io/web-toybox/v0.1.0/destroyer.js" defer></script>',
   );
-  await expect(page.locator('.widget [data-copy]')).toHaveText('คัดลอกแล้ว');
+  await expect(page.locator('.widget [data-copy-text]')).toHaveText('คัดลอกแล้ว');
 
   await page.locator('.widget .btn', { hasText: 'ดูคู่มือ' }).click();
   await expect(page).toHaveURL(/\/destroyer\/$/);

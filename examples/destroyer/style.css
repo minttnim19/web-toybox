@@ -263,7 +263,7 @@
   min-width: 0;
   margin: 0;
   white-space: pre-wrap;
-  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 /* Install steps: a numbered row, not more cards */
@@ -385,7 +385,7 @@ td:nth-child(2) {
 .generator-output pre.code {
   margin: 0;
   white-space: pre-wrap;
-  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 .generator-output .btn {
   align-self: flex-start;
