@@ -2,9 +2,10 @@
 // active buffs and the 3 item slots. Values are pushed in every frame; the DOM is only
 // touched when something changed.
 import { h, setClass, setText } from '../../../shared/hud';
-import { ITEMS, MAX_INVENTORY, type ItemKind } from '../core/items';
+import { MAX_INVENTORY, type ItemKind } from '../core/items';
 import type { Buff } from '../core/state';
 import { itemIcon } from './icons';
+import { TEXT } from './strings';
 
 export interface HudHandlers {
   onQuit(): void;
@@ -59,13 +60,13 @@ export class Hud {
     this.timeBox = h(
       'div',
       { class: 'box time' },
-      h('span', { class: 'label', text: 'TIME' }),
+      h('span', { class: 'label', text: TEXT.hud.time }),
       this.time,
     );
     this.comboBox = h(
       'div',
       { class: 'box combo' },
-      h('span', { class: 'label', text: 'COMBO' }),
+      h('span', { class: 'label', text: TEXT.hud.combo }),
       this.combo,
     );
     this.mute = h('button', {
@@ -80,19 +81,24 @@ export class Hud {
       h(
         'div',
         { class: 'box progress' },
-        h('span', { class: 'label', text: 'DESTROYED' }),
+        h('span', { class: 'label', text: TEXT.hud.destroyed }),
         this.percent,
         h('div', { class: 'bar' }, this.bar),
       ),
       this.timeBox,
-      h('div', { class: 'box score' }, h('span', { class: 'label', text: 'SCORE' }), this.score),
+      h(
+        'div',
+        { class: 'box score' },
+        h('span', { class: 'label', text: TEXT.hud.score }),
+        this.score,
+      ),
       this.comboBox,
       h('div', { class: 'spacer' }),
       this.mute,
       h('button', {
         class: 'px-btn th',
-        text: 'ออก',
-        attrs: { type: 'button', title: 'ออกจากเกมและคืนหน้าเว็บ (Esc)' },
+        text: TEXT.hud.quit,
+        attrs: { type: 'button', title: TEXT.hud.quitTitle },
         on: { click: () => handlers.onQuit() },
       }),
     );
@@ -105,7 +111,7 @@ export class Hud {
       );
       this.slots.push(slot);
     }
-    this.fullTag = h('span', { class: 'full', text: 'FULL' });
+    this.fullTag = h('span', { class: 'full', text: TEXT.hud.full });
     this.buffs = h('div', { class: 'buffs' });
     this.bottom = h(
       'div',
@@ -134,7 +140,7 @@ export class Hud {
     setText(this.score, view.score.toLocaleString('en-US'));
     this.comboBox.hidden = view.combo < 2;
     setText(this.combo, `${view.combo} x${view.multiplier}`);
-    setText(this.mute, view.muted ? 'SOUND OFF' : 'SOUND ON');
+    setText(this.mute, view.muted ? TEXT.hud.soundOff : TEXT.hud.soundOn);
     this.mute.setAttribute('aria-pressed', String(view.muted));
 
     const inventoryKey = view.inventory.join(',');
@@ -145,7 +151,7 @@ export class Hud {
         const key = slot.firstElementChild!;
         slot.replaceChildren(key);
         if (kind) slot.append(itemIcon(kind));
-        slot.title = kind ? `${ITEMS[kind].name} (${i + 1})` : 'ช่องว่าง';
+        slot.title = kind ? `${TEXT.items[kind].name} (${i + 1})` : TEXT.hud.emptySlot;
         slot.setAttribute('aria-label', slot.title);
       });
     }

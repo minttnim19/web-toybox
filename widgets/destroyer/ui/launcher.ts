@@ -1,5 +1,6 @@
 // The floating "💥 DESTROY" button that opens the game.
 import type { LauncherPosition } from '../options';
+import { TEXT } from './strings';
 
 export class Launcher {
   readonly el: HTMLButtonElement;
@@ -9,8 +10,8 @@ export class Launcher {
     this.el.type = 'button';
     this.el.className = 'px-btn launcher';
     this.el.dataset.pos = position;
-    this.el.textContent = '💥 DESTROY';
-    this.el.title = 'เล่นเกมทำลายหน้าเว็บนี้';
+    this.el.textContent = TEXT.launcher.label;
+    this.el.title = TEXT.launcher.title;
     this.el.addEventListener('click', onClick);
     root.append(this.el);
   }

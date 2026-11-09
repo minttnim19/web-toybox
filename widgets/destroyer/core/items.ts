@@ -1,5 +1,5 @@
-// Item definitions. To add an item: add its kind to ItemKind, then a definition to ITEMS
-// (and a sprite in render/sprites.ts). Phase 2 items that affect other players can add
+// Item definitions. To add an item: add its kind to ItemKind and a definition to ITEMS,
+// then its text in ui/strings.ts and its sprite in render/sprites.ts. Phase 2 items that affect other players can add
 // new effect helpers to ItemContext without changing the existing items.
 import type { PlayerId, TargetId } from './state';
 
@@ -39,10 +39,6 @@ export interface ItemContext {
 
 export interface ItemDef {
   kind: ItemKind;
-  /** Thai name shown in the menu and HUD. */
-  name: string;
-  /** Short Thai description for the menu. */
-  description: string;
   targeting: ItemTargeting;
   /** Relative chance of this kind when an item drops. */
   weight: number;
@@ -52,32 +48,24 @@ export interface ItemDef {
 export const ITEMS: Readonly<Record<ItemKind, ItemDef>> = {
   bomb: {
     kind: 'bomb',
-    name: 'ระเบิด',
-    description: 'ทำลายหนักทุกอย่างรอบตัวยาน',
     targeting: { shape: 'circle', radius: BOMB_RADIUS },
     weight: 3,
     use: (ctx) => ctx.damage(ctx.targetIds, BOMB_DAMAGE),
   },
   rapid: {
     kind: 'rapid',
-    name: 'ยิงรัว',
-    description: `ยิงเร็วขึ้น ${RAPID_FIRE_RATE} เท่า ${RAPID_DURATION} วินาที`,
     targeting: { shape: 'none' },
     weight: 3,
     use: (ctx) => ctx.addBuff('rapid', RAPID_DURATION),
   },
   laser: {
     kind: 'laser',
-    name: 'เลเซอร์',
-    description: 'ลำแสงกากบาททะลุทุกอย่างที่ขวาง',
     targeting: { shape: 'cross', thickness: LASER_THICKNESS },
     weight: 2,
     use: (ctx) => ctx.damage(ctx.targetIds, LASER_DAMAGE),
   },
   magnet: {
     kind: 'magnet',
-    name: 'แม่เหล็ก',
-    description: `ดูดไอเทมใกล้ ๆ เข้าหายาน ${MAGNET_DURATION} วินาที`,
     targeting: { shape: 'none' },
     weight: 2,
     use: (ctx) => ctx.addBuff('magnet', MAGNET_DURATION),

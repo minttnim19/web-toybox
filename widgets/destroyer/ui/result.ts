@@ -2,6 +2,7 @@
 import { h } from '../../../shared/hud';
 import type { EndReason } from '../core/state';
 import { formatTime } from './hud';
+import { TEXT } from './strings';
 
 export interface ResultHandlers {
   onReplay(): void;
@@ -33,13 +34,13 @@ export class ResultScreen {
   ) {
     this.replay = h('button', {
       class: 'px-btn th pink',
-      text: 'เล่นอีกครั้ง',
+      text: TEXT.result.replay,
       attrs: { type: 'button' },
       on: { click: () => handlers.onReplay() },
     });
     this.panel = h('div', {
       class: 'panel result th',
-      attrs: { role: 'dialog', 'aria-modal': 'true', 'aria-label': 'ผลการเล่น' },
+      attrs: { role: 'dialog', 'aria-modal': 'true', 'aria-label': TEXT.result.dialogLabel },
     });
     this.el = h('div', { class: 'backdrop' }, this.panel);
     this.el.hidden = true;
@@ -53,7 +54,7 @@ export class ResultScreen {
     this.panel.replaceChildren(
       h('h2', {
         class: view.reason === 'clear' ? 'clear' : 'timeup',
-        text: view.reason === 'clear' ? 'CLEAR!' : 'TIME UP!',
+        text: TEXT.result.title[view.reason],
       }),
       h(
         'table',
@@ -61,15 +62,15 @@ export class ResultScreen {
         h(
           'tbody',
           {},
-          row('คะแนน', num(view.score), undefined, 'total'),
-          row('ทำลายไป', `${Math.floor(view.destroyed * 100)}%`),
-          row('เวลาที่ใช้', formatTime(view.timeUsed)),
-          row('คอมโบสูงสุด', num(view.maxCombo)),
-          row('โบนัสเวลา', `+${num(view.timeBonus)}`),
+          row(TEXT.result.score, num(view.score), undefined, 'total'),
+          row(TEXT.result.destroyed, `${Math.floor(view.destroyed * 100)}%`),
+          row(TEXT.result.timeUsed, formatTime(view.timeUsed)),
+          row(TEXT.result.maxCombo, num(view.maxCombo)),
+          row(TEXT.result.timeBonus, `+${num(view.timeBonus)}`),
           row(
-            'สถิติสูงสุด',
+            TEXT.result.best,
             num(view.best),
-            view.isNewBest ? h('span', { class: 'new px', text: 'NEW!' }) : undefined,
+            view.isNewBest ? h('span', { class: 'new px', text: TEXT.result.newBest }) : undefined,
           ),
         ),
       ),
@@ -79,7 +80,7 @@ export class ResultScreen {
         this.replay,
         h('button', {
           class: 'px-btn th light',
-          text: 'กลับไปที่หน้าเว็บ',
+          text: TEXT.result.exit,
           attrs: { type: 'button' },
           on: { click: () => this.handlers.onExit() },
         }),

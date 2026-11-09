@@ -1,8 +1,9 @@
 // Start menu: short how-to, the items, round length and the start button.
 import { h } from '../../../shared/hud';
-import { ITEMS, ITEM_KINDS } from '../core/items';
+import { ITEM_KINDS } from '../core/items';
 import { DEFAULT_DURATION, DURATION_CHOICES } from '../core/rules';
 import { itemIcon } from './icons';
+import { TEXT } from './strings';
 
 export interface MenuHandlers {
   onStart(duration: number): void;
@@ -19,7 +20,7 @@ export class Menu {
     for (const seconds of DURATION_CHOICES) {
       const button = h('button', {
         class: 'px-btn th',
-        text: `${seconds / 60} นาที`,
+        text: TEXT.menu.minutes(seconds / 60),
         attrs: { type: 'button', 'aria-pressed': 'false' },
         on: { click: () => this.select(seconds) },
       });
@@ -29,7 +30,7 @@ export class Menu {
 
     this.startButton = h('button', {
       class: 'px-btn th pink start',
-      text: 'เริ่มเลย!',
+      text: TEXT.menu.start,
       attrs: { type: 'button' },
       on: { click: () => handlers.onStart(this.duration) },
     });
@@ -38,24 +39,17 @@ export class Menu {
       'div',
       {
         class: 'panel menu th',
-        attrs: { role: 'dialog', 'aria-modal': 'true', 'aria-label': 'เมนูเกม' },
+        attrs: { role: 'dialog', 'aria-modal': 'true', 'aria-label': TEXT.menu.dialogLabel },
       },
       h('button', {
         class: 'px-btn light close',
         text: 'X',
-        attrs: { type: 'button', 'aria-label': 'ปิด' },
+        attrs: { type: 'button', 'aria-label': TEXT.menu.close },
         on: { click: () => handlers.onClose() },
       }),
-      h('h2', { text: 'DESTROY!' }),
-      h(
-        'ul',
-        { class: 'howto' },
-        h('li', { text: 'ขยับเมาส์หรือลากนิ้ว ยานจะบินตาม และยิงสิ่งที่อยู่ใกล้ ๆ เอง' }),
-        h('li', { text: 'กล่องใหญ่ต้องทำลายของข้างในให้หมดก่อน ถึงจะยิงเข้า' }),
-        h('li', { text: 'บินไปเก็บไอเทม แล้วกด 1–3 เพื่อใช้ (มือถือ: แตะช่องไอเทม)' }),
-        h('li', { text: 'พายานไปใกล้ขอบจอบนหรือล่างเพื่อเลื่อนหน้า' }),
-      ),
-      h('p', { class: 'section-label', text: 'ITEMS' }),
+      h('h2', { text: TEXT.menu.title }),
+      h('ul', { class: 'howto' }, ...TEXT.menu.howTo.map((line) => h('li', { text: line }))),
+      h('p', { class: 'section-label', text: TEXT.menu.itemsLabel }),
       h(
         'ul',
         { class: 'item-list' },
@@ -64,11 +58,11 @@ export class Menu {
             'li',
             {},
             itemIcon(kind),
-            h('span', {}, h('b', { text: ITEMS[kind].name }), ITEMS[kind].description),
+            h('span', {}, h('b', { text: TEXT.items[kind].name }), TEXT.items[kind].description),
           ),
         ),
       ),
-      h('p', { class: 'section-label', text: 'TIME' }),
+      h('p', { class: 'section-label', text: TEXT.menu.timeLabel }),
       h('div', { class: 'choices' }, ...this.choices),
       this.startButton,
     );

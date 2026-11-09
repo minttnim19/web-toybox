@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import { LocalAuthority, type AuthorityEvent } from './authority';
 import {
   BOMB_DAMAGE,
-  ITEMS,
   ITEM_KINDS,
   ITEM_LIFETIME,
   LASER_DAMAGE,
@@ -134,12 +133,5 @@ describe('using items', () => {
     const { auth, events } = setup([spec(0, null)]);
     auth.requestUseItem({ playerId: LOCAL_PLAYER, slot: 2, targetIds: [0] });
     expect(events).toHaveLength(0);
-  });
-
-  it('every item has a Thai name and description', () => {
-    for (const kind of ITEM_KINDS) {
-      expect(ITEMS[kind].name).toMatch(/[฀-๿]/);
-      expect(ITEMS[kind].description).toMatch(/[฀-๿]/);
-    }
   });
 });

@@ -56,6 +56,7 @@ import { Hud } from './ui/hud';
 import { Launcher } from './ui/launcher';
 import { Menu } from './ui/menu';
 import { ResultScreen } from './ui/result';
+import { TEXT } from './ui/strings';
 import { WIDGET_CSS } from './ui/styles';
 
 type Phase = 'idle' | 'menu' | 'countdown' | 'playing' | 'ended';
@@ -71,12 +72,6 @@ const COUNTDOWN_STEP_TIME = 0.8; // s per step
 const PICKUP_RADIUS = 26; // px between ship and item box
 const MAGNET_SPEED = 520; // px/s items fly toward the ship
 const RESULT_DELAY = 0.9; // s between the end of the round and the result screen
-const ITEM_LABEL: Record<ItemKind, string> = {
-  bomb: 'BOMB',
-  rapid: 'RAPID!',
-  laser: 'LASER',
-  magnet: 'MAGNET!',
-};
 
 const rand = (min: number, max: number) => min + Math.random() * (max - min);
 
@@ -507,7 +502,7 @@ export class DestroyerGame {
       if (player.inventory.length >= MAX_INVENTORY) {
         if (this.time - presence.fullShownAt > 1) {
           presence.fullShownAt = this.time;
-          this.renderer.addText(pos.x, pos.y - 16, 'FULL', PALETTE.pink, 8);
+          this.renderer.addText(pos.x, pos.y - 16, TEXT.hud.full, PALETTE.pink, 8);
           this.sfx.play('full');
         }
       } else {
@@ -614,7 +609,8 @@ export class DestroyerGame {
         this.items.delete(event.itemId);
         if (event.playerId !== LOCAL_PLAYER) break;
         this.sfx.play('pickup');
-        if (pos) this.renderer.addText(pos.x, pos.y - 12, ITEM_LABEL[event.kind], PALETTE.cyan, 8);
+        if (pos)
+          this.renderer.addText(pos.x, pos.y - 12, TEXT.items[event.kind].label, PALETTE.cyan, 8);
         break;
       }
       case 'itemExpire':
@@ -646,7 +642,7 @@ export class DestroyerGame {
         this.sfx.play('laser');
         break;
       default:
-        this.renderer.addText(ship.x, ship.y - 24, ITEM_LABEL[kind], PALETTE.cyan, 8);
+        this.renderer.addText(ship.x, ship.y - 24, TEXT.items[kind].label, PALETTE.cyan, 8);
         this.sfx.play('powerup');
     }
   }
