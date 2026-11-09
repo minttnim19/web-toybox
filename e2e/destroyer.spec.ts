@@ -24,17 +24,24 @@ test('plays a full round on the guide page and restores it exactly', async ({ pa
   await expect(page.locator('.hud-top')).toBeVisible();
 
   // The ship shoots what it flies over.
-  await sweep(page, [
-    [300, 330],
-    [500, 360],
-    [250, 520],
-    [600, 520],
-    [900, 420],
-  ]);
-  const destroyed = await page.evaluate(
-    () => window.__webToyboxDestroyer.authority.state.destroyedCount,
+  // Hover small, low-HP elements found by selector (so layout changes don't break this),
+  // staying clear of the top/bottom edges where the ship would scroll the page instead.
+  const points = await page.evaluate(() =>
+    [...document.querySelectorAll('.m-logo, .m-link, .m-line, .eyebrow, .lead')]
+      .map((el) => {
+        const r = el.getBoundingClientRect();
+        return [r.x + r.width / 2, r.y + r.height / 2] as [number, number];
+      })
+      .filter(([, y]) => y > 120 && y < innerHeight - 120),
   );
-  expect(destroyed).toBeGreaterThan(0);
+  expect(points.length).toBeGreaterThan(3);
+  await sweep(page, points, 3);
+  // The ship keeps firing where it stopped; frame rate varies under load, so poll.
+  await expect
+    .poll(() => page.evaluate(() => window.__webToyboxDestroyer.authority.state.destroyedCount), {
+      timeout: 10_000,
+    })
+    .toBeGreaterThan(0);
 
   // Links don't navigate while playing, and clicking the page never uses an item.
   await giveItems(page, ['rapid', 'magnet']);

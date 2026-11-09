@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;700&family=Press+Start+2P&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./style.css" />
@@ -22,23 +22,27 @@
       <p>
         หน้านี้ฝัง destroyer ไว้จริงด้วย
         <code>&lt;script src="destroyer.js" defer&gt;&lt;/script&gt;</code>
-        — กด <b>💥 DESTROY</b> มุมขวาล่างเพื่อลองทำลายคู่มือนี้ได้เลย
+        กดปุ่ม <span class="chip">DESTROY</span> มุมขวาล่างเพื่อลองทำลายคู่มือนี้
       </p>
     </aside>
 
     <header class="site-header">
       <nav class="nav container" aria-label="เมนูหลัก">
         <a class="logo" href="#top" aria-label="destroyer หน้าแรก">
-          <svg
-            viewBox="0 0 13 11"
-            width="26"
-            height="22"
-            aria-hidden="true"
-            shape-rendering="crispEdges"
-          >
-            <path fill="#1a1c2c" d="M6 0h1v1h1v2h1v2h1v1h1v1h1v1h1v3H0V8h1V7h1V6h1V5h1V3h1V1h1z" />
-            <path fill="#2de2e6" d="M6 1h1v2h1v3h1v4H4V6h1V3h1z" />
-            <path fill="#ff3864" d="M6 4h1v2H6zM1 8h2v1H1zM10 8h2v1h-2zM2 7h1v1H2zM10 7h1v1h-1z" />
+          <svg class="px" viewBox="0 0 13 11" shape-rendering="crispEdges" aria-hidden="true">
+            <path
+              fill="#1a1c2c"
+              d="M6 0h1v1h-1zM5 1h1v1h-1zM7 1h1v1h-1zM5 2h1v1h-1zM7 2h1v1h-1zM4 3h1v1h-1zM8 3h1v1h-1zM4 4h1v1h-1zM8 4h1v1h-1zM3 5h1v1h-1zM9 5h1v1h-1zM2 6h2v1h-2zM9 6h2v1h-2zM1 7h1v1h-1zM3 7h1v1h-1zM9 7h1v1h-1zM11 7h1v1h-1zM0 8h1v1h-1zM3 8h1v1h-1zM9 8h1v1h-1zM12 8h1v1h-1zM0 9h1v1h-1zM3 9h2v1h-2zM8 9h2v1h-2zM12 9h1v1h-1zM0 10h3v1h-3zM5 10h3v1h-3zM10 10h3v1h-3z"
+            />
+            <path
+              fill="#2de2e6"
+              d="M6 1h1v1h-1zM6 2h1v1h-1zM5 3h1v1h-1zM7 3h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM4 5h2v1h-2zM7 5h2v1h-2zM4 6h5v1h-5zM4 7h5v1h-5zM4 8h5v1h-5zM5 9h3v1h-3z"
+            />
+            <path fill="#f4f4f4" d="M6 3h1v1h-1z" />
+            <path
+              fill="#ff3864"
+              d="M6 4h1v1h-1zM6 5h1v1h-1zM2 7h1v1h-1zM10 7h1v1h-1zM1 8h2v1h-2zM10 8h2v1h-2zM1 9h2v1h-2zM10 9h2v1h-2z"
+            />
           </svg>
           <span>destroyer</span>
         </a>
@@ -55,9 +59,11 @@
     <main id="top">
       <section class="hero container">
         <div class="hero-text">
-          <p class="eyebrow">WEB-TOYBOX · WIDGET 01</p>
+          <p class="eyebrow">web-toybox · วิดเจ็ตตัวแรก</p>
           <h1>
-            ใส่เกมยิงยานอวกาศ<br />ลงเว็บไหนก็ได้ <span class="nowrap">ด้วยโค้ดบรรทัดเดียว</span>
+            <span class="nowrap">ใส่เกมยิงยานอวกาศ</span>
+            <span class="nowrap">ลงเว็บไหนก็ได้</span>
+            <span class="nowrap">ด้วยโค้ดบรรทัดเดียว</span>
           </h1>
           <p class="lead">
             destroyer เปลี่ยนหน้าเว็บของคุณให้เป็นด่านเกม ผู้เล่นขับยานพิกเซลยิงหัวข้อ ปุ่ม
@@ -65,29 +71,100 @@
           </p>
           <div class="hero-actions">
             <a class="btn" href="#install">เริ่มติดตั้ง</a>
-            <a class="btn btn-ghost" href="destroyer.js" download>ดาวน์โหลด destroyer.js</a>
+            <a class="btn btn-secondary" href="destroyer.js" download>ดาวน์โหลด destroyer.js</a>
           </div>
-          <ul class="hero-stats">
-            <li><strong>1</strong><span>บรรทัดในการติดตั้ง</span></li>
-            <li><strong>~20 kB</strong><span>ไฟล์เดียวจบ (gzip)</span></li>
-            <li><strong>0</strong><span>ไลบรารีที่ต้องลงเพิ่ม</span></li>
-          </ul>
-        </div>
-        <figure class="hero-art">
-          <div class="window">
-            <div class="window-bar">
-              <span class="dot dot-red"></span><span class="dot dot-yellow"></span
-              ><span class="dot dot-green"></span>
-              <span class="window-title">index.html</span>
+          <dl class="facts">
+            <div>
+              <dt>ติดตั้ง</dt>
+              <dd>1 บรรทัด</dd>
             </div>
-            <pre class="code"><code><span class="c">&lt;!-- ...เนื้อหาเว็บของคุณ... --&gt;</span>
+            <div>
+              <dt>ขนาด</dt>
+              <dd>~20 kB gzip</dd>
+            </div>
+            <div>
+              <dt>ต้องลงเพิ่ม</dt>
+              <dd>ไม่มี</dd>
+            </div>
+          </dl>
+        </div>
 
-<span class="t">&lt;footer&gt;</span>© ร้านของฉัน<span class="t">&lt;/footer&gt;</span>
-
-<mark><span class="t">&lt;script</span> <span class="a">src</span>=<span class="s">"destroyer.js"</span> <span class="a">defer</span><span class="t">&gt;&lt;/script&gt;</span></mark>
-<span class="t">&lt;/body&gt;</span></code></pre>
+        <!-- The hero visual: a small website mid-game. Built from real elements so it breaks too. -->
+        <figure class="scene" aria-label="ตัวอย่าง: ยานพิกเซลกำลังยิงหน้าเว็บของร้านหนึ่ง">
+          <div class="scene-window">
+            <div class="scene-bar">
+              <span class="scene-dot"></span><span class="scene-dot"></span
+              ><span class="scene-dot"></span>
+              <span class="scene-url">เว็บของคุณ</span>
+            </div>
+            <div class="scene-page">
+              <div class="m-nav">
+                <span class="m-logo"></span>
+                <span class="m-link"></span><span class="m-link"></span><span class="m-link"></span>
+              </div>
+              <div class="m-title"></div>
+              <div class="m-title m-title-short"></div>
+              <div class="m-line"></div>
+              <div class="m-line m-line-short"></div>
+              <div class="m-button"></div>
+              <div class="m-card m-card-a">
+                <div class="m-card-img"></div>
+                <div class="m-line"></div>
+                <div class="m-line m-line-short"></div>
+              </div>
+              <!-- Destroyed: hidden, but its box keeps its place -->
+              <div class="m-card m-card-gone"></div>
+            </div>
           </div>
-          <figcaption>วางไว้ก่อนปิด <code>&lt;/body&gt;</code> แค่นั้นเอง</figcaption>
+          <svg class="scene-fx" viewBox="0 0 400 300" aria-hidden="true">
+            <!-- the ship's firing range, as faint dots -->
+            <circle class="fx-range" cx="180" cy="250" r="64" />
+            <!-- debris from the destroyed card, in its real colors -->
+            <g shape-rendering="crispEdges">
+              <rect x="276" y="160" width="6" height="6" fill="#38b764" />
+              <rect x="300" y="150" width="6" height="6" fill="#a7f070" />
+              <rect x="346" y="166" width="6" height="6" fill="#38b764" />
+              <rect x="372" y="186" width="6" height="6" fill="#fdfbf7" />
+              <rect x="358" y="150" width="3" height="3" fill="#a7f070" />
+              <rect x="318" y="170" width="3" height="3" fill="#38b764" />
+              <rect x="380" y="214" width="6" height="6" fill="#c9c1b4" />
+              <rect x="252" y="196" width="3" height="3" fill="#38b764" />
+              <rect x="388" y="168" width="3" height="3" fill="#a7f070" />
+              <rect x="254" y="232" width="6" height="6" fill="#38b764" />
+              <rect x="384" y="250" width="6" height="6" fill="#a7f070" />
+              <rect x="246" y="266" width="3" height="3" fill="#c9c1b4" />
+            </g>
+            <!-- cracks where the bullets hit the button -->
+            <path
+              class="fx-crack"
+              d="M258 168 l4 -3 l3 2 l4 -4 M265 167 l1 5 l4 2 M256 171 l-3 3"
+            />
+            <!-- a straight bullet from the nose, with its short trail -->
+            <g shape-rendering="crispEdges">
+              <rect x="203" y="225" width="4" height="4" fill="#ef7d57" opacity="0.4" />
+              <rect x="212" y="216" width="4" height="4" fill="#ef7d57" opacity="0.7" />
+              <rect x="221" y="205" width="6" height="6" fill="#ffd319" />
+            </g>
+            <!-- the score rising from the destroyed card -->
+            <text class="fx-score" x="330" y="138" text-anchor="middle">+120</text>
+          </svg>
+          <div class="scene-ship">
+            <svg class="px" viewBox="0 0 31 31" shape-rendering="crispEdges" aria-hidden="true">
+              <path
+                fill="#1a1c2c"
+                d="M18 11h1v1h-1zM15 12h3v1h-3zM19 12h1v1h-1zM8 13h7v1h-7zM18 13h1v1h-1zM8 14h1v1h-1zM12 14h1v1h-1zM18 14h1v1h-1zM8 15h1v1h-1zM11 15h1v1h-1zM18 15h1v1h-1zM9 16h3v1h-3zM17 16h1v1h-1zM11 17h1v1h-1zM17 17h1v1h-1zM9 18h3v1h-3zM16 18h2v1h-2zM8 19h1v1h-1zM12 19h4v1h-4zM17 19h1v1h-1zM7 20h2v1h-2zM12 20h1v1h-1zM14 20h1v1h-1zM17 20h1v1h-1zM8 21h1v1h-1zM12 21h1v1h-1zM14 21h1v1h-1zM17 21h1v1h-1zM9 22h3v1h-3zM15 22h3v1h-3zM10 23h1v1h-1z"
+              />
+              <path
+                fill="#2de2e6"
+                d="M18 12h1v1h-1zM15 13h3v1h-3zM13 14h3v1h-3zM17 14h1v1h-1zM12 15h3v1h-3zM16 15h2v1h-2zM12 16h5v1h-5zM12 17h5v1h-5zM12 18h4v1h-4z"
+              />
+              <path
+                fill="#ff3864"
+                d="M9 14h3v1h-3zM16 14h1v1h-1zM9 15h2v1h-2zM15 15h1v1h-1zM9 19h2v1h-2zM16 19h1v1h-1zM9 20h1v1h-1zM11 20h1v1h-1zM15 20h2v1h-2zM9 21h3v1h-3zM15 21h2v1h-2z"
+              />
+              <path fill="#ffd319" d="M11 19h1v1h-1zM10 20h1v1h-1z" />
+            </svg>
+          </div>
         </figure>
       </section>
 
@@ -98,35 +175,107 @@
         </div>
         <div class="cards">
           <article class="card">
-            <div class="card-img img-safe"></div>
-            <div class="card-body">
-              <h3>ไม่พังของจริง</h3>
-              <p>
-                สิ่งที่ถูกยิงแค่ถูกซ่อนด้วย <code>visibility: hidden</code> ไม่ได้ถูกลบ
-                เลย์เอาต์ไม่ขยับ และคืนค่าเดิมทุกอย่างเมื่อออกจากเกม
-              </p>
+            <div class="card-art">
+              <svg
+                class="px card-art"
+                viewBox="0 0 20 12"
+                shape-rendering="crispEdges"
+                aria-hidden="true"
+              >
+                <path
+                  fill="#1a1c2c"
+                  d="M1 1h18v1h-18zM1 2h1v1h-1zM18 2h1v1h-1zM1 3h1v1h-1zM18 3h1v1h-1zM1 4h1v1h-1zM18 4h1v1h-1zM1 5h1v1h-1zM18 5h1v1h-1zM1 6h1v1h-1zM18 6h1v1h-1zM1 7h1v1h-1zM18 7h1v1h-1zM1 8h1v1h-1zM18 8h1v1h-1zM1 9h1v1h-1zM18 9h1v1h-1zM1 10h1v1h-1zM18 10h1v1h-1zM1 11h18v1h-18z"
+                />
+                <path
+                  fill="#fdfbf7"
+                  d="M2 2h16v1h-16zM2 3h1v1h-1zM9 3h9v1h-9zM2 4h16v1h-16zM2 5h1v1h-1zM9 5h2v1h-2zM12 5h1v1h-1zM14 5h1v1h-1zM16 5h1v1h-1zM2 6h1v1h-1zM9 6h9v1h-9zM2 7h1v1h-1zM9 7h2v1h-2zM12 7h5v1h-5zM2 8h1v1h-1zM9 8h9v1h-9zM2 9h1v1h-1zM9 9h2v1h-2zM12 9h1v1h-1zM14 9h1v1h-1zM16 9h1v1h-1zM2 10h16v1h-16z"
+                />
+                <path fill="#ff3864" d="M3 3h6v1h-6z" />
+                <path
+                  fill="#38b764"
+                  d="M3 5h6v1h-6zM3 6h2v1h-2zM6 6h3v1h-3zM3 7h6v1h-6zM3 8h6v1h-6zM3 9h6v1h-6z"
+                />
+                <path
+                  fill="#9c9488"
+                  d="M11 5h1v1h-1zM13 5h1v1h-1zM15 5h1v1h-1zM17 5h1v1h-1zM11 7h1v1h-1zM17 7h1v1h-1zM11 9h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM17 9h1v1h-1z"
+                />
+                <path fill="#a7f070" d="M5 6h1v1h-1z" />
+              </svg>
             </div>
+            <h3>ไม่พังของจริง</h3>
+            <p>
+              สิ่งที่ถูกยิงแค่ถูกซ่อนด้วย <code>visibility: hidden</code> ไม่ได้ถูกลบ
+              เลย์เอาต์ไม่ขยับ และคืนค่าเดิมทุกอย่างเมื่อออกจากเกม
+            </p>
           </article>
           <article class="card">
-            <div class="card-img img-shadow"></div>
-            <div class="card-body">
-              <h3>ไม่ชนกับ CSS เดิม</h3>
-              <p>ปุ่ม เมนู และหน้าจอเกมอยู่ใน Shadow DOM ของตัวเอง สไตล์ของเว็บคุณจึงไม่ตีกัน</p>
+            <div class="card-art">
+              <svg
+                class="px card-art"
+                viewBox="0 0 20 12"
+                shape-rendering="crispEdges"
+                aria-hidden="true"
+              >
+                <path
+                  fill="#1a1c2c"
+                  d="M1 1h18v1h-18zM1 2h1v1h-1zM18 2h1v1h-1zM1 3h1v1h-1zM18 3h1v1h-1zM1 4h1v1h-1zM8 4h1v1h-1zM9 4h7v1h-7zM16 4h1v1h-1zM18 4h1v1h-1zM1 5h1v1h-1zM8 5h1v1h-1zM9 5h3v1h-3zM13 5h3v1h-3zM16 5h1v1h-1zM18 5h1v1h-1zM1 6h1v1h-1zM8 6h1v1h-1zM9 6h2v1h-2zM14 6h2v1h-2zM16 6h1v1h-1zM18 6h1v1h-1zM1 7h1v1h-1zM8 7h1v1h-1zM9 7h2v1h-2zM14 7h2v1h-2zM16 7h1v1h-1zM18 7h1v1h-1zM1 8h1v1h-1zM8 8h1v1h-1zM9 8h7v1h-7zM16 8h1v1h-1zM18 8h1v1h-1zM1 9h1v1h-1zM8 9h9v1h-9zM18 9h1v1h-1zM1 10h1v1h-1zM18 10h1v1h-1zM1 11h18v1h-18z"
+                />
+                <path
+                  fill="#fdfbf7"
+                  d="M2 2h1v1h-1zM10 2h8v1h-8zM2 3h16v1h-16zM2 4h1v1h-1zM7 4h1v1h-1zM17 4h1v1h-1zM2 5h6v1h-6zM17 5h1v1h-1zM2 6h1v1h-1zM7 6h1v1h-1zM17 6h1v1h-1zM2 7h6v1h-6zM17 7h1v1h-1zM2 8h1v1h-1zM7 8h1v1h-1zM17 8h1v1h-1zM2 9h6v1h-6zM17 9h1v1h-1zM2 10h16v1h-16z"
+                />
+                <path fill="#c9c1b4" d="M3 2h7v1h-7zM3 4h4v1h-4zM3 6h4v1h-4zM3 8h4v1h-4z" />
+                <path fill="#2de2e6" d="M12 5h1v1h-1zM11 6h3v1h-3zM12 7h1v1h-1z" />
+                <path fill="#ff3864" d="M11 7h1v1h-1zM13 7h1v1h-1z" />
+              </svg>
             </div>
+            <h3>ไม่ชนกับ CSS เดิม</h3>
+            <p>ปุ่ม เมนู และหน้าจอเกมอยู่ใน Shadow DOM ของตัวเอง สไตล์ของเว็บคุณจึงไม่ตีกัน</p>
           </article>
           <article class="card">
-            <div class="card-img img-file"></div>
-            <div class="card-body">
-              <h3>ไฟล์เดียวจบ</h3>
-              <p>ไม่ต้องลง framework ไม่ต้องตั้งค่า build แค่มีไฟล์ .js หนึ่งไฟล์บนเว็บของคุณ</p>
+            <div class="card-art">
+              <svg
+                class="px card-art"
+                viewBox="0 0 20 12"
+                shape-rendering="crispEdges"
+                aria-hidden="true"
+              >
+                <path
+                  fill="#1a1c2c"
+                  d="M7 0h8v1h-8zM7 1h1v1h-1zM14 1h2v1h-2zM7 2h1v1h-1zM14 2h1v1h-1zM16 2h1v1h-1zM7 3h1v1h-1zM14 3h4v1h-4zM7 4h1v1h-1zM17 4h1v1h-1zM7 5h1v1h-1zM17 5h1v1h-1zM7 6h1v1h-1zM17 6h1v1h-1zM7 7h1v1h-1zM17 7h1v1h-1zM7 8h1v1h-1zM17 8h1v1h-1zM7 9h1v1h-1zM17 9h1v1h-1zM7 10h1v1h-1zM17 10h1v1h-1zM7 11h11v1h-11z"
+                />
+                <path
+                  fill="#fdfbf7"
+                  d="M8 1h6v1h-6zM8 2h6v1h-6zM15 2h1v1h-1zM8 3h6v1h-6zM8 4h1v1h-1zM16 4h1v1h-1zM8 5h9v1h-9zM8 6h1v1h-1zM13 6h4v1h-4zM8 7h9v1h-9zM8 8h1v1h-1zM15 8h2v1h-2zM8 9h9v1h-9zM8 10h9v1h-9z"
+                />
+                <path fill="#ffd319" d="M9 4h7v1h-7z" />
+                <path fill="#2de2e6" d="M9 6h4v1h-4z" />
+                <path fill="#ff3864" d="M9 8h6v1h-6z" />
+              </svg>
             </div>
+            <h3>ไฟล์เดียวจบ</h3>
+            <p>ไม่ต้องลง framework ไม่ต้องตั้งค่า build แค่มีไฟล์ .js หนึ่งไฟล์บนเว็บของคุณ</p>
           </article>
           <article class="card">
-            <div class="card-img img-mobile"></div>
-            <div class="card-body">
-              <h3>เล่นบนมือถือได้</h3>
-              <p>ลากนิ้วเพื่อบังคับยาน รองรับจอที่มีรอยบากและขอบโค้ง</p>
+            <div class="card-art">
+              <svg
+                class="px card-art"
+                viewBox="0 0 20 12"
+                shape-rendering="crispEdges"
+                aria-hidden="true"
+              >
+                <path
+                  fill="#1a1c2c"
+                  d="M7 0h7v1h-7zM6 1h1v1h-1zM14 1h1v1h-1zM6 2h1v1h-1zM7 2h7v1h-7zM14 2h1v1h-1zM6 3h1v1h-1zM7 3h3v1h-3zM11 3h3v1h-3zM14 3h1v1h-1zM6 4h1v1h-1zM7 4h2v1h-2zM12 4h2v1h-2zM14 4h1v1h-1zM6 5h1v1h-1zM7 5h2v1h-2zM12 5h2v1h-2zM14 5h1v1h-1zM6 6h1v1h-1zM7 6h7v1h-7zM14 6h1v1h-1zM6 7h1v1h-1zM7 7h3v1h-3zM11 7h3v1h-3zM14 7h1v1h-1zM6 8h1v1h-1zM7 8h2v1h-2zM12 8h2v1h-2zM14 8h1v1h-1zM6 9h1v1h-1zM7 9h3v1h-3zM11 9h3v1h-3zM14 9h1v1h-1zM6 10h1v1h-1zM10 10h1v1h-1zM14 10h1v1h-1zM7 11h7v1h-7z"
+                />
+                <path fill="#fdfbf7" d="M7 1h7v1h-7zM7 10h3v1h-3zM11 10h3v1h-3z" />
+                <path fill="#2de2e6" d="M10 3h1v1h-1zM9 4h3v1h-3zM10 5h1v1h-1z" />
+                <path fill="#ff3864" d="M9 5h1v1h-1zM11 5h1v1h-1z" />
+                <path fill="#ef7d57" d="M10 7h1v1h-1zM9 8h3v1h-3zM10 9h1v1h-1z" />
+              </svg>
             </div>
+            <h3>เล่นบนมือถือได้</h3>
+            <p>ลากนิ้วเพื่อบังคับยาน รองรับจอที่มีรอยบากและขอบโค้ง</p>
           </article>
         </div>
       </section>
@@ -144,7 +293,7 @@
                 กดปุ่ม <a href="destroyer.js" download>ดาวน์โหลด</a> หรือ build เองจาก repo
                 แล้วจะได้ไฟล์ <code>dist/destroyer.js</code>
               </p>
-              <pre class="code code-sm"><code>npm install
+              <pre class="code"><code>npm install
 npm run build</code></pre>
             </li>
             <li>
@@ -158,12 +307,14 @@ npm run build</code></pre>
               <h3>วางแท็ก script</h3>
               <p>ใส่บรรทัดนี้ไว้ก่อนปิด <code>&lt;/body&gt;</code> ปรับ path ให้ตรงกับที่อัปโหลด</p>
               <pre
-                class="code code-sm"
+                class="code"
               ><code><span class="t">&lt;script</span> <span class="a">src</span>=<span class="s">"/js/destroyer.js"</span> <span class="a">defer</span><span class="t">&gt;&lt;/script&gt;</span></code></pre>
             </li>
             <li>
               <h3>เปิดหน้าเว็บ</h3>
-              <p>ปุ่ม <b>💥 DESTROY</b> จะโผล่ที่มุมขวาล่าง กดแล้วเริ่มเล่นได้ทันที</p>
+              <p>
+                ปุ่ม <span class="chip">DESTROY</span> จะโผล่ที่มุมขวาล่าง กดแล้วเริ่มเล่นได้ทันที
+              </p>
             </li>
           </ol>
         </div>
@@ -237,70 +388,147 @@ npm run build</code></pre>
       <section id="play" class="section container">
         <div class="section-head">
           <h2>วิธีเล่น</h2>
-        </div>
-        <p class="play-intro">
-          กดปุ่ม <b>💥 DESTROY</b> แล้วเลือกเวลา 2, 5 หรือ 10 นาที ทำลายให้ได้ 100% ก่อนหมดเวลา
-          ยิ่งเหลือเวลามาก ยิ่งได้โบนัส (50 คะแนนต่อวินาที)
-        </p>
-        <ul class="controls">
-          <li>
-            <span class="key">เมาส์ / นิ้ว</span>
-            <p>ขยับเพื่อบังคับยาน ยานจะลอยตามไปอย่างนุ่มนวล</p>
-          </li>
-          <li>
-            <span class="key">ยิงอัตโนมัติ</span>
-            <p>เมื่อมีเป้าในวงจุดรอบยาน ยานจะหันหัวไปหาเป้าแล้วยิงเอง</p>
-          </li>
-          <li>
-            <span class="key">1 / 2 / 3</span>
-            <p>ใช้ไอเทมในช่องนั้น บนมือถือแตะที่ช่องไอเทมด้านล่างจอ</p>
-          </li>
-          <li>
-            <span class="key">ขอบจอ</span>
-            <p>พายานไปใกล้ขอบบนหรือล่างเพื่อเลื่อนหน้า ยิ่งใกล้ขอบยิ่งเร็ว</p>
-          </li>
-          <li>
-            <span class="key">Esc</span>
-            <p>ออกจากเกม หน้าเว็บจะกลับมาเหมือนเดิมทันที</p>
-          </li>
-        </ul>
-
-        <h3 class="sub-head">ไอเทม</h3>
-        <p class="play-intro">
-          ของที่แตกอาจทิ้งกล่องไอเทมไว้ (ยิ่งใหญ่ยิ่งมีโอกาส) บินไปเก็บได้สูงสุด 3 ชิ้น
-          กล่องจะหายไปใน 14 วินาที และกะพริบก่อนหาย
-        </p>
-        <div class="table-wrap">
-          <table class="items-table">
-            <tbody>
-              <tr>
-                <th scope="row">ระเบิด</th>
-                <td>ทำลายหนักทุกอย่างในรัศมีรอบตัวยาน พร้อมคลื่นกระแทก</td>
-              </tr>
-              <tr>
-                <th scope="row">ยิงรัว</th>
-                <td>ยิงเร็วขึ้น 3 เท่า นาน 8 วินาที</td>
-              </tr>
-              <tr>
-                <th scope="row">เลเซอร์</th>
-                <td>ลำแสงกากบาทแนวนอนและแนวตั้งผ่านตัวยาน ทะลุทุกอย่างที่ขวาง</td>
-              </tr>
-              <tr>
-                <th scope="row">แม่เหล็ก</th>
-                <td>ดูดกล่องไอเทมใกล้ ๆ เข้าหายาน นาน 8 วินาที</td>
-              </tr>
-            </tbody>
-          </table>
+          <p>
+            กดปุ่ม <span class="chip">DESTROY</span> แล้วเลือกเวลา 2, 5 หรือ 10 นาที ทำลายให้ได้
+            100% ก่อนหมดเวลา ยิ่งเหลือเวลามาก ยิ่งได้โบนัส (50 คะแนนต่อวินาที)
+          </p>
         </div>
 
-        <h3 class="sub-head">คะแนน</h3>
-        <ul class="score-rules">
-          <li>ยิงโดน <b>+1</b> ทำลายได้ <b>HP สูงสุด × 10</b></li>
-          <li>
-            ทำลายต่อเนื่องภายใน 1.4 วินาทีจะนับเป็นคอมโบ ทุก 3 คอมโบตัวคูณคะแนนเพิ่มขึ้น 1 สูงสุด x5
-          </li>
-          <li>สถิติสูงสุดเก็บแยกตามเวลาที่เลือก ในเบราว์เซอร์ของคุณเอง</li>
-        </ul>
+        <div class="play-grid">
+          <div>
+            <h3 class="sub-head">การควบคุม</h3>
+            <dl class="controls">
+              <div>
+                <dt><kbd>เมาส์</kbd> <kbd>นิ้ว</kbd></dt>
+                <dd>ขยับเพื่อบังคับยาน ยานจะลอยตามไปอย่างนุ่มนวล</dd>
+              </div>
+              <div>
+                <dt><span class="auto">อัตโนมัติ</span></dt>
+                <dd>เมื่อมีเป้าในวงจุดรอบยาน ยานจะหันหัวไปหาเป้าแล้วยิงเอง</dd>
+              </div>
+              <div>
+                <dt><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></dt>
+                <dd>ใช้ไอเทมในช่องนั้น บนมือถือแตะที่ช่องไอเทมด้านล่างจอ</dd>
+              </div>
+              <div>
+                <dt><span class="auto">ขอบจอ</span></dt>
+                <dd>พายานไปใกล้ขอบบนหรือล่างเพื่อเลื่อนหน้า ยิ่งใกล้ขอบยิ่งเร็ว</dd>
+              </div>
+              <div>
+                <dt><kbd>Esc</kbd></dt>
+                <dd>ออกจากเกม หน้าเว็บจะกลับมาเหมือนเดิมทันที</dd>
+              </div>
+            </dl>
+
+            <h3 class="sub-head">คะแนน</h3>
+            <ul class="score-rules">
+              <li>ยิงโดน +1 ทำลายได้ HP สูงสุด × 10</li>
+              <li>
+                ทำลายต่อเนื่องภายใน 1.4 วินาทีนับเป็นคอมโบ ทุก 3 คอมโบตัวคูณเพิ่มขึ้น 1 สูงสุด x5
+              </li>
+              <li>สถิติสูงสุดเก็บแยกตามเวลาที่เลือก ในเบราว์เซอร์ของคุณเอง</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="sub-head">ไอเทม</h3>
+            <p class="note">
+              ของที่แตกอาจทิ้งกล่องไอเทมไว้ ยิ่งใหญ่ยิ่งมีโอกาส บินไปเก็บได้สูงสุด 3 ชิ้น
+              กล่องหายไปใน 14 วินาที และกะพริบก่อนหาย
+            </p>
+            <ul class="items">
+              <li>
+                <svg
+                  class="px item-icon"
+                  viewBox="0 0 12 12"
+                  shape-rendering="crispEdges"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="#1a1c2c"
+                    d="M0 0h12v1h-12zM0 1h1v1h-1zM11 1h1v1h-1zM0 2h1v1h-1zM11 2h1v1h-1zM0 3h1v1h-1zM6 3h1v1h-1zM11 3h1v1h-1zM0 4h1v1h-1zM5 4h3v1h-3zM11 4h1v1h-1zM0 5h1v1h-1zM4 5h5v1h-5zM11 5h1v1h-1zM0 6h1v1h-1zM3 6h1v1h-1zM5 6h5v1h-5zM11 6h1v1h-1zM0 7h1v1h-1zM3 7h1v1h-1zM5 7h5v1h-5zM11 7h1v1h-1zM0 8h1v1h-1zM3 8h7v1h-7zM11 8h1v1h-1zM0 9h1v1h-1zM4 9h5v1h-5zM11 9h1v1h-1zM0 10h1v1h-1zM11 10h1v1h-1zM0 11h12v1h-12z"
+                  />
+                  <path
+                    fill="#ff3864"
+                    d="M1 1h10v1h-10zM1 2h6v1h-6zM8 2h1v1h-1zM10 2h1v1h-1zM1 3h5v1h-5zM7 3h1v1h-1zM9 3h2v1h-2zM1 4h4v1h-4zM8 4h3v1h-3zM1 5h3v1h-3zM9 5h2v1h-2zM1 6h2v1h-2zM10 6h1v1h-1zM1 7h2v1h-2zM10 7h1v1h-1zM1 8h2v1h-2zM10 8h1v1h-1zM1 9h3v1h-3zM9 9h2v1h-2zM1 10h10v1h-10z"
+                  />
+                  <path fill="#ffd319" d="M7 2h1v1h-1zM9 2h1v1h-1zM8 3h1v1h-1z" />
+                  <path fill="#f4f4f4" d="M4 6h1v1h-1zM4 7h1v1h-1z" />
+                </svg>
+                <div>
+                  <b>ระเบิด</b><span>ทำลายหนักทุกอย่างในรัศมีรอบตัวยาน พร้อมคลื่นกระแทก</span>
+                </div>
+              </li>
+              <li>
+                <svg
+                  class="px item-icon"
+                  viewBox="0 0 12 12"
+                  shape-rendering="crispEdges"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="#1a1c2c"
+                    d="M0 0h12v1h-12zM0 1h1v1h-1zM11 1h1v1h-1zM0 2h1v1h-1zM9 2h1v1h-1zM11 2h1v1h-1zM0 3h1v1h-1zM8 3h1v1h-1zM11 3h1v1h-1zM0 4h1v1h-1zM7 4h1v1h-1zM11 4h1v1h-1zM0 5h1v1h-1zM9 5h1v1h-1zM11 5h1v1h-1zM0 6h1v1h-1zM3 6h3v1h-3zM9 6h1v1h-1zM11 6h1v1h-1zM0 7h1v1h-1zM8 7h1v1h-1zM11 7h1v1h-1zM0 8h1v1h-1zM6 8h1v1h-1zM11 8h1v1h-1zM0 9h1v1h-1zM5 9h1v1h-1zM11 9h1v1h-1zM0 10h1v1h-1zM11 10h1v1h-1zM0 11h12v1h-12z"
+                  />
+                  <path
+                    fill="#b967ff"
+                    d="M1 1h10v1h-10zM1 2h5v1h-5zM10 2h1v1h-1zM1 3h4v1h-4zM9 3h2v1h-2zM1 4h3v1h-3zM8 4h3v1h-3zM1 5h2v1h-2zM10 5h1v1h-1zM1 6h2v1h-2zM10 6h1v1h-1zM1 7h4v1h-4zM9 7h2v1h-2zM1 8h3v1h-3zM7 8h4v1h-4zM1 9h3v1h-3zM6 9h5v1h-5zM1 10h10v1h-10z"
+                  />
+                  <path
+                    fill="#ffd319"
+                    d="M6 2h3v1h-3zM5 3h3v1h-3zM4 4h3v1h-3zM3 5h6v1h-6zM6 6h3v1h-3zM5 7h3v1h-3zM4 8h2v1h-2zM4 9h1v1h-1z"
+                  />
+                </svg>
+                <div><b>ยิงรัว</b><span>ยิงเร็วขึ้น 3 เท่า นาน 8 วินาที</span></div>
+              </li>
+              <li>
+                <svg
+                  class="px item-icon"
+                  viewBox="0 0 12 12"
+                  shape-rendering="crispEdges"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="#1a1c2c"
+                    d="M0 0h12v1h-12zM0 1h1v1h-1zM1 1h10v1h-10zM11 1h1v1h-1zM0 2h1v1h-1zM1 2h4v1h-4zM7 2h4v1h-4zM11 2h1v1h-1zM0 3h1v1h-1zM1 3h4v1h-4zM7 3h4v1h-4zM11 3h1v1h-1zM0 4h1v1h-1zM1 4h4v1h-4zM7 4h4v1h-4zM11 4h1v1h-1zM0 5h1v1h-1zM1 5h1v1h-1zM10 5h1v1h-1zM11 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM0 7h1v1h-1zM1 7h4v1h-4zM7 7h4v1h-4zM11 7h1v1h-1zM0 8h1v1h-1zM1 8h4v1h-4zM7 8h4v1h-4zM11 8h1v1h-1zM0 9h1v1h-1zM1 9h4v1h-4zM7 9h4v1h-4zM11 9h1v1h-1zM0 10h1v1h-1zM1 10h10v1h-10zM11 10h1v1h-1zM0 11h12v1h-12z"
+                  />
+                  <path
+                    fill="#2de2e6"
+                    d="M5 2h2v1h-2zM5 3h2v1h-2zM5 4h2v1h-2zM2 5h3v1h-3zM7 5h3v1h-3zM2 6h3v1h-3zM7 6h3v1h-3zM5 7h2v1h-2zM5 8h2v1h-2zM5 9h2v1h-2z"
+                  />
+                  <path fill="#f4f4f4" d="M5 5h2v1h-2zM5 6h2v1h-2z" />
+                </svg>
+                <div>
+                  <b>เลเซอร์</b
+                  ><span>ลำแสงกากบาทแนวนอนและแนวตั้งผ่านตัวยาน ทะลุทุกอย่างที่ขวาง</span>
+                </div>
+              </li>
+              <li>
+                <svg
+                  class="px item-icon"
+                  viewBox="0 0 12 12"
+                  shape-rendering="crispEdges"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="#1a1c2c"
+                    d="M0 0h12v1h-12zM0 1h1v1h-1zM11 1h1v1h-1zM0 2h1v1h-1zM11 2h1v1h-1zM0 3h1v1h-1zM11 3h1v1h-1zM0 4h1v1h-1zM11 4h1v1h-1zM0 5h1v1h-1zM11 5h1v1h-1zM0 6h1v1h-1zM11 6h1v1h-1zM0 7h1v1h-1zM2 7h1v1h-1zM9 7h1v1h-1zM11 7h1v1h-1zM0 8h1v1h-1zM3 8h1v1h-1zM8 8h1v1h-1zM11 8h1v1h-1zM0 9h1v1h-1zM4 9h4v1h-4zM11 9h1v1h-1zM0 10h1v1h-1zM11 10h1v1h-1zM0 11h12v1h-12z"
+                  />
+                  <path
+                    fill="#ffd319"
+                    d="M1 1h10v1h-10zM1 2h1v1h-1zM4 2h4v1h-4zM10 2h1v1h-1zM1 3h1v1h-1zM4 3h4v1h-4zM10 3h1v1h-1zM1 4h1v1h-1zM4 4h4v1h-4zM10 4h1v1h-1zM1 5h1v1h-1zM4 5h4v1h-4zM10 5h1v1h-1zM1 6h1v1h-1zM5 6h2v1h-2zM10 6h1v1h-1zM1 7h1v1h-1zM10 7h1v1h-1zM1 8h2v1h-2zM9 8h2v1h-2zM1 9h3v1h-3zM8 9h3v1h-3zM1 10h10v1h-10z"
+                  />
+                  <path fill="#f4f4f4" d="M2 2h2v1h-2zM8 2h2v1h-2zM2 3h2v1h-2zM8 3h2v1h-2z" />
+                  <path
+                    fill="#ff3864"
+                    d="M2 4h2v1h-2zM8 4h2v1h-2zM2 5h2v1h-2zM8 5h2v1h-2zM2 6h3v1h-3zM7 6h3v1h-3zM3 7h6v1h-6zM4 8h4v1h-4z"
+                  />
+                </svg>
+                <div><b>แม่เหล็ก</b><span>ดูดกล่องไอเทมใกล้ ๆ เข้าหายาน นาน 8 วินาที</span></div>
+              </li>
+            </ul>
+          </div>
+        </div>
 
         <blockquote class="tip">
           <p>
@@ -335,8 +563,8 @@ npm run build</code></pre>
               <summary>อยากกันบางส่วนไม่ให้โดนยิง</summary>
               <p>
                 ใส่ <code>data-wd-ignore</code> ที่ element นั้น
-                ทั้งตัวมันและทุกอย่างข้างในจะไม่ถูกนับเป็นเป้า หรือใช้
-                <code>data-scope</code> จำกัดพื้นที่ทั้งหมด
+                ทั้งตัวมันและทุกอย่างข้างในจะไม่ถูกนับเป็นเป้า หรือใช้ <code>data-scope</code>
+                จำกัดพื้นที่ทั้งหมด
               </p>
             </details>
             <details>
@@ -348,7 +576,7 @@ npm run build</code></pre>
             <details>
               <summary>มีการโหลดอะไรจากภายนอกไหม</summary>
               <p>
-                มีแค่ฟอนต์ Press Start 2P และ Kanit จาก Google Fonts ตอนกดปุ่ม 💥 DESTROY
+                มีแค่ฟอนต์ Press Start 2P และ Kanit จาก Google Fonts ตอนกดปุ่ม DESTROY
                 ถ้าโหลดไม่ได้จะใช้ฟอนต์ในเครื่องแทน
               </p>
             </details>
@@ -360,23 +588,39 @@ npm run build</code></pre>
     <footer class="site-footer">
       <div class="container footer-grid">
         <div>
-          <p class="logo">destroyer</p>
+          <p class="logo">
+            <svg class="px" viewBox="0 0 13 11" shape-rendering="crispEdges" aria-hidden="true">
+              <path
+                fill="#1a1c2c"
+                d="M6 0h1v1h-1zM5 1h1v1h-1zM7 1h1v1h-1zM5 2h1v1h-1zM7 2h1v1h-1zM4 3h1v1h-1zM8 3h1v1h-1zM4 4h1v1h-1zM8 4h1v1h-1zM3 5h1v1h-1zM9 5h1v1h-1zM2 6h2v1h-2zM9 6h2v1h-2zM1 7h1v1h-1zM3 7h1v1h-1zM9 7h1v1h-1zM11 7h1v1h-1zM0 8h1v1h-1zM3 8h1v1h-1zM9 8h1v1h-1zM12 8h1v1h-1zM0 9h1v1h-1zM3 9h2v1h-2zM8 9h2v1h-2zM12 9h1v1h-1zM0 10h3v1h-3zM5 10h3v1h-3zM10 10h3v1h-3z"
+              />
+              <path
+                fill="#2de2e6"
+                d="M6 1h1v1h-1zM6 2h1v1h-1zM5 3h1v1h-1zM7 3h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM4 5h2v1h-2zM7 5h2v1h-2zM4 6h5v1h-5zM4 7h5v1h-5zM4 8h5v1h-5zM5 9h3v1h-3z"
+              />
+              <path fill="#f4f4f4" d="M6 3h1v1h-1z" />
+              <path
+                fill="#ff3864"
+                d="M6 4h1v1h-1zM6 5h1v1h-1zM2 7h1v1h-1zM10 7h1v1h-1zM1 8h2v1h-2zM10 8h2v1h-2zM1 9h2v1h-2zM10 9h2v1h-2z"
+              /></svg
+            ><span>destroyer</span>
+          </p>
           <p>วิดเจ็ตตัวแรกของ web-toybox คอลเลกชันของเล่นที่ฝังลงเว็บไหนก็ได้</p>
         </div>
         <div>
           <h4>คู่มือ</h4>
-          <p>
-            <a href="#install">ติดตั้ง</a><br />
-            <a href="#options">ตั้งค่า</a><br />
-            <a href="#faq">คำถามที่พบบ่อย</a>
-          </p>
+          <ul>
+            <li><a href="#install">ติดตั้ง</a></li>
+            <li><a href="#options">ตั้งค่า</a></li>
+            <li><a href="#faq">คำถามที่พบบ่อย</a></li>
+          </ul>
         </div>
         <div>
           <h4>ไฟล์</h4>
-          <p>
-            <a href="destroyer.js" download>destroyer.js</a><br />
-            สัญญาอนุญาต MIT
-          </p>
+          <ul>
+            <li><a href="destroyer.js" download>destroyer.js</a></li>
+            <li>สัญญาอนุญาต MIT</li>
+          </ul>
         </div>
       </div>
     </footer>
@@ -420,7 +664,7 @@ npm run build</code></pre>
           if (navigator.clipboard) {
             navigator.clipboard.writeText(code()).then(
               function () {
-                done('คัดลอกแล้ว ✓');
+                done('คัดลอกแล้ว');
               },
               function () {
                 done('คัดลอกไม่สำเร็จ');
