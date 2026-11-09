@@ -13,11 +13,24 @@ const POSITIONS: readonly LauncherPosition[] = [
   'top-right',
   'top-left',
 ];
+const DEFAULT_POSITION: LauncherPosition = 'bottom-right';
 
-/** Read options from the data-attributes of the embedding <script> tag. */
+/** Read options from the data-attributes of the embedding <script> tag. Never throws. */
 export function readOptions(script: HTMLScriptElement | null): DestroyerOptions {
   const data = script?.dataset ?? {};
-  const position = POSITIONS.find((p) => p === data.position) ?? 'bottom-right';
+
+  let position = DEFAULT_POSITION;
+  const rawPosition = data.position?.trim();
+  if (rawPosition) {
+    const match = POSITIONS.find((p) => p === rawPosition);
+    if (match) position = match;
+    else
+      console.warn(
+        `[destroyer] Unknown data-position "${rawPosition}", using "${DEFAULT_POSITION}". ` +
+          `Valid values: ${POSITIONS.join(', ')}.`,
+      );
+  }
+
   const scope = data.scope?.trim() || 'body';
   return { position, scope };
 }

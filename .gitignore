@@ -18,3 +18,7 @@ npm-debug.log*
 # env
 .env
 .env.*
+
+# test tooling output
+.vitest/
+coverage/
