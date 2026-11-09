@@ -271,6 +271,7 @@ export class DestroyerGame {
     const player = this.player();
     const { best, isNew } = recordScore(this.duration, player.score);
     this.ship = null;
+    this.hud.setVisible(false); // the result screen shows the final numbers
     this.result.show({
       reason: result.reason,
       score: player.score,

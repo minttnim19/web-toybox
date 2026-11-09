@@ -176,9 +176,10 @@ export function endReason(state: GameState): EndReason | null {
   return null;
 }
 
-/** Bonus for clearing early: 50 points per whole second left. */
+/** Bonus for clearing early: 50 points per whole second left (none if there was nothing to destroy). */
 export function timeBonus(state: GameState, reason: EndReason): number {
-  return reason === 'clear' ? Math.floor(timeLeft(state)) * TIME_BONUS_PER_SECOND : 0;
+  if (reason !== 'clear' || state.targets.length === 0) return 0;
+  return Math.floor(timeLeft(state)) * TIME_BONUS_PER_SECOND;
 }
 
 /** Finish the round. The time bonus goes to every player who scored (in single player: the player). */

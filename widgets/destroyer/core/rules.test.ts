@@ -168,6 +168,12 @@ describe('end conditions', () => {
     expect(s.players[LOCAL_PLAYER]!.score).toBe(950);
   });
 
+  it('gives no free bonus on a page with nothing to destroy', () => {
+    const s = createGameState([], { duration: 120 });
+    expect(endReason(s)).toBe('clear');
+    expect(finishGame(s, 'clear').timeBonus).toBe(0);
+  });
+
   it('reports the share of targets destroyed', () => {
     const s = createGameState(page());
     expect(destroyedRatio(s)).toBe(0);
