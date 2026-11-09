@@ -39,8 +39,8 @@ export class PageEffects {
   private screenShakePower = 0;
   /** Current screen shake offset in px, so the overlay can follow the page. */
   readonly shakeOffset = { x: 0, y: 0 };
-  /** <html>'s class attribute before the game added its own (undefined = not saved yet). */
-  private rootClass: string | null | undefined;
+  /** <html>'s class attribute before the game added its own (null value = no attribute). */
+  private rootClass: { value: string | null } | undefined;
 
   constructor(private readonly reducedMotion: boolean) {}
 
@@ -67,14 +67,15 @@ export class PageEffects {
         style.textContent = PAGE_CSS;
         document.head.append(style);
       }
-      if (this.rootClass === undefined) this.rootClass = root.getAttribute('class');
+      this.rootClass ??= { value: root.getAttribute('class') };
       root.classList.add(PLAYING_CLASS);
     } else {
       root.classList.remove(PLAYING_CLASS);
       // Put the class attribute back exactly (classList leaves class="" behind).
-      if (this.rootClass !== undefined && !root.classList.length) {
-        if (this.rootClass === null) root.removeAttribute('class');
-        else root.setAttribute('class', this.rootClass);
+      if (this.rootClass && !root.classList.length) {
+        const { value } = this.rootClass;
+        if (value === null) root.removeAttribute('class');
+        else root.setAttribute('class', value);
       }
       this.rootClass = undefined;
       document.getElementById(STYLE_ID)?.remove();

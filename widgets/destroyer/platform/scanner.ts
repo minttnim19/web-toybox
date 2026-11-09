@@ -44,8 +44,8 @@ export function scanTargets(scope: Element, exclude: Element | null): ScannedTar
 
   const visit = (el: Element, parentId: number | null): void => {
     const tag = el.localName;
-    if (SKIP_TAGS.has(tag) || el === exclude || el.hasAttribute('data-wd-ignore')) return;
-    if (!isStylable(el)) return;
+    if (SKIP_TAGS.has(tag) || el === exclude || !isStylable(el)) return;
+    if (el.dataset.wdIgnore !== undefined) return; // data-wd-ignore
 
     const style = getComputedStyle(el);
     if (style.display === 'none' || parseFloat(style.opacity) === 0) return; // whole subtree invisible

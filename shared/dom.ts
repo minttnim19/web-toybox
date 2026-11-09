@@ -11,7 +11,7 @@ const SENTINEL = '#010203';
 export function normalizeColor(input: string): string | null {
   const key = input.trim();
   if (colorCache.has(key)) return colorCache.get(key)!;
-  if (colorCtx === undefined) colorCtx = document.createElement('canvas').getContext('2d');
+  colorCtx ??= document.createElement('canvas').getContext('2d');
   let result: string | null = null;
   if (colorCtx && key && key !== 'transparent' && key !== 'none') {
     colorCtx.fillStyle = SENTINEL;

@@ -124,8 +124,8 @@ export class Renderer {
   }
 
   addCrack(id: TargetId, fx: number, fy: number): void {
-    let list = this.cracks.get(id);
-    if (!list) this.cracks.set(id, (list = []));
+    const list = this.cracks.get(id) ?? [];
+    this.cracks.set(id, list);
     list.push(makeCrack(fx, fy));
     if (list.length > MAX_CRACKS_PER_TARGET) list.shift();
   }

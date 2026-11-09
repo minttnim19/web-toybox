@@ -12,6 +12,6 @@ export function ensureFonts(): void {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = FONTS_URL;
-  link.setAttribute('data-web-toybox-fonts', '');
+  link.dataset.webToyboxFonts = '';
   document.head.append(link);
 }

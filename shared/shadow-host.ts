@@ -13,7 +13,7 @@ export interface ShadowHost {
  */
 export function createShadowHost(name: string, css: string): ShadowHost {
   const host = document.createElement(`web-toybox-${name}`);
-  host.setAttribute('data-wd-ignore', '');
+  host.dataset.wdIgnore = '';
   host.style.cssText = [
     'all: initial',
     'position: fixed',
