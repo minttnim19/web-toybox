@@ -21,6 +21,18 @@ const BLOCKED_EVENTS = [
   'mousedown',
 ] as const;
 
+/**
+ * Item slot (0-based) for a key press, or null. Uses the physical key (`code`) so it works
+ * with any keyboard layout — on a Thai layout the 1 key types "ๅ", not "1". Falls back to
+ * the typed character for unusual keyboards that don't report a code.
+ */
+export function slotForKey(code: string, key: string): number | null {
+  const match = /^(?:Digit|Numpad)([1-3])$/.exec(code);
+  if (match) return Number(match[1]) - 1;
+  if (!code && key >= '1' && key <= '3' && key.length === 1) return Number(key) - 1;
+  return null;
+}
+
 export class InputController {
   /** Pointer position in viewport CSS px. */
   x = window.innerWidth / 2;
@@ -87,9 +99,12 @@ export class InputController {
       if (e.key === 'Escape') {
         e.preventDefault();
         this.handlers.onQuit();
-      } else if (e.key >= '1' && e.key <= '3' && !e.repeat) {
-        e.preventDefault();
-        this.handlers.onSlot(Number(e.key) - 1);
+      } else {
+        const slot = slotForKey(e.code, e.key);
+        if (slot !== null && !e.repeat) {
+          e.preventDefault();
+          this.handlers.onSlot(slot);
+        }
       }
     });
 
