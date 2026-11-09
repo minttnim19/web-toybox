@@ -1,4 +1,5 @@
 // Target selection geometry. Rects are plain data handed in by the platform layer.
+import type { ItemTargeting } from './items';
 import type { TargetId } from './state';
 
 export interface Rect {
@@ -44,4 +45,32 @@ export function pickNearest(
     }
   }
   return best;
+}
+
+export interface Viewport {
+  w: number;
+  h: number;
+}
+
+/**
+ * Targets covered by an item's shape around (x, y): within `radius` for a circle, or
+ * crossed by a horizontal beam across the viewport or a vertical beam down it for a cross.
+ */
+export function targetsInShape(
+  shape: ItemTargeting,
+  x: number,
+  y: number,
+  candidates: readonly Candidate[],
+  viewport: Viewport,
+): TargetId[] {
+  if (shape.shape === 'none') return [];
+  const half = shape.shape === 'cross' ? shape.thickness / 2 : 0;
+  const onScreenX = (r: Rect) => r.x <= viewport.w && r.x + r.w >= 0;
+  const onScreenY = (r: Rect) => r.y <= viewport.h && r.y + r.h >= 0;
+  const covered = (r: Rect) =>
+    shape.shape === 'circle'
+      ? distanceToRect(x, y, r) <= shape.radius
+      : (r.y <= y + half && r.y + r.h >= y - half && onScreenX(r)) ||
+        (r.x <= x + half && r.x + r.w >= x - half && onScreenY(r));
+  return candidates.filter((c) => covered(c.rect)).map((c) => c.id);
 }
