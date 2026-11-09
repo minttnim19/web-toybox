@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>ปั่นสุข ไบค์ช็อป · ร้านซ่อมจักรยาน เชียงใหม่</title>
+    <meta
+      name="description"
+      content="ร้านซ่อมและดูแลจักรยานย่านนิมมาน เชียงใหม่ ซ่อมด่วน ฟิตติ้ง และเช่าจักรยาน"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- Demo banner: excluded from the game with data-wd-ignore -->
+    <aside class="demo-banner" data-wd-ignore>
+      <p>
+        <strong>หน้าเว็บสาธิต</strong> — ร้านนี้ไม่มีอยู่จริง กดปุ่ม <b>💥 DESTROY</b>
+        ที่มุมขวาล่างเพื่อเริ่มทำลายหน้านี้ได้เลย
+      </p>
+      <details>
+        <summary>วิธีฝังลงเว็บของคุณ</summary>
+        <pre><code>&lt;script src="destroyer.js" defer&gt;&lt;/script&gt;</code></pre>
+        <p class="demo-hint">
+          ตัวเลือก: <code>data-position="bottom-left"</code> เปลี่ยนมุมของปุ่ม,
+          <code>data-scope="main"</code> จำกัดพื้นที่ที่ทำลายได้
+        </p>
+      </details>
+    </aside>
+
+    <header class="site-header">
+      <nav class="nav container" aria-label="เมนูหลัก">
+        <a class="logo" href="#top" aria-label="ปั่นสุข ไบค์ช็อป หน้าแรก">
+          <svg viewBox="0 0 48 32" width="40" height="27" aria-hidden="true">
+            <circle cx="10" cy="22" r="8" fill="none" stroke="currentColor" stroke-width="3" />
+            <circle cx="38" cy="22" r="8" fill="none" stroke="currentColor" stroke-width="3" />
+            <path
+              d="M10 22 L19 8 H31 L38 22 M19 8 L24 22 L31 8 M16 5 H22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+            />
+          </svg>
+          <span>ปั่นสุข</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#services">บริการ</a></li>
+          <li><a href="#prices">ราคา</a></li>
+          <li><a href="#how">ขั้นตอน</a></li>
+          <li><a href="#contact">ติดต่อ</a></li>
+        </ul>
+        <a class="btn btn-small" href="#contact">จองคิวซ่อม</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero container">
+        <div class="hero-text">
+          <p class="eyebrow">ร้านซ่อมจักรยานย่านนิมมาน ตั้งแต่ปี 2558</p>
+          <h1>จักรยานของคุณ<br />สมควรได้ปั่น<span class="nowrap">อย่างมีความสุข</span></h1>
+          <p class="lead">
+            ซ่อมด่วนภายในวัน ปรับตั้งเกียร์และเบรกโดยช่างที่ปั่นเองทุกสัปดาห์ รับทั้งเสือหมอบ
+            เสือภูเขา จักรยานแม่บ้าน และจักรยานพับ
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="#contact">จองคิวซ่อม</a>
+            <a class="btn btn-ghost" href="#prices">ดูราคาบริการ</a>
+          </div>
+          <ul class="hero-stats">
+            <li><strong>4,200+</strong><span>คันที่ซ่อมแล้ว</span></li>
+            <li><strong>4.9</strong><span>คะแนนรีวิว</span></li>
+            <li><strong>1 วัน</strong><span>งานซ่อมส่วนใหญ่</span></li>
+          </ul>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="sun"></div>
+          <div class="hill hill-back"></div>
+          <div class="hill hill-front"></div>
+          <svg class="hero-bike" viewBox="0 0 120 70">
+            <circle cx="28" cy="48" r="18" />
+            <circle cx="92" cy="48" r="18" />
+            <path d="M28 48 L48 18 H76 L92 48 M48 18 L58 48 L76 18 M42 12 H54 M76 18 L72 8 H82" />
+          </svg>
+        </div>
+      </section>
+
+      <section id="services" class="section container">
+        <div class="section-head">
+          <h2>บริการของเรา</h2>
+          <p>ตั้งแต่ปะยางไปจนถึงยกเครื่องทั้งคัน ทำจบในร้านเดียว</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-img img-repair"></div>
+            <div class="card-body">
+              <h3>ซ่อมด่วนภายในวัน</h3>
+              <p>ยางรั่ว โซ่หลุด เบรกไม่อยู่ นำมาเช้า รับกลับเย็น ไม่ต้องรอคิวข้ามวัน</p>
+              <a class="card-link" href="#contact">จองคิว →</a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-img img-tune"></div>
+            <div class="card-body">
+              <h3>เช็กระยะและปรับตั้ง</h3>
+              <p>ล้างโซ่ อัดจาระบี ตั้งเกียร์ ตั้งเบรก ตรวจซี่ล้อ 30 จุด พร้อมรายงานสภาพรถ</p>
+              <a class="card-link" href="#prices">ดูแพ็กเกจ →</a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-img img-fit"></div>
+            <div class="card-body">
+              <h3>บริการฟิตติ้ง</h3>
+              <p>วัดสรีระ ปรับเบาะ แฮนด์ และขาจาน ให้ปั่นได้ไกลขึ้นโดยไม่ปวดหลังและเข่า</p>
+              <a class="card-link" href="#contact">นัดฟิตติ้ง →</a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-img img-rent"></div>
+            <div class="card-body">
+              <h3>เช่าจักรยานเที่ยวเมือง</h3>
+              <p>จักรยานทัวริ่งพร้อมหมวกและไฟ เช่ารายวันหรือรายสัปดาห์ แถมแผนที่เส้นทางคูเมือง</p>
+              <a class="card-link" href="#prices">ดูราคาเช่า →</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="prices" class="section section-tinted">
+        <div class="container">
+          <div class="section-head">
+            <h2>ราคาบริการ</h2>
+            <p>ราคารวมค่าแรงแล้ว อะไหล่คิดตามจริง แจ้งก่อนเปลี่ยนทุกครั้ง</p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">บริการ</th>
+                  <th scope="col">ระยะเวลา</th>
+                  <th scope="col">ราคา</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ปะยาง / เปลี่ยนยางใน</td>
+                  <td>15 นาที</td>
+                  <td>80 บาท</td>
+                </tr>
+                <tr>
+                  <td>ตั้งเกียร์และเบรก</td>
+                  <td>45 นาที</td>
+                  <td>250 บาท</td>
+                </tr>
+                <tr>
+                  <td>เช็กระยะ 30 จุด</td>
+                  <td>2 ชั่วโมง</td>
+                  <td>690 บาท</td>
+                </tr>
+                <tr>
+                  <td>ยกเครื่องทั้งคัน</td>
+                  <td>1–2 วัน</td>
+                  <td>2,400 บาท</td>
+                </tr>
+                <tr>
+                  <td>ฟิตติ้ง</td>
+                  <td>90 นาที</td>
+                  <td>1,500 บาท</td>
+                </tr>
+                <tr>
+                  <td>เช่าจักรยานทัวริ่ง</td>
+                  <td>ต่อวัน</td>
+                  <td>350 บาท</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section container testimonial-wrap">
+        <figure class="testimonial">
+          <blockquote>
+            <p>
+              “เกียร์รถผมกระโดดมาครึ่งปี ไปมาสามร้านไม่หาย ที่นี่ใช้เวลาไม่ถึงชั่วโมง
+              แถมอธิบายให้ฟังว่าเสียเพราะอะไร ตอนนี้ปั่นขึ้นดอยสุเทพได้แบบไม่สะดุดเลย”
+            </p>
+          </blockquote>
+          <figcaption>
+            <span class="avatar" aria-hidden="true">ธ</span>
+            <span><strong>ธนากร ศรีวงศ์</strong><br />สมาชิกชมรมปั่นเช้าวันอาทิตย์</span>
+          </figcaption>
+        </figure>
+      </section>
+
+      <section id="how" class="section container">
+        <div class="section-head">
+          <h2>จองคิวง่าย ๆ ใน 4 ขั้นตอน</h2>
+        </div>
+        <ol class="steps">
+          <li>
+            <h3>บอกอาการ</h3>
+            <p>ส่งรูปหรือคลิปสั้น ๆ ทาง LINE หรือโทรมาเล่าให้ช่างฟัง</p>
+          </li>
+          <li>
+            <h3>รับใบเสนอราคา</h3>
+            <p>ช่างประเมินราคาเบื้องต้นให้ภายใน 30 นาที ไม่มีค่าใช้จ่ายแอบแฝง</p>
+          </li>
+          <li>
+            <h3>นำรถเข้าร้าน</h3>
+            <p>เข้ามาตามเวลานัด หรือเรียกบริการรับ–ส่งถึงบ้านในตัวเมือง</p>
+          </li>
+          <li>
+            <h3>รับรถพร้อมปั่น</h3>
+            <p>ทดลองปั่นหน้าร้านก่อนจ่ายเงิน รับประกันงานซ่อม 30 วัน</p>
+          </li>
+        </ol>
+      </section>
+
+      <section id="contact" class="section container">
+        <div class="newsletter">
+          <div>
+            <h2>รับทริคดูแลจักรยานทุกเดือน</h2>
+            <p>เส้นทางปั่นใหม่ในเชียงใหม่ โปรโมชันสำหรับสมาชิก และวิธีดูแลรถด้วยตัวเอง</p>
+          </div>
+          <form
+            class="newsletter-form"
+            action="#"
+            onsubmit="
+              event.preventDefault();
+              this.querySelector('button').textContent = 'สมัครแล้ว ขอบคุณ!';
+            "
+          >
+            <label for="email">อีเมลของคุณ</label>
+            <div class="form-row">
+              <input id="email" type="email" name="email" placeholder="you@example.com" required />
+              <button class="btn" type="submit">สมัครรับข่าว</button>
+            </div>
+            <label class="checkbox">
+              <input type="checkbox" checked />
+              <span>สนใจกิจกรรมปั่นกลุ่มด้วย</span>
+            </label>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <p class="logo">ปั่นสุข</p>
+          <p>12/3 ซอยนิมมานเหมินท์ 9 ต.สุเทพ อ.เมือง จ.เชียงใหม่ 50200</p>
+        </div>
+        <div>
+          <h4>เวลาเปิด</h4>
+          <p>อังคาร–อาทิตย์ 08:30–18:30<br />หยุดทุกวันจันทร์</p>
+        </div>
+        <div>
+          <h4>ติดต่อ</h4>
+          <p>
+            <a href="tel:053000000">053-000-000</a><br />
+            LINE: <a href="#contact">@punsukbike</a>
+          </p>
+        </div>
+      </div>
+      <p class="container copyright">© 2569 ปั่นสุข ไบค์ช็อป · ร้านสมมติสำหรับสาธิตเท่านั้น</p>
+    </footer>
+
+    <!-- Embedded exactly as a real site would -->
+    <script src="destroyer.js" defer></script>
+  </body>
+</html>
