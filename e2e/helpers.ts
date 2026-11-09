@@ -31,13 +31,12 @@ export function trackErrors(page: Page): string[] {
   return errors;
 }
 
-/** The page's HTML without the widget's own host element. */
+/** The page's HTML without the widget's own elements (its host and the font stylesheet). */
 export const pageHtml = (page: Page) =>
   page.evaluate(() =>
-    document.documentElement.outerHTML.replace(
-      /<web-toybox-destroyer[^>]*><\/web-toybox-destroyer>/,
-      '',
-    ),
+    document.documentElement.outerHTML
+      .replace(/<web-toybox-destroyer[^>]*><\/web-toybox-destroyer>/, '')
+      .replace(/<link[^>]*data-web-toybox-fonts[^>]*>/, ''),
   );
 
 export const phase = (page: Page) => page.evaluate(() => window.__webToyboxDestroyer.phase);

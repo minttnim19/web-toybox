@@ -125,7 +125,6 @@ export class DestroyerGame {
   private readonly rectCache = new Map<TargetId, Rect | null>();
 
   constructor(private readonly options: DestroyerOptions) {
-    ensureFonts();
     const { host, root } = createShadowHost('destroyer', WIDGET_CSS);
     this.host = host;
     const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
@@ -167,6 +166,8 @@ export class DestroyerGame {
 
   private openMenu(): void {
     if (this.phase !== 'idle') return;
+    // Fonts come from Google Fonts, so only fetch them once someone actually wants to play.
+    ensureFonts();
     this.phase = 'menu';
     this.launcher.setVisible(false);
     this.menu.show(this.duration || undefined);

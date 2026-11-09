@@ -64,9 +64,14 @@ test('plays a full round on the guide page and restores it exactly', async ({ pa
 });
 
 test('Esc on the menu closes it without touching the page', async ({ page }) => {
+  const fontRequests: string[] = [];
+  page.on('request', (r) => r.url().includes('fonts.googleapis.com') && fontRequests.push(r.url()));
   await page.goto('/plain.html');
   const before = await pageHtml(page);
+  // Nothing is fetched from Google until someone opens the game.
+  expect(fontRequests).toEqual([]);
   await page.locator('.launcher').click();
+  await expect.poll(() => fontRequests.length).toBe(1);
   await expect(page.locator('.menu')).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.locator('.menu')).toBeHidden();
