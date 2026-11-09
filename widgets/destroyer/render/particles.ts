@@ -81,12 +81,6 @@ export class Particles {
     this.life.fill(0);
   }
 
-  get activeCount(): number {
-    let n = 0;
-    for (let i = 0; i < MAX_PARTICLES; i++) if (this.life[i]! > 0) n++;
-    return n;
-  }
-
   /** Draw onto a low-res canvas where 1 canvas pixel = `scale` CSS pixels. */
   draw(ctx: CanvasRenderingContext2D, scale: number, width: number, height: number): void {
     for (let i = 0; i < MAX_PARTICLES; i++) {

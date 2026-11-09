@@ -10,6 +10,7 @@ import { LocalAuthority, type AuthorityEvent, type GameAuthority } from './core/
 import {
   BOMB_RADIUS,
   ITEMS,
+  ITEM_BLINK_TIME,
   LASER_THICKNESS,
   MAGNET_RADIUS,
   MAX_INVENTORY,
@@ -525,7 +526,7 @@ export class DestroyerGame {
         kind: item.kind,
         x: pos.x,
         y: pos.y,
-        blinking: item.expiresAt - state.elapsed < 3,
+        blinking: item.expiresAt - state.elapsed < ITEM_BLINK_TIME,
       });
     }
     return views;
