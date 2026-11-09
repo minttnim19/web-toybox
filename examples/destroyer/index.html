@@ -20,9 +20,12 @@
     <!-- Demo banner: excluded from the game with data-wd-ignore -->
     <aside class="demo-banner" data-wd-ignore>
       <p>
-        หน้านี้ฝัง destroyer ไว้จริงด้วย
-        <code>&lt;script src="destroyer.js" defer&gt;&lt;/script&gt;</code>
-        กดปุ่ม <span class="chip">DESTROY</span> มุมขวาล่างเพื่อลองทำลายคู่มือนี้
+        หน้านี้ฝัง destroyer ไว้จริง กดปุ่ม <span class="chip">DESTROY</span>
+        มุมขวาล่างเพื่อลองทำลายคู่มือนี้ ใส่ในเว็บของคุณด้วย
+        <code
+          >&lt;script src="https://minttnim19.github.io/web-toybox/v0.1.0/destroyer.js"
+          defer&gt;&lt;/script&gt;</code
+        >
       </p>
     </aside>
 
@@ -71,7 +74,7 @@
           </p>
           <div class="hero-actions">
             <a class="btn" href="#install">เริ่มติดตั้ง</a>
-            <a class="btn btn-secondary" href="destroyer.js" download>ดาวน์โหลด destroyer.js</a>
+            <a class="btn btn-secondary" href="#play">ดูวิธีเล่น</a>
           </div>
           <dl class="facts">
             <div>
@@ -254,7 +257,10 @@
               </svg>
             </div>
             <h3>ไฟล์เดียวจบ</h3>
-            <p>ไม่ต้องลง framework ไม่ต้องตั้งค่า build แค่มีไฟล์ .js หนึ่งไฟล์บนเว็บของคุณ</p>
+            <p>
+              ไม่ต้องลง framework ไม่ต้องตั้งค่า build ทุกอย่างอยู่ในไฟล์ .js ไฟล์เดียว
+              ใช้ผ่านลิงก์หรือเก็บไว้บนเว็บของคุณเองก็ได้
+            </p>
           </article>
           <article class="card">
             <div class="card-art">
@@ -599,8 +605,10 @@
             <details>
               <summary>มีการโหลดอะไรจากภายนอกไหม</summary>
               <p>
-                มีแค่ฟอนต์ Press Start 2P และ Kanit จาก Google Fonts ตอนกดปุ่ม DESTROY
-                ถ้าโหลดไม่ได้จะใช้ฟอนต์ในเครื่องแทน
+                ถ้าใช้ลิงก์ ตัวไฟล์ destroyer.js จะโหลดจาก <code>minttnim19.github.io</code>
+                (GitHub Pages) และเมื่อมีคนกดปุ่ม DESTROY จะโหลดฟอนต์ Press Start 2P กับ Kanit จาก
+                Google Fonts ถ้าโหลดฟอนต์ไม่ได้จะใช้ฟอนต์ในเครื่องแทน ถ้าไม่อยากให้เว็บติดต่อ GitHub
+                ให้ดาวน์โหลดไฟล์ไปเก็บไว้บนเว็บของคุณเอง
               </p>
             </details>
           </div>
@@ -641,7 +649,7 @@
         <div>
           <h4>ไฟล์</h4>
           <ul>
-            <li><a href="destroyer.js" download>destroyer.js</a></li>
+            <li><a href="destroyer.js" download>ดาวน์โหลด destroyer.js</a></li>
             <li>สัญญาอนุญาต MIT</li>
           </ul>
         </div>
