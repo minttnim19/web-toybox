@@ -1,6 +1,7 @@
-# Check, test and publish the widgets and example pages to GitHub Pages.
+# Lint, unit-test and publish the widgets and example pages to GitHub Pages.
 # Every push to main redeploys the whole site, including one folder per release tag
 # (v*), so tags pushed together with main (`git push origin main --tags`) go live too.
+# Browser (e2e) tests are not run here: run `npm run test:e2e` locally before committing.
 name: Deploy to GitHub Pages
 
 on:
@@ -31,10 +32,6 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm test
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
-        env:
-          CI: true
       - run: npm run build:site
       - uses: actions/upload-pages-artifact@v3
         with:

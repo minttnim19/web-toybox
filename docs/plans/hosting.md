@@ -37,7 +37,7 @@
 
 ## งานที่ทำแล้ว
 
-- [x] `.github/workflows/pages.yml`: `npm ci` → lint → unit test → e2e → `npm run build:site` → deploy (ทุก push ขึ้น `main`)
+- [x] `.github/workflows/pages.yml`: `npm ci` → lint → unit test → `npm run build:site` → deploy (ทุก push ขึ้น `main`)
 - [x] `scripts/build-site.mjs`: วิดเจ็ตล่าสุดที่ root, build ทุก tag `v*` แยกโฟลเดอร์, คัดลอกหน้าคู่มือ
 - [x] หน้าคู่มือ: ขั้นตอนติดตั้งเหลือ "คัดลอกแท็กนี้" พร้อมลิงก์จริงและปุ่มคัดลอก, ฟอร์มสร้างโค้ดใช้ลิงก์จริงเป็นค่าเริ่มต้น, FAQ เรื่องลิงก์ล่าสุดกับลิงก์ล็อกเวอร์ชัน
 - [x] README: วิธีฝังด้วยลิงก์และวิธีออกเวอร์ชันใหม่

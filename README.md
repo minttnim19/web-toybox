@@ -75,7 +75,7 @@ dist/               ไฟล์ที่ build แล้ว (ไม่ถูก
 ## เผยแพร่ (GitHub Pages)
 
 ทุกครั้งที่ push ขึ้น `main` GitHub Actions ([.github/workflows/pages.yml](.github/workflows/pages.yml))
-จะรัน lint, unit test, e2e แล้ว build เว็บด้วย `npm run build:site` และขึ้น GitHub Pages
+จะรัน lint กับ unit test แล้ว build เว็บด้วย `npm run build:site` และขึ้น GitHub Pages
 
 ออกเวอร์ชันใหม่:
 
@@ -98,6 +98,14 @@ dist/               ไฟล์ที่ build แล้ว (ไม่ถูก
 ข้อควรจำ: ห้ามมี dependency ตอนรัน (ทุกอย่างต้อง bundle รวมในไฟล์เดียว), UI ทั้งหมดอยู่ใน Shadow DOM
 และเทสของ `core/` วางไว้ข้างไฟล์ในชื่อ `*.test.ts`
 เทสในเบราว์เซอร์อยู่ที่ `e2e/` (ครั้งแรกให้รัน `npx playwright install chromium`)
+เทสชุดนี้ไม่ได้รันบน GitHub Actions ให้รันในเครื่องก่อน commit ถ้าแก้นิดเดียวรันเฉพาะไฟล์หรือเฉพาะเทสที่เกี่ยวก็พอ:
+
+```bash
+npm run test:e2e                                  # ทั้งหมด
+npm run test:e2e -- e2e/catalog.spec.ts           # เฉพาะไฟล์
+npm run test:e2e -- -g "items"                    # เฉพาะเทสที่ชื่อมีคำนี้
+npm run test:e2e -- --project=mobile              # เฉพาะมือถือ
+```
 
 ## License
 
