@@ -13,7 +13,7 @@ import {
   createShip,
   desiredHeading,
   isAimedAt,
-  readyToFire,
+  tickFireTimer,
   resetFireTimer,
   spawnBullet,
   steerShip,
@@ -33,7 +33,7 @@ import { TargetRects } from './platform/target-rects';
 import { PageEffects } from './platform/page-effects';
 import { resolveScope, scanTargets } from './platform/scanner';
 import { Sfx } from './platform/sfx';
-import { getMuted, recordScore, setMuted } from './platform/storage';
+import { loadMuted, recordScore, saveMuted } from './platform/storage';
 import { Particles } from './render/particles';
 import { Renderer } from './render/renderer';
 import { PALETTE } from './render/sprites';
@@ -68,6 +68,7 @@ export class DestroyerGame {
   private readonly itemField: ItemField;
   private readonly feedback: Feedback;
   private readonly edgeScroller = new EdgeScroller();
+  private readonly targets = new TargetRects(() => this.authority.state);
 
   private phase: Phase = 'idle';
   private duration = 0;
@@ -84,14 +85,13 @@ export class DestroyerGame {
   private lastScrollY = 0;
   private pendingResult: GameResult | null = null;
   private countdownStep = 0;
-  private readonly targets = new TargetRects(() => this.authority.state);
 
   constructor(private readonly options: DestroyerOptions) {
     const { host, root } = createShadowHost('destroyer', WIDGET_CSS);
     this.host = host;
     const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     this.effects = new PageEffects(reducedMotion);
-    this.sfx.setMuted(getMuted());
+    this.sfx.setMuted(loadMuted());
 
     this.renderer = new Renderer(root);
     this.renderer.setVisible(false);
@@ -275,7 +275,7 @@ export class DestroyerGame {
   private toggleMute(): void {
     const muted = !this.sfx.muted;
     this.sfx.setMuted(muted);
-    setMuted(muted);
+    saveMuted(muted);
     if (!muted) this.sfx.unlock();
   }
 
@@ -389,7 +389,7 @@ export class DestroyerGame {
     const ship = this.ship!;
     const target = pickNearest(ship.x, ship.y, candidates, FIRE_RANGE);
     turnShip(ship, desiredHeading(ship, target?.rect ?? null), dt);
-    if (!readyToFire(ship, dt) || !target || !isAimedAt(ship, target.rect)) return;
+    if (!tickFireTimer(ship, dt) || !target || !isAimedAt(ship, target.rect)) return;
     this.bullets.push(spawnBullet(ship));
     resetFireTimer(ship);
     this.sfx.play('shoot');

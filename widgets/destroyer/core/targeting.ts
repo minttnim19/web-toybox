@@ -2,6 +2,11 @@
 import type { ItemTargeting } from './items';
 import type { TargetId } from './state';
 
+export interface Point {
+  x: number;
+  y: number;
+}
+
 export interface Rect {
   x: number;
   y: number;
@@ -57,19 +62,19 @@ export interface Viewport {
  * crossed by a horizontal beam across the viewport or a vertical beam down it for a cross.
  */
 export function targetsInShape(
-  shape: ItemTargeting,
+  targeting: ItemTargeting,
   x: number,
   y: number,
   candidates: readonly Candidate[],
   viewport: Viewport,
 ): TargetId[] {
-  if (shape.shape === 'none') return [];
-  const half = shape.shape === 'cross' ? shape.thickness / 2 : 0;
+  if (targeting.shape === 'none') return [];
+  const half = targeting.shape === 'cross' ? targeting.thickness / 2 : 0;
   const onScreenX = (r: Rect) => r.x <= viewport.w && r.x + r.w >= 0;
   const onScreenY = (r: Rect) => r.y <= viewport.h && r.y + r.h >= 0;
   const covered = (r: Rect) =>
-    shape.shape === 'circle'
-      ? distanceToRect(x, y, r) <= shape.radius
+    targeting.shape === 'circle'
+      ? distanceToRect(x, y, r) <= targeting.radius
       : (r.y <= y + half && r.y + r.h >= y - half && onScreenX(r)) ||
         (r.x <= x + half && r.x + r.w >= x - half && onScreenY(r));
   return candidates.filter((c) => covered(c.rect)).map((c) => c.id);

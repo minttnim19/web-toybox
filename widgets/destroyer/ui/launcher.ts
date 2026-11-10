@@ -3,7 +3,7 @@ import type { LauncherPosition } from '../options';
 import { TEXT } from './strings';
 
 export class Launcher {
-  readonly el: HTMLButtonElement;
+  private readonly el: HTMLButtonElement;
 
   constructor(root: ShadowRoot, position: LauncherPosition, onClick: () => void) {
     this.el = document.createElement('button');

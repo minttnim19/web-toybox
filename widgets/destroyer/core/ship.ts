@@ -1,17 +1,17 @@
 // Ship movement, heading, auto-fire timing and bullet flight. Pure math in viewport CSS pixels.
 // Angles are in radians: 0 = right, -π/2 = up (screen y grows downward).
 import type { TargetId } from './state';
-import { distanceToRect, type Candidate, type Rect } from './targeting';
+import { distanceToRect, type Candidate, type Point, type Rect } from './targeting';
 
-export const SHIP_FOLLOW_RATE = 12; // higher = snappier follow
+const SHIP_FOLLOW_RATE = 12; // higher = snappier follow
 export const TURN_SPEED = 14; // max rad/s the nose can turn
-export const MOVE_FACE_SPEED = 60; // px/s; moving faster than this faces the travel direction
+const MOVE_FACE_SPEED = 60; // px/s; moving faster than this faces the travel direction
 export const NOSE_OFFSET = 15; // px from ship center to the nose, where bullets leave
 export const FIRE_INTERVAL = 0.13; // seconds between shots
 export const FIRE_RANGE = 150; // px
-export const BULLET_SPEED = 720; // px/s
+const BULLET_SPEED = 720; // px/s
 export const BULLET_MAX_DISTANCE = FIRE_RANGE + 80; // px a bullet flies before fading out
-export const TRAIL_LENGTH = 3;
+const TRAIL_LENGTH = 3;
 const BULLET_SUBSTEP = 4; // px; small steps so bullets can't skip over thin targets
 const UP = -Math.PI / 2;
 
@@ -56,7 +56,7 @@ export function angleDiff(a: number, b: number): number {
 }
 
 /** The point the ship aims at: the closest part of the target, nudged slightly inside it. */
-export function aimPoint(ship: Ship, rect: Rect): { x: number; y: number } {
+function aimPoint(ship: Ship, rect: Rect): Point {
   if (distanceToRect(ship.x, ship.y, rect) === 0) {
     // Already on top of it: aim at its middle so the nose points into the target.
     return { x: rect.x + rect.w / 2, y: rect.y + rect.h / 2 };
@@ -102,7 +102,7 @@ export function isAimedAt(ship: Ship, rect: Rect): boolean {
 }
 
 /** Advance the fire timer. Returns true when a shot is allowed now. */
-export function readyToFire(ship: Ship, dt: number): boolean {
+export function tickFireTimer(ship: Ship, dt: number): boolean {
   ship.fireTimer = Math.max(0, ship.fireTimer - dt);
   return ship.fireTimer === 0;
 }

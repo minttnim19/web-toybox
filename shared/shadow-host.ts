@@ -4,7 +4,6 @@
 export interface ShadowHost {
   host: HTMLElement;
   root: ShadowRoot;
-  destroy(): void;
 }
 
 /**
@@ -31,7 +30,7 @@ export function createShadowHost(name: string, css: string): ShadowHost {
   style.textContent = css;
   root.append(style);
   document.documentElement.append(host);
-  return { host, root, destroy: () => host.remove() };
+  return { host, root };
 }
 
 /** Elements inside the shadow host (or the host itself) took part in this event. */

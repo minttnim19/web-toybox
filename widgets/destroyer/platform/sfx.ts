@@ -96,8 +96,4 @@ export class Sfx {
         break;
     }
   }
-
-  dispose(): void {
-    this.synth.close();
-  }
 }

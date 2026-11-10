@@ -36,7 +36,7 @@ export class InputController {
   x = window.innerWidth / 2;
   y = window.innerHeight / 2;
   /** True once the pointer has moved at least once this round. */
-  hasPointer = false;
+  private hasPointer = false;
   /** Mouse over the window, or a finger currently on the screen. */
   private mouseInside = false;
   private touching = false;

@@ -1,9 +1,10 @@
 // In-game HUD: top bar (progress, time, score, combo, mute, quit) and, at the bottom,
 // active buffs and the 3 item slots. Values are pushed in every frame; the DOM is only
 // touched when something changed.
-import { h, setClass, setText } from '../../../shared/hud';
+import { h, setClass, setText } from '../../../shared/html';
 import { MAX_INVENTORY, type ItemKind } from '../core/items';
 import type { Buff } from '../core/state';
+import { formatNumber, formatTime } from './format';
 import { itemIcon } from './icons';
 import { TEXT } from './strings';
 
@@ -27,11 +28,6 @@ export interface HudView {
 }
 
 const LOW_TIME = 30;
-
-export function formatTime(seconds: number): string {
-  const s = Math.max(0, Math.ceil(seconds));
-  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
-}
 
 export class Hud {
   private readonly top: HTMLElement;
@@ -137,7 +133,7 @@ export class Hud {
 
     setText(this.time, formatTime(view.timeLeft));
     setClass(this.timeBox, 'low', view.timeLeft < LOW_TIME);
-    setText(this.score, view.score.toLocaleString('en-US'));
+    setText(this.score, formatNumber(view.score));
     this.comboBox.hidden = view.combo < 2;
     setText(this.combo, `${view.combo} x${view.multiplier}`);
     setText(this.mute, view.muted ? TEXT.hud.soundOff : TEXT.hud.soundOn);

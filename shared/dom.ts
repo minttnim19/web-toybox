@@ -25,7 +25,7 @@ export function normalizeColor(input: string): string | null {
 }
 
 /** Alpha of a normalized color string. */
-export function colorAlpha(normalized: string): number {
+function colorAlpha(normalized: string): number {
   const m = /rgba\([^)]*,\s*([\d.]+)\s*\)$/.exec(normalized);
   return m ? parseFloat(m[1]!) : 1;
 }

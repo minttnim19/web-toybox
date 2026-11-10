@@ -28,7 +28,7 @@ const LEAF_TAGS = new Set([
   'input',
 ]);
 
-export const MIN_TARGET_SIZE = 6;
+const MIN_TARGET_SIZE = 6;
 
 export interface ScannedTarget extends TargetSpec {
   el: StylableElement;

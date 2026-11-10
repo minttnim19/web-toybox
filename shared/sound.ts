@@ -93,13 +93,6 @@ export class ChipSynth {
     src.stop(t + duration + 0.02);
   }
 
-  close(): void {
-    void this.ctx?.close().catch(() => {});
-    this.ctx = null;
-    this.master = null;
-    this.noiseBuffer = null;
-  }
-
   private ready(): AudioContext | null {
     // A context that is still resuming plays the queued notes as soon as it's running.
     return this.ctx && !this.muted && this.ctx.state !== 'closed' ? this.ctx : null;

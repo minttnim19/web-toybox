@@ -1,7 +1,7 @@
 // End-of-round screen: CLEAR! or TIME UP!, stats, best score, play again / back to page.
-import { h } from '../../../shared/hud';
+import { h } from '../../../shared/html';
 import type { EndReason } from '../core/state';
-import { formatTime } from './hud';
+import { formatNumber as num, formatTime } from './format';
 import { TEXT } from './strings';
 
 export interface ResultHandlers {
@@ -20,8 +20,6 @@ export interface ResultView {
   best: number;
   isNewBest: boolean;
 }
-
-const num = (n: number) => n.toLocaleString('en-US');
 
 export class ResultScreen {
   private readonly el: HTMLElement;
@@ -92,9 +90,5 @@ export class ResultScreen {
 
   hide(): void {
     this.el.hidden = true;
-  }
-
-  get visible(): boolean {
-    return !this.el.hidden;
   }
 }

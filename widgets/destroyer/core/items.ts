@@ -1,6 +1,6 @@
 // Item definitions. To add an item: add its kind to ItemKind and a definition to ITEMS,
-// then its text in ui/strings.ts and its sprite in render/sprites.ts. Phase 2 items that affect other players can add
-// new effect helpers to ItemContext without changing the existing items.
+// then its text in ui/strings.ts and its sprite in render/sprites.ts. Phase 2 items that
+// affect other players can add new effect helpers to ItemContext without changing these.
 import type { PlayerId, TargetId } from './state';
 
 export type ItemKind = 'bomb' | 'rapid' | 'laser' | 'magnet';

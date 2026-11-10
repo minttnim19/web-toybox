@@ -12,11 +12,10 @@ export const PALETTE = {
   green: '#38b764',
   white: '#f4f4f4',
   orange: '#ef7d57',
-  slate: '#566c86',
 } as const;
 
 /** Player ship, pointing up. The dark outline keeps it visible on light pages. */
-export const SHIP: PixelSprite = {
+const SHIP: PixelSprite = {
   rows: [
     '      O      ',
     '     OCO     ',
@@ -49,9 +48,11 @@ export function shipFrame(flicker: number): PixelSprite {
   const width = 21;
   const pad = (row: string) => row.padStart(4 + row.length).padEnd(width);
   const flame = 2 + flicker;
-  const rows = [...Array<string>(5).fill(' '.repeat(width)), ...SHIP.rows.map(pad)];
+  const rows = [...new Array<string>(5).fill(' '.repeat(width)), ...SHIP.rows.map(pad)];
+  // The flame's yellow core reaches one pixel further on the middle flicker frame.
+  const coreLength = flicker === 1 ? flame : flame - 1;
   for (let i = 0; i <= flame; i++) {
-    const core = i < flame - 1 + (flicker === 1 ? 1 : 0) ? 'Y' : 'F';
+    const core = i < coreLength ? 'Y' : 'F';
     const mid = i < flame ? `F${core}F` : 'OOO';
     rows.push(pad(`    O${mid}O    `));
   }
@@ -135,7 +136,7 @@ export function itemSprite(kind: ItemKind): PixelSprite {
   if (sprite) return sprite;
   const { icon, fill, colors } = ITEM_ICONS[kind];
   const rows = ['#'.repeat(12), '#' + 'F'.repeat(10) + '#'];
-  for (const line of icon) rows.push('#F' + line.replace(/ /g, 'F') + 'F#');
+  for (const line of icon) rows.push('#F' + line.replaceAll(' ', 'F') + 'F#');
   rows.push('#' + 'F'.repeat(10) + '#', '#'.repeat(12));
   sprite = { rows, palette: { '#': PALETTE.navy, F: fill, ...colors } };
   itemSprites.set(kind, sprite);

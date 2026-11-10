@@ -1,5 +1,5 @@
 // Big centered 3-2-1-GO.
-import { h } from '../../../shared/hud';
+import { h } from '../../../shared/html';
 
 export class Countdown {
   private readonly el: HTMLElement;

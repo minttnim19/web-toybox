@@ -5,16 +5,12 @@ import type { StylableElement } from '../../../shared/dom';
 import type { GameAuthority } from '../core/authority';
 import { ITEM_BLINK_TIME, MAGNET_RADIUS, MAX_INVENTORY } from '../core/items';
 import type { ItemId, PlayerId, TargetId } from '../core/state';
+import type { Point } from '../core/targeting';
 import type { ItemView } from '../render/renderer';
 
 const PICKUP_RADIUS = 26; // px between ship and item box
 const MAGNET_SPEED = 520; // px/s items fly toward the ship
 const FULL_NOTICE_INTERVAL = 1; // s between "FULL" notices for the same item
-
-export interface Point {
-  x: number;
-  y: number;
-}
 
 export class ItemField {
   /** Magnet pull so far, as an offset from each item's anchor. */

@@ -1,4 +1,5 @@
-export type LauncherPosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+const POSITIONS = ['bottom-right', 'bottom-left', 'top-right', 'top-left'] as const;
+export type LauncherPosition = (typeof POSITIONS)[number];
 
 export interface DestroyerOptions {
   /** Corner where the launch button sits. */
@@ -7,12 +8,6 @@ export interface DestroyerOptions {
   scope: string;
 }
 
-const POSITIONS: readonly LauncherPosition[] = [
-  'bottom-right',
-  'bottom-left',
-  'top-right',
-  'top-left',
-];
 const DEFAULT_POSITION: LauncherPosition = 'bottom-right';
 
 /** Read options from the data-attributes of the embedding <script> tag. Never throws. */

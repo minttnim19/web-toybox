@@ -1,12 +1,12 @@
 // Item icons for the HUD, rendered from the same pixel sprites the canvas uses.
-import { h } from '../../../shared/hud';
+import { h } from '../../../shared/html';
 import { spriteCanvas } from '../../../shared/sprite';
 import type { ItemKind } from '../core/items';
 import { itemSprite } from '../render/sprites';
 
 const urls = new Map<ItemKind, string>();
 
-export function itemIconUrl(kind: ItemKind): string {
+function itemIconUrl(kind: ItemKind): string {
   let url = urls.get(kind);
   if (!url) {
     url = spriteCanvas(itemSprite(kind)).toDataURL();

@@ -1,5 +1,5 @@
 // Start menu: short how-to, the items, round length and the start button.
-import { h } from '../../../shared/hud';
+import { h } from '../../../shared/html';
 import { ITEM_KINDS } from '../core/items';
 import { DEFAULT_DURATION, DURATION_CHOICES } from '../core/rules';
 import { itemIcon } from './icons';
@@ -80,10 +80,6 @@ export class Menu {
 
   hide(): void {
     this.el.hidden = true;
-  }
-
-  get visible(): boolean {
-    return !this.el.hidden;
   }
 
   private select(seconds: number): void {

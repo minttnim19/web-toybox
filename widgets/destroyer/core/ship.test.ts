@@ -7,7 +7,7 @@ import {
   createShip,
   desiredHeading,
   isAimedAt,
-  readyToFire,
+  tickFireTimer,
   resetFireTimer,
   spawnBullet,
   steerShip,
@@ -77,13 +77,13 @@ describe('heading', () => {
 describe('fire timer', () => {
   it('fires every FIRE_INTERVAL, faster with a higher fire rate', () => {
     const ship = createShip(0, 0);
-    expect(readyToFire(ship, 0)).toBe(true);
+    expect(tickFireTimer(ship, 0)).toBe(true);
     resetFireTimer(ship);
-    expect(readyToFire(ship, FIRE_INTERVAL / 2)).toBe(false);
-    expect(readyToFire(ship, FIRE_INTERVAL / 2)).toBe(true);
+    expect(tickFireTimer(ship, FIRE_INTERVAL / 2)).toBe(false);
+    expect(tickFireTimer(ship, FIRE_INTERVAL / 2)).toBe(true);
     ship.fireRate = 3;
     resetFireTimer(ship);
-    expect(readyToFire(ship, FIRE_INTERVAL / 3 + 1e-6)).toBe(true);
+    expect(tickFireTimer(ship, FIRE_INTERVAL / 3 + 1e-6)).toBe(true);
   });
 });
 

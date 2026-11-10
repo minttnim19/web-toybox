@@ -31,15 +31,15 @@ export interface FeedbackDeps {
 }
 
 export class Feedback {
-  constructor(private readonly d: FeedbackDeps) {}
+  constructor(private readonly deps: FeedbackDeps) {}
 
   handle(event: AuthorityEvent): void {
-    const { renderer, particles, effects, sfx, itemField } = this.d;
+    const { renderer, particles, effects, sfx, itemField } = this.deps;
     switch (event.type) {
       case 'hit': {
-        const el = this.d.targets.elementOf(event.targetId);
+        const el = this.deps.targets.elementOf(event.targetId);
         if (!el) return;
-        const rect = this.d.targets.rectOf(event.targetId);
+        const rect = this.deps.targets.rectOf(event.targetId);
         if (rect && event.at) {
           renderer.addCrack(event.targetId, event.at.fx, event.at.fy);
           const x = rect.x + event.at.fx * rect.w;
@@ -55,7 +55,7 @@ export class Feedback {
       }
 
       case 'destroy': {
-        const el = this.d.targets.elementOf(event.targetId);
+        const el = this.deps.targets.elementOf(event.targetId);
         if (!el) return;
         const r = el.getBoundingClientRect();
         const area = r.width * r.height;
@@ -63,7 +63,7 @@ export class Feedback {
         shatter(el, particles); // before hiding, while its colors can still be read
         effects.hide(el);
         renderer.clearCracks(event.targetId);
-        this.d.targets.forget(event.targetId);
+        this.deps.targets.forget(event.targetId);
         sfx.play('break');
 
         const cx = r.left + r.width / 2;
@@ -78,7 +78,7 @@ export class Feedback {
       case 'itemPickup': {
         const pos = itemField.positionOf(event.itemId);
         itemField.forget(event.itemId);
-        if (event.playerId !== this.d.localPlayer) return;
+        if (event.playerId !== this.deps.localPlayer) return;
         sfx.play('pickup');
         if (pos) renderer.addText(pos.x, pos.y - 12, TEXT.items[event.kind].label, PALETTE.cyan);
         return;
@@ -89,7 +89,7 @@ export class Feedback {
         return;
 
       case 'itemUse':
-        if (event.playerId === this.d.localPlayer) this.showItemUse(event.kind);
+        if (event.playerId === this.deps.localPlayer) this.showItemUse(event.kind);
         return;
 
       case 'itemDrop': // drawn from the state by the item field
@@ -100,9 +100,9 @@ export class Feedback {
   }
 
   private showItemUse(kind: ItemKind): void {
-    const ship = this.d.localShip();
+    const ship = this.deps.localShip();
     if (!ship) return;
-    const { renderer, effects, sfx } = this.d;
+    const { renderer, effects, sfx } = this.deps;
     switch (kind) {
       case 'bomb':
         renderer.addShockwave(ship.x, ship.y, BOMB_RADIUS);

@@ -1,4 +1,4 @@
-// Small helpers for building HUD markup inside Shadow DOM without a framework.
+// Small helpers for building widget markup (inside Shadow DOM) without a framework.
 
 type Child = Node | string | null | undefined | false;
 

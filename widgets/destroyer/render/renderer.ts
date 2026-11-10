@@ -1,5 +1,6 @@
 // Draws the game onto a transparent, click-through, full-screen canvas at 1/3 resolution,
 // scaled up with image-rendering: pixelated.
+import { PIXEL_FONT } from '../../../shared/fonts';
 import { drawSprite, rotateSprite, spriteSize, type PixelSprite } from '../../../shared/sprite';
 import type { ItemKind } from '../core/items';
 import type { Bullet, Ship } from '../core/ship';
@@ -14,9 +15,9 @@ const RANGE_DOTS = 24;
 const SHIP_DIRECTIONS = 16;
 const TEXT_LIFE = 0.9; // s a floating score stays
 const TEXT_RISE = 34; // px it rises
+const MAX_TEXTS = 40;
 const SHOCKWAVE_TIME = 0.35;
 const LASER_TIME = 0.35;
-export const PIXEL_FONT_CSS = '"Press Start 2P", ui-monospace, monospace';
 
 interface Crack {
   fx: number;
@@ -67,7 +68,8 @@ interface Burst {
   kind: 'shockwave' | 'laser';
   x: number;
   y: number;
-  radius: number;
+  /** Shockwave radius, or laser beam thickness, in px. */
+  size: number;
   age: number;
 }
 
@@ -86,13 +88,15 @@ export interface Frame {
 }
 
 export class Renderer {
-  readonly canvas: HTMLCanvasElement;
+  private readonly canvas: HTMLCanvasElement;
   private readonly ctx: CanvasRenderingContext2D;
   private width = 0;
   private height = 0;
   private readonly cracks = new Map<TargetId, Crack[]>();
   private texts: FloatingText[] = [];
   private bursts: Burst[] = [];
+  /** 16 headings x 3 thruster flicker frames, rendered on first use. */
+  private readonly shipSprites = new Map<number, PixelSprite>();
 
   constructor(parent: ShadowRoot) {
     this.canvas = document.createElement('canvas');
@@ -137,15 +141,15 @@ export class Renderer {
   /** Rising pixel text, e.g. "+120" where something broke. Size is in canvas pixels. */
   addText(x: number, y: number, text: string, color: string = PALETTE.yellow, size = 8): void {
     this.texts.push({ x, y, text, color, size, age: 0 });
-    if (this.texts.length > 40) this.texts.shift();
+    if (this.texts.length > MAX_TEXTS) this.texts.shift();
   }
 
   addShockwave(x: number, y: number, radius: number): void {
-    this.bursts.push({ kind: 'shockwave', x, y, radius, age: 0 });
+    this.bursts.push({ kind: 'shockwave', x, y, size: radius, age: 0 });
   }
 
   addLaser(x: number, y: number, thickness: number): void {
-    this.bursts.push({ kind: 'laser', x, y, radius: thickness, age: 0 });
+    this.bursts.push({ kind: 'laser', x, y, size: thickness, age: 0 });
   }
 
   /** Keep page-attached effects in place while the page scrolls. */
@@ -197,7 +201,7 @@ export class Renderer {
       const progress = t.age / TEXT_LIFE;
       const x = Math.round(t.x / SCALE);
       const y = Math.round((t.y - progress * TEXT_RISE) / SCALE);
-      ctx.font = `${t.size}px ${PIXEL_FONT_CSS}`;
+      ctx.font = `${t.size}px ${PIXEL_FONT}`;
       ctx.globalAlpha = progress < 0.7 ? 1 : 1 - (progress - 0.7) / 0.3;
       ctx.fillStyle = PALETTE.navy; // hard outline so it reads on any page
       for (const [ox, oy] of [
@@ -224,7 +228,7 @@ export class Renderer {
       const cy = Math.round(b.y / SCALE);
       if (b.kind === 'shockwave') {
         const p = b.age / SHOCKWAVE_TIME;
-        const r = (b.radius / SCALE) * (0.15 + 0.85 * Math.sqrt(p));
+        const r = (b.size / SCALE) * (0.15 + 0.85 * Math.sqrt(p));
         ctx.globalAlpha = 1 - p;
         if (p < 0.25) {
           ctx.fillStyle = PALETTE.white;
@@ -245,7 +249,7 @@ export class Renderer {
         }
       } else {
         const p = b.age / LASER_TIME;
-        const half = Math.max(1, Math.round((b.radius / SCALE / 2) * (1 - p * 0.6)));
+        const half = Math.max(1, Math.round((b.size / SCALE / 2) * (1 - p * 0.6)));
         const jitter = Math.round(Math.random() * 2 - 1);
         ctx.globalAlpha = 1 - p * p;
         ctx.fillStyle = PALETTE.cyan;
@@ -313,9 +317,6 @@ export class Renderer {
     }
     ctx.globalAlpha = 1;
   }
-
-  /** 16 headings x 3 thruster flicker frames, rendered on first use. */
-  private readonly shipSprites = new Map<number, PixelSprite>();
 
   private drawShip(ship: Ship, time: number): void {
     // The sprite points up; quantize the heading to 16 directions so rotation stays crisp.

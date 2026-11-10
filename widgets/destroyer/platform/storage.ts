@@ -19,23 +19,23 @@ function write(key: string, value: string): void {
   }
 }
 
-export function getBestScore(duration: number): number | null {
+function loadBestScore(duration: number): number | null {
   const value = Number(read(`best:${duration}`));
   return Number.isFinite(value) && value > 0 ? value : null;
 }
 
 /** Save the score if it beats the best for this round length. */
 export function recordScore(duration: number, score: number): { best: number; isNew: boolean } {
-  const previous = getBestScore(duration);
+  const previous = loadBestScore(duration);
   if (previous !== null && score <= previous) return { best: previous, isNew: false };
   write(`best:${duration}`, String(score));
   return { best: score, isNew: score > 0 };
 }
 
-export function getMuted(): boolean {
+export function loadMuted(): boolean {
   return read('muted') === '1';
 }
 
-export function setMuted(muted: boolean): void {
+export function saveMuted(muted: boolean): void {
   write('muted', muted ? '1' : '0');
 }
