@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Items</title>
+    <style>
+      body {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin: 24px;
+      }
+      /* Big, high-HP targets: the round can't be cleared while the item test runs. */
+      .block {
+        height: 300px;
+        background: #c9c1b4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="block"></div>
+    <div class="block"></div>
+    <div class="block"></div>
+    <div class="block"></div>
+    <div class="block"></div>
+    <div class="block"></div>
+    <script src="destroyer.js" defer></script>
+  </body>
+</html>

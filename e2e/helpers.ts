@@ -8,6 +8,8 @@ export interface TestGame {
   /** Scanned target elements, indexed by target ID. */
   targets: { elements: Element[] };
   authority: {
+    /** Random source for item drops (private in the widget; tests may replace it). */
+    rng: () => number;
     tick(dt: number): void;
     requestHit(request: { targetId: number; damage: number; playerId: string }): void;
     state: {

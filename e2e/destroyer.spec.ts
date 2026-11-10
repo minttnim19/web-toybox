@@ -161,8 +161,13 @@ test('items on the page: fly over to pick up, FULL keeps them, magnet pulls them
   page,
 }) => {
   const errors = trackErrors(page);
-  await page.goto('/plain.html');
+  // Big high-HP blocks, so the round can't end mid-test, and no random drops, so the only
+  // items on the page are the ones this test places.
+  await page.goto('/items.html');
   await startRound(page);
+  await page.evaluate(() => {
+    window.__webToyboxDestroyer.authority.rng = () => 0.999;
+  });
   const items = () => page.evaluate(() => window.__webToyboxDestroyer.authority.state.items.length);
 
   // With a full inventory the ship can't take it, and it stays on the page.
