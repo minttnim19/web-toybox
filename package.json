@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "build:site": "node scripts/build-site.mjs"
+    "build:site": "npm run build && node scripts/build-site.mjs"
   },
   "license": "MIT",
   "devDependencies": {

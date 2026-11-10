@@ -4,7 +4,7 @@
 //   /v<version>/<widget>.js      one folder per git tag v*, built from that tag, never changes
 //   /index.html, /<widget>/      the example pages (each also gets its widget next to it)
 //
-// Run `npm run build` first. Set SKIP_TAG_BUILDS=1 to skip building the tagged versions.
+// `npm run build:site` builds the widgets first. Set SKIP_TAG_BUILDS=1 to skip building the tagged versions.
 import { execFileSync } from 'node:child_process';
 import {
   cpSync,
